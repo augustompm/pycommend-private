@@ -1,0 +1,47 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "toraniko"
+version = "1.1.0"
+description = "A multi-factor equity risk model for quantitative trading."
+authors = ["0xfdf <0xfdf@implies.com>"]
+maintainers = ["0xfdf <0xfdf@implies.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/0xfdf/toraniko"
+repository = "https://github.com/0xfdf/toraniko"
+keywords = ["risk", "model", "portfolio", "optimization", "factor", "quant", "quantitative", "finance", "trading"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering"
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<4.0"
+numpy = "~1.26.2"
+polars = "~1.0.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "~7.4.4"
+
+[tool.poetry.urls]
+homepage = "https://github.com/0xfdf/toraniko"
+repository = "https://github.com/0xfdf/toraniko"
+issues = "https://github.com/0xfdf/toraniko/issues"
+changelog = "https://github.com/0xfdf/toraniko/releases"
+
+[tool.ruff]
+line-length = 120
+fix = false
+select = ["E", "F", "I", "N", "Q", "R", "S", "T", "U", "W", "Y"]
+
+[tool.black]
+line-length = 120

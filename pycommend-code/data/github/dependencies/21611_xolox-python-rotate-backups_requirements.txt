@@ -1,0 +1,12 @@
+# Installation requirements.
+
+coloredlogs >= 5.1
+executor >= 23.1
+humanfriendly >= 8.0
+naturalsort >= 1.4
+property-manager >= 3.0
+python-dateutil >= 2.2
+simpleeval >= 0.8.7
+six >= 1.9.0
+update-dotdee >= 6.0
+verboselogs >= 1.5

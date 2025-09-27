@@ -1,0 +1,30 @@
+[build-system]
+requires = ["flit_core >=3,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+module = "finite_state_machine"
+dist-name = "finite-state-machine"
+author = "Aly Sivji"
+author-email = "alysivji@gmail.com"
+home-page = "https://github.com/alysivji/finite-state-machine"
+requires = []
+description-file = "README.md"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+requires-python = ">=3.6, <4"
+keywords="finite-state-machine finite-automata state-machine"
+license="MIT"
+
+[tool.flit.sdist]
+exclude = ["tests"]
+
+[tool.flit.scripts]
+fsm_draw_state_diagram = "finite_state_machine.draw_state_diagram:main"

@@ -1,0 +1,14 @@
+jupyter
+loguru
+matplotlib
+numba
+numpy
+pillow
+pycairo
+pyglet==1.5.27
+pyyaml
+scipy
+sortedcontainers
+sympy
+tqdm
+vispy

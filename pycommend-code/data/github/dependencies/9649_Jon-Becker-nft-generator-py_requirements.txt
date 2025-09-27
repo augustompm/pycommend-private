@@ -1,0 +1,10 @@
+Pillow
+argparse
+pytest-cov
+black
+pre-commit
+pytest-env
+pytest-cov
+alive-progress
+toml
+autoflake

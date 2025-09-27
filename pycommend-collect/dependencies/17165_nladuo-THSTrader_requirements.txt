@@ -1,0 +1,3 @@
+Pillow
+uiautomator2
+easyocr

@@ -1,0 +1,11 @@
+category_encoders
+matplotlib
+more-itertools
+numpy
+optuna>=1.0.0
+pandas
+pyarrow
+seaborn
+scikit-learn
+tqdm
+transformers[ja]

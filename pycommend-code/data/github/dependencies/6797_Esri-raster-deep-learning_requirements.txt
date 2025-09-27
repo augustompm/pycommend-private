@@ -1,0 +1,8 @@
+tensorflow
+cntk-gpu
+keras
+scikit-image
+torch
+torchvision
+fastai
+Pillow

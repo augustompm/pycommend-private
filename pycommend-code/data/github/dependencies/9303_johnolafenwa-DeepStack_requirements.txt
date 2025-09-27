@@ -1,0 +1,12 @@
+redis
+opencv-python
+Cython
+pillow
+scipy
+tqdm
+tensorboard
+PyYAML
+Matplotlib
+easydict
+future
+numpy

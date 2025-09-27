@@ -1,0 +1,7 @@
+numpy
+torch
+flask
+flask_cors
+argparse
+scikit-learn
+sentence_transformers

@@ -1,0 +1,7 @@
+flask
+pandas
+stanza
+tqdm
+zmq
+ete3
+scikit-learn

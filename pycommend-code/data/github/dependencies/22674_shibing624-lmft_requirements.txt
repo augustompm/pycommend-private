@@ -1,0 +1,7 @@
+loguru
+transformers>=4.27.1
+datasets
+tqdm
+cpm_kernels
+peft
+gradio

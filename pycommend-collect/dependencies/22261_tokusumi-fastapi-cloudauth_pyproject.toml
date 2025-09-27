@@ -1,0 +1,57 @@
+[tool.poetry]
+name = "fastapi-cloudauth"
+version = "0.4.3"
+description = "fastapi-cloudauth supports simple integration between FastAPI and cloud authentication services (AWS Cognito, Auth0, Firebase Authentication)."
+authors = ["tokusumi <tksmtoms@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/tokusumi/fastapi-cloudauth"
+
+include = [
+    "LICENSE",
+]
+keywords = ["FastAPI", "authentication", "Auth0", "AWS Cognito", "Firebase Authentication"]
+classifiers = [
+    "Environment :: Web Environment",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: Security",
+    "Typing :: Typed",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.6.2,<4.0"
+fastapi = ">= 0.60.1, < 1.0"
+python-jose = {version = ">=3.3.0,<4.0.0", extras = ["cryptography"]}
+requests = ">=2.24.0,<3.0.0"
+
+[tool.poetry.dev-dependencies]
+pytest = ">=6.2.4,<7.0.0"
+pytest-cov = ">=2.12.0,<4.0.0"
+flake8 = ">=3.8.3,<4.0.0"
+mypy = "0.910"
+black = "21.9b0"
+isort = ">=5.0.6,<6.0.0"
+uvicorn = ">=0.12.0,<0.14.0"
+botocore = ">=1.17.32"
+boto3 = ">=1.14.32"
+authlib = ">=0.15.2"
+firebase-admin = ">=4.4.0"
+auth0-python = ">=3.14.0"
+pytest-mock = ">=3.5.1"
+pytest-asyncio = ">=0.14.0"
+autoflake = ">=1.4.0,<2.0.0"
+types-requests = ">=2.26.3,<3.0.0"
+
+[tool.isort]
+profile = "black"
+known_third_party = ["fastapi", "pydantic", "starlette"]
+
+[build-system]
+requires = ["poetry>=1.1.12"]
+build-backend = "poetry.masonry.api"

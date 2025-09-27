@@ -1,0 +1,13 @@
+fastapi==0.108.0
+httpx
+jinja2
+modelscope>=1.10.0
+opencv-python
+python-multipart
+sentencepiece==0.1.*
+tensorflow
+torch==2.1.2
+transformers==4.36.2
+uvicorn
+
+

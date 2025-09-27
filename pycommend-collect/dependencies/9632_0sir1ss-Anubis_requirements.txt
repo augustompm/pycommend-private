@@ -1,0 +1,3 @@
+﻿pycryptodome
+nuitka
+regex

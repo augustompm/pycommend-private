@@ -1,0 +1,6 @@
+click
+loguru
+ujson
+requests
+PyExecJS
+rookiepy

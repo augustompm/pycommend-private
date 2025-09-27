@@ -1,0 +1,115 @@
+[tool.poetry]
+name = "bucketstore"
+version = "0.3.0"
+description = "A simple library for interacting with Amazon S3."
+readme = "README.md"
+authors = ["jacobi petrucciani <j@cobi.dev>"]
+packages = [{ include = "bucketstore.py" }]
+homepage = "https://github.com/jpetrucciani/bucketstore"
+repository = "https://github.com/jpetrucciani/bucketstore"
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "License :: OSI Approved :: MIT License",
+]
+
+
+[tool.poetry.dependencies]
+python = ">= 3.8"
+boto3 = ">= 1.20.0"
+
+[tool.poetry.dev-dependencies]
+moto = ">= 5.0.0"
+ptpython = ">= 3.0.26"
+pytest = "^7.4.3"
+pytest-cov = "^4.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 100
+lint.select = [
+    "A",
+    "ANN",
+    "ARG",
+    "B",
+    "C4",
+    "D",
+    "E",
+    "F",
+    "ICN",
+    "ISC",
+    "N",
+    "PD",
+    "PGH",
+    "PLR",
+    "PLW",
+    "PIE",
+    "PT",
+    "Q",
+    "RET",
+    "RUF",
+    "S",
+    "SIM",
+    "TID",
+    "UP",
+    "W",
+    "YTT",
+]
+lint.ignore = [
+    "A001",
+    "A003",
+    "ANN101",
+    "ANN102",
+    "ANN401",
+    "B008",
+    "B017",
+    "B019",
+    "C405",
+    "D103",
+    "D107",
+    "D200",
+    "D202",
+    "D203",
+    "D205",
+    "D212",
+    "D400",
+    "D401",
+    "D403",
+    "D404",
+    "D415",
+    "E501",
+    "N818",
+    "PGH003",
+    "PGH004",
+    "PLR2004",
+    "PT011",
+    "PT012",
+    "RUF013",
+    "S101",
+    "S105",
+    "S108",
+    "S311",
+    "W605",
+]
+target-version = "py38"
+exclude = [
+    ".direnv",
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    "__pypackages__",
+]

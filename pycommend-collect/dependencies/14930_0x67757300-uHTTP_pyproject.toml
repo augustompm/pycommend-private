@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "uhttp"
+version = "2.0.0"
+description = "Pythonic Web Development"
+authors = ["gus <0x67757300@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/0x67757300/uHTTP"
+keywords = ["asgi", "web", "http"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+addopts = ["tests.py"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

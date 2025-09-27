@@ -1,0 +1,129 @@
+[tool.poetry]
+name = "pybotics"
+version = "2.0.1"
+description = "Python Toolbox for Robotics"
+authors = ["Nicholas Nadeau <nicholas.nadeau@gmail.com>"]
+readme = "README.md"
+homepage = "https://github.com/engnadeau/pybotics"
+repository = "https://github.com/engnadeau/pybotics"
+documentation = "https://github.com/engnadeau/pybotics"
+keywords = ["robot", "research", "automation", "kinematics", "geometry"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Framework :: Robot Framework :: Library",
+  "Framework :: Robot Framework :: Tool",
+  "Framework :: Robot Framework",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Education",
+  "Intended Audience :: End Users/Desktop",
+  "Intended Audience :: Manufacturing",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "License :: OSI Approved",
+  "Natural Language :: English",
+  "Operating System :: MacOS",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: Microsoft",
+  "Operating System :: OS Independent",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: POSIX",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Topic :: Education",
+  "Topic :: Other/Nonlisted Topic",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Scientific/Engineering :: Human Machine Interfaces",
+  "Topic :: Scientific/Engineering :: Mathematics",
+  "Topic :: Scientific/Engineering :: Physics",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Software Development :: Testing :: Mocking",
+  "Topic :: Software Development",
+  "Topic :: System :: Hardware",
+  "Topic :: System",
+  "Topic :: Utilities",
+  "Typing :: Typed",
+]
+
+[tool.poetry.dependencies]
+python = "^3.9,<3.13"
+attrs = ">=19.0"
+numpy = "^1.22"
+scipy = "^1.10"
+
+[tool.poetry.group.dev.dependencies]
+black = { extras = ["jupyter"], version = "^23.0.0" }
+isort = ">=5.5"
+rope = ">=1"
+
+[tool.poetry.group.test]
+optional = true
+[tool.poetry.group.test.dependencies]
+coverage = ">=6"
+hypothesis = ">=6"
+pytest = ">=7"
+pytest-cov = "*"
+pytest-randomly = "*"
+pytest-runner = "*"
+
+[tool.poetry.group.lint]
+optional = true
+[tool.poetry.group.lint.dependencies]
+flake8 = ">=4"
+flake8-bugbear = "*"
+mccabe = "*"
+mypy = ">=0.981"
+pep8-naming = "*"
+vulture = ">=2.0"
+
+[tool.poetry.group.docs]
+optional = true
+[tool.poetry.group.docs.dependencies]
+sphinx = "*"
+sphinx-autobuild = "*"
+sphinx-rtd-theme = "*"
+sphinxcontrib-apidoc = "*"
+
+[tool.poetry.group.examples]
+optional = true
+[tool.poetry.group.examples.dependencies]
+matplotlib = "*"
+nbconvert = ">=6.5.1"
+notebook = ">=6.4.12"
+pandas = "*"
+Pillow = ">=9.0.1"
+scikit-learn = "*"
+
+[tool.black]
+line-length = 88
+target_version = ['py37']
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+  | foo.py           # also separately exclude a file named foo.py in
+                     # the root of the project
+)
+'''
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["poetry_core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

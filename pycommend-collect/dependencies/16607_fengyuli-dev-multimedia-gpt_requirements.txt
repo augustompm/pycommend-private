@@ -1,0 +1,13 @@
+controlnet_aux
+diffusers
+gradio
+langchain==0.0.101
+llama_index
+numpy
+openai
+opencv_python
+Pillow
+requests
+scipy
+torch
+transformers

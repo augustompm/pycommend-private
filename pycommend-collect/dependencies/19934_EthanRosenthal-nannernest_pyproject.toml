@@ -1,0 +1,51 @@
+[tool.poetry]
+name = "nannernest"
+version = "0.1.4"
+description = "Optimal peanut butter and banana sandwiches"
+authors = ["Ethan Rosenthal <ethan@ethanrosenthal.com>"]
+readme = "README.md"
+homepage = "https://github.com/EthanRosenthal/nannernest"
+repository = "https://github.com/EthanRosenthal/nannernest"
+keywords = ["deep learning", "machine learning", "peanut butter", "banana", "sandwich"]
+license = "GNU Affero General Public License v3"
+include = [
+    "LICENSE"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+]
+
+[tool.poetry.scripts]
+nannernest = 'nannernest.cli:app'
+
+[tool.poetry.dependencies]
+python = "^3.7"
+typer = "^0.3.1"
+sympy = "^1.6.1"
+seaborn = "^0.10.1"
+numpy = "^1.19.1"
+matplotlib = "^3.3.0"
+svgpath2mpl = "^0.2.1"
+Pillow = "^7.2.0"
+torch = "^1.6.0"
+torchvision = "^0.7.0"
+scipy = "^1.5.2"
+scikit-image = "^0.17.2"
+nest2D = "0.4.3"
+colorama = "^0.4.3"
+click-spinner = "^0.1.10"
+
+[tool.poetry.dev-dependencies]
+black = "^19.10b0"
+pytest = "^6.0.1"
+ipykernel = "^5.3.4"
+pytest-cov = "^2.10.0"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

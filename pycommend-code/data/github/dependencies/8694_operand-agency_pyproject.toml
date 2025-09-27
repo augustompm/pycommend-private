@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "agency"
+version = "1.6.3"
+description = "A fast and minimal framework for building agent-integrated systems"
+authors = ["Daniel Rodriguez"]
+license = "GPL-3.0"
+readme = "README.md"
+include = ["agency/**/*"]
+exclude = ["*"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydantic = ">=1.8"
+kombu = "^5.3.1"
+docstring-parser = "^0.15"
+colorlog = "^6.7.0"
+pygments = "^2.16.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.3.2"
+pytest-randomly = "^3.13.0"
+pytest-watch = "^4.2.0"
+pdoc = "^14.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

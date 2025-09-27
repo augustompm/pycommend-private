@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "nitrain"
+version = "0.3.1"
+description = "Train medical imaging AI models locally or in the cloud with any framework"
+authors = ["ncullen93 <nicholas.cullen@med.lu.se>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+antspyx = "^0.5.3"
+python = "^3.9"
+pydot = "^2.0.0"
+parse = "^1.20.1"
+tqdm = "^4.66.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

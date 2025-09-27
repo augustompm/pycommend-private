@@ -1,0 +1,15 @@
+torch
+torchvision
+diffusers
+webdataset
+tqdm
+omegaconf
+transformers
+pyarrow
+wandb
+datasets
+fairscale
+accelerate
+xformers
+cloudpathlib
+triton==2.0.0.dev20221120

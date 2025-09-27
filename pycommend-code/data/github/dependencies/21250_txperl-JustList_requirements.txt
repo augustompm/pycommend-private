@@ -1,0 +1,9 @@
+flask
+flask-cors
+gevent
+wsgiserver
+requests
+requests_toolbelt
+rsa
+pyyaml
+bcrypt

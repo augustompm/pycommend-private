@@ -1,0 +1,12 @@
+# ML framework
+torch
+
+# data handling
+numpy
+
+# plot/simulation
+matplotlib
+gymnasium
+
+# profiling (no necessary)
+wandb

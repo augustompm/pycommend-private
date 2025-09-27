@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "lowbar"
+version = "2.2.1"
+authors = [
+  { name="AnnikaV9", email="carrot.moncher@gmail.com" },
+]
+description = "The simplest no-nonsense progress bar for python."
+readme = "docs/README.md"
+license = "MIT"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Other Audience",
+    "Intended Audience :: System Administrators",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: User Interfaces",
+    "Topic :: System :: Installation/Setup",
+    "Topic :: System :: Logging",
+    "Topic :: System :: Monitoring",
+    "Topic :: System :: Shells",
+    "Topic :: Terminals",
+    "Topic :: Utilities"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/AnnikaV9/lowbar"
+"Repository" = "https://github.com/AnnikaV9/lowbar"
+"Bug Tracker" = "https://github.com/AnnikaV9/lowbar/issues"
+"Changelog" = "https://github.com/AnnikaV9/lowbar/releases"

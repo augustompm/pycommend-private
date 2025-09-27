@@ -1,0 +1,14 @@
+g2p_en
+librosa
+nltk
+onnx
+onnxruntime
+scikit-learn
+scipy
+tensorboard
+torch
+torchvision
+tqdm
+transformers
+huggingface_hub
+soundfile

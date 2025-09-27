@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=45", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+
+[tool.poetry]
+name = "tanuki.py"
+version = "0.2.0"
+description = "The easiest way to build scalable LLM-powered applications, which gets cheaper and faster over time."
+authors = ["Jack Hopkins <jack@paperplane.ai>", "Mart Bakler <mart@paperplane.ai>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+appdirs= "1.4.4"
+openai = "0.28.1"
+numpy = "1.17.3"
+python-dotenv= "1.0.0"
+bitarray = "2.8.2"
+pydantic = "^1.0.0"
+# Add your project dependencies here, for example:
+# requests = "^2.25.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2"
+fastapi = "0.104.0"
+
+[tool.black]
+line-length = 88
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[[tool.poetry.source]]
+name = "tanuki.py"
+url = "https://github.com/Tanuki/tanuki.py"
+secondary = true

@@ -1,0 +1,10 @@
+torch
+transformers
+optimum
+onnx
+openai-whisper
+langchain
+pydub
+openai
+ffmpeg-python
+onnxruntime-directml>=1.15.0

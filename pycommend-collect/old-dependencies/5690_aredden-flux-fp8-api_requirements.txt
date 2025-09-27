@@ -1,0 +1,16 @@
+git+https://github.com/aredden/torch-cublas-hgemm.git@master
+einops
+PyTurboJPEG
+pydantic
+fastapi
+bitsandbytes
+loguru
+transformers
+tokenizers
+sentencepiece
+click
+accelerate
+quanto
+pydash
+pybase64
+uvicorn

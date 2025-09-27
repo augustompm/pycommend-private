@@ -1,0 +1,110 @@
+[project]
+name = "funcchain"
+version = "0.3.6"
+description = "🔖 write prompts as python functions"
+authors = [{ name = "Shroominic", email = "contact@shroominic.com" }]
+dependencies = [
+    "langchain-core>=0.2",
+    "pydantic-settings>=2",
+    "docstring-parser>=0.15",
+    "jinja2>=3",
+    "langchain-openai>=0.1",
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">= 3.10, <3.13"
+keywords = [
+    "funcchain",
+    "ai",
+    "llm",
+    "langchain",
+    "pydantic",
+    "pythonic",
+    "cognitive systems",
+    "agent framework",
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.urls]
+Code = "https://github.com/shroominic/funcchain"
+Documentation = "https://shroominic.github.io/funcchain"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "funcchain[all]",
+    "ruff",
+    "mypy",
+    "isort",
+    "pytest",
+    "ipython",
+    "pre-commit",
+    "types-PyYAML>=6",
+    "mkdocs-material>=9.4",
+    "rich>=13",
+]
+
+[project.optional-dependencies]
+openai = ["langchain-openai"]
+ollama = ["langchain-community"]
+anthropic = ["langchain-anthropic"]
+google = ["langchain-google-genai"]
+groq = ["langchain-groq"]
+llamacpp = ["llama-cpp-python>=0.2", "huggingface-hub>=0.20"]
+image = ["pillow"]
+extras = [
+    "langchain>=0.1",
+    "faiss-cpu>=1.7",
+    "beautifulsoup4>=4.12",
+    "unstructured>=0.12",
+    "pdf2image>=1.17",
+    "pdfminer>=20191125",
+]
+all = [
+    "funcchain[image]",
+    "funcchain[openai]",
+    "funcchain[google]",
+    "funcchain[ollama]",
+    "funcchain[groq]",
+    "funcchain[llamacpp]",
+    "funcchain[anthropic]",
+    "funcchain[extras]",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/funcchain"]
+
+[tool.pytest.ini_options]
+addopts = "-p no:warnings"
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+line_length = 120
+
+[tool.flake8]
+max-line-length = 120
+
+[tool.mypy]
+ignore_missing_imports = true
+disallow_untyped_defs = true
+disallow_untyped_calls = true
+disallow_incomplete_defs = true
+
+[tool.ruff]
+lint.select = ["E", "F", "I"]
+line-length = 120

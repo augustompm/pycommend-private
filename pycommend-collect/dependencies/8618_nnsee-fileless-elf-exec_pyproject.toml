@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "fee"
+version = "0.2.0"
+description = "Execute ELF files without dropping them on disk"
+authors = ["Rasmus Moorats <xx@nns.ee>"]
+license = "GPLv3"
+
+readme = "README.md"
+repository = "https://github.com/nnsee/fileless-elf-exec"
+homepage = "https://github.com/nnsee/fileless-elf-exec"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+
+[tool.poetry.dev-dependencies]
+pylint = "^3.2.5"
+black = "^24.4.2"
+
+[tool.poetry.scripts]
+fee = "fee:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

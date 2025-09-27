@@ -1,0 +1,12 @@
+m2crypto
+requests
+selenium
+beautifulsoup4
+pillow
+PySocks
+python-libnmap
+pyvirtualdisplay
+reload
+webdriver_manager
+lxml
+urllib3<2.0.0

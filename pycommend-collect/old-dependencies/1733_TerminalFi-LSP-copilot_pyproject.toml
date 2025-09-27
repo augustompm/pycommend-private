@@ -1,0 +1,65 @@
+[tool.mypy]
+# ignore_missing_imports = False
+check_untyped_defs = true
+strict_optional = true
+mypy_path = 'typings/lsp_utils/st3:typings/ST-API-stubs/typings:typings/sublime-markdown-popups/st3:typings:stubs'
+python_version = '3.8'
+
+[[tool.mypy.overrides]]
+module = [
+    "LSP.*",
+    "lsp_utils.*",
+    "mdpopups.*",
+    "sublime_lib.*",
+    "typings.*",
+]
+ignore_errors = true
+ignore_missing_imports = true
+
+[tool.pyright]
+include = ['./']
+exclude = [
+  '**/__pycache__/',
+  '**/node_modules/',
+  # git-related
+  '**/.git/',
+  '**/br-*/',
+  '**/branch-*/',
+]
+ignore = [
+  '**/.venv',
+  '**/libs',
+]
+stubPath = 'typings'
+pythonVersion = '3.8'
+
+[tool.ruff]
+preview = true
+line-length = 120
+target-version = 'py38'
+exclude = [
+  "*/libs/*",
+  ".git",
+  ".mypy_cache",
+  ".venv",
+  ".venv-*",
+  "branch-*",
+  "stubs",
+  "tests/files",
+  "typings",
+  "vendor",
+  "venv",
+  "venv-*",
+]
+
+[tool.ruff.lint]
+select = [
+  "E",
+  "F",
+  "W",
+  "I",
+  "UP",
+  "FURB",
+  "SIM",
+]
+ignore = ["E203", "SIM102", "SIM108"]

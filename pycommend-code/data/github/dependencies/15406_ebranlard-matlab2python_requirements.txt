@@ -1,0 +1,7 @@
+numpy  
+ply
+networkx
+matplotlib 
+pytest
+scipy
+

@@ -1,0 +1,17 @@
+rtree
+geopandas
+matplotlib
+seaborn
+scipy
+networkx
+keplergl
+igraph
+scikit-opt
+ipython
+sphinx
+numpydoc
+nbsphinx
+sphinx_gallery
+requests
+pykalman
+osmnx

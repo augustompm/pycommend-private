@@ -1,0 +1,12 @@
+openai
+anthropic
+uuid
+termcolor
+chromadb
+pydantic
+python-dotenv
+requests
+instructor
+SQLAlchemy
+nest_asyncio
+ply

@@ -1,0 +1,48 @@
+[project]
+name = ""
+version = ""
+description = ""
+authors = [
+    {name = "SAGIRI-kawaii", email = ""},
+]
+dependencies = [
+    "avilla-core>=1.0.0a26",
+    "avilla-console>=0.2.0",
+    "kayaku>=0.5.2",
+    "creart>=0.3.0",
+    "graia-saya>=0.0.18",
+    "aiosqlite>=0.19.0",
+    "sqlalchemy>=2.0.19",
+    "fastapi>=0.101.0",
+    "graia-scheduler>=0.3.0",
+    "avilla-elizabeth>=1.0.0a6",
+    "avilla-standard-qq>=1.0.0a6",
+    "avilla-qqguild-tencent>=1.0.0a6",
+    "psutil>=5.9.5",
+    "launart>=0.8.1",
+    "ujson>=5.8.0",
+    "alembic>=1.12.0",
+    "jieba>=0.42.1",
+    "qrcode>=7.4.2",
+    "Pillow>=10.0.0",
+    "graiax-playwright>=0.4.3",
+    "graiax-shortcut>=0.1.0",
+    "graiax-text2img-playwright>=0.4.2",
+    "jinja2>=3.1.2",
+    "graiax-fastapi>=0.4.0",
+    "GitPython>=3.1.32",
+    "avilla-twilight>=0.1.0",
+    "matplot>=0.1.9",
+    "lib>=4.0.0",
+    "avilla-onebot-v11>=1.0.0a28",
+    "pydantic>=2.8.2",
+    "numpy>=1.26.4",
+    "matplotlib>=3.9.1.post1",
+    "kiwisolver>=1.4.5",
+    "avilla-workspace @ git+https://github.com/GraiaProject/Avilla.git",
+    "aiofiles>=24.1.0",
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "AGPL-3.0"}
+

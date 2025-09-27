@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "nginxfmt"
+version = "1.2.3"
+description = "nginx config file formatter/beautifier with no additional dependencies."
+authors = ["Michał Słomkowski <michal@slomkowski.eu>"]
+license = "Apache-2.0"
+readme = "README.md"
+homepage = "https://github.com/slomkowski/nginx-config-formatter"
+repository = "https://github.com/slomkowski/nginx-config-formatter"
+keywords = ["nginx", "formatter", "formatting", "beautifier"]
+
+
+[tool.poetry.dependencies]
+python = ">=3.4"
+
+[tool.poetry.dev-dependencies]
+
+[tool.poetry.scripts]
+nginxfmt = "nginxfmt:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

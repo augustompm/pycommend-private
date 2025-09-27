@@ -1,0 +1,6 @@
+pexpect
+packaging
+
+# AWS Stuff
+botocore
+boto3 >= 1.22.0

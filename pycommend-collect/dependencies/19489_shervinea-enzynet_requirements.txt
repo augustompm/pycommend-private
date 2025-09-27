@@ -1,0 +1,19 @@
+# Basics
+numpy
+pandas
+scikit-learn
+keras
+tensorflow
+
+# Plot
+matplotlib==3.4.1
+
+# Biology
+biopython
+
+# Miscellaneous
+absl-py
+joblib
+more_itertools
+parameterized
+tqdm

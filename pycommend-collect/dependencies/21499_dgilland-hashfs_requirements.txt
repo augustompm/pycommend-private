@@ -1,0 +1,7 @@
+flake8
+pytest-cov
+pytest
+Sphinx
+tox
+twine
+wheel

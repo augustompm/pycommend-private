@@ -1,0 +1,17 @@
+keyboard==0.13.5
+multitasking==0.0.11
+pyqrcode==1.2.1
+setuptools==67.7.2
+tqdm==4.24.0
+python-vlc
+requests~=2.18.4
+pwinput~=1.0.3
+colorama~=0.4.3
+imageio_ffmpeg
+pywin32
+retry~=0.9.2
+npyscreen~=4.10.5
+windows-curses
+pynput~=1.7.6
+selenium~=3.141.0
+webdriver_manager

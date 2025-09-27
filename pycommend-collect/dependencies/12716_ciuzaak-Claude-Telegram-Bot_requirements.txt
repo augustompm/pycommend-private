@@ -1,0 +1,4 @@
+pyyaml
+python-telegram-bot
+anthropic
+GoogleBard

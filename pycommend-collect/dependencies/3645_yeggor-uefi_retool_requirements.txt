@@ -1,0 +1,5 @@
+Click
+colorama
+terminaltables
+tqdm
+https://github.com/theopolis/uefi-firmware-parser/archive/v1.8.tar.gz

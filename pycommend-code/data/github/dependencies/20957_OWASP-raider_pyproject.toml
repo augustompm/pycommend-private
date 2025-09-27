@@ -1,0 +1,143 @@
+[tool.poetry]
+    name = "raider"
+    version = "0.3.3"
+    description = "OWASP Raider: a novel framework for manipulating the HTTP processes of persistent sessions."
+    authors = ["Daniel Neagaru <daniel@digeex.de>"]
+    packages = [
+      { include = "raider" }
+    ]
+    license = "GPL-3.0-or-later"
+    readme = "README.md"
+    homepage = "https://raiderauth.com/"
+    repository = "https://github.com/OWASP/raider"
+    documentation = "https://docs.raiderauth.com/en/latest/"
+    include = [
+      "LICENSE",
+      "CHANGELOG.md",
+      "docs",
+      "examples",
+      "ext",
+    ]
+    exclude = [
+      "docs/_build/*",
+      "*~",
+    ]
+    keywords = [
+    "authentication",
+    "authorization",
+    "finite-state-machine",
+    "fsm",
+    "hy",
+    "hylang",
+    "lisp",
+    "owasp",
+    "python",
+    "raider",
+    "raiderauth",
+    "security",
+    ]
+    classifiers = [
+      "Development Status :: 4 - Beta",
+      "Environment :: Console",
+      "Intended Audience :: Developers",
+      "Intended Audience :: System Administrators",
+      "Intended Audience :: Information Technology",
+      "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+      "Natural Language :: English",
+      "Operating System :: POSIX :: Linux",
+      "Programming Language :: Lisp",
+      "Programming Language :: Python :: 3.8",
+      "Programming Language :: Python :: 3.9",
+      "Programming Language :: Python :: 3.10",
+      "Topic :: Internet :: WWW/HTTP",
+      "Topic :: Security",
+      "Topic :: Software Development :: Libraries :: Python Modules",
+      "Topic :: Software Development :: Testing",
+    ]
+
+[tool.poetry.scripts]
+    raider = "raider.cli:main"
+
+[tool.poetry.dependencies]
+    python = ">=3.8,<3.11"
+    hy = "^1.0.a4"
+    requests = "^2.25.1"
+    bs4 = "^0.0.1"
+    funcparserlib = "^1.0.0a0"
+    ipython = "^8.4.0"
+    pkce = "^1.0.3"
+    igraph = "^0.10.2"
+    requests-toolbelt = "^0.10.1"
+
+[tool.poetry.dev-dependencies]
+    mypy = "^0.991"
+    pre-commit = "^2.21.0"
+    flake8 = "^5.0.4"
+    pylint = "^2.15.9"
+    black = "^22.12.0"
+    isort = "^5.11.4"
+    sphinxcontrib-needs = "^0.7.9"
+    sphinx-autodoc-typehints = "^1.18.3"
+    sphinx-rtd-theme = "^1.0.0"
+    sphinxcontrib-plantuml = "^0.24"
+    tox = "^4.1.0"
+
+[build-system]
+    requires = ["poetry-core>=1.0.0"]
+    build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+    line-length = 79
+    target-version = ['py39']
+    include = '\.pyi?$'
+    exclude = '''
+    (
+      /(
+        | \.git
+        | \.tox
+        | dist
+	| docs
+	| scripts
+      )/
+    )
+    '''
+
+[tool.isort]
+    multi_line_output = 3
+    include_trailing_comma = true
+    force_grid_wrap = 0
+    use_parentheses = true
+    line_length = 79
+
+
+[tool.pylint.master]
+    ignore-patterns = '''
+         \.git
+	 |conf.py
+	 |scripts/*
+    '''
+
+[tool.pylint.message_control]
+    disable = '''
+    import-error,
+    '''
+
+
+[tool.mypy]
+    python_version = "3.10"
+    follow_imports = "silent"
+    strict_optional = true
+    warn_redundant_casts = true
+    warn_unused_ignores = true
+    disallow_any_generics = true
+    check_untyped_defs = true
+    no_implicit_reexport = true
+    disallow_untyped_defs = true
+    exclude = "scripts"
+    overrides = [
+
+    # TODO
+    # something doesn't work with requests types in the virtual environment
+    { module = "requests.*", ignore_missing_imports = true },
+
+    ]

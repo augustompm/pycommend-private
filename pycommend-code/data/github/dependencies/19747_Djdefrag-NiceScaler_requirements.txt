@@ -1,0 +1,13 @@
+#AI
+opencv-python-headless
+opencv-contrib-python-headless
+
+#GUI
+python-tkdnd
+ttkwidgets
+win32mica
+
+#UTILS
+pyinstaller
+pyinstaller-hooks-contrib
+moviepy

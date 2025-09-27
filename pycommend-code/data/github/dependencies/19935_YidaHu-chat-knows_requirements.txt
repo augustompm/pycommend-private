@@ -1,0 +1,10 @@
+langchain
+openai
+PyPDF2
+faiss-cpu
+tiktoken
+fastapi 
+uvicorn 
+faiss 
+torch 
+transformers

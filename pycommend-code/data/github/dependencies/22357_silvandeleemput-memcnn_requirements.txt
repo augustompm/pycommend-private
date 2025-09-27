@@ -1,0 +1,6 @@
+numpy
+SimpleITK
+torch>=1.0.0
+torchvision
+tqdm
+pathlib2

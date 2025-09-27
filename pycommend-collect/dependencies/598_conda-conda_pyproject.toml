@@ -1,0 +1,188 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = [
+  "hatchling >=1.12.2",
+  "hatch-vcs >=0.2.0",
+]
+
+[project]
+authors = [{name = "Anaconda, Inc.", email = "conda@continuum.io"}]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "License :: OSI Approved :: BSD License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "archspec >=0.2.3",
+  "boltons >=23.0.0",
+  "charset-normalizer",
+  # Disabled due to conda-libmamba-solver not being available on PyPI
+  # "conda-libmamba-solver >=24.11.0",
+  "conda-package-handling >=2.2.0",
+  "distro >=1.5.0",
+  "frozendict >=2.4.2",
+  "jsonpatch >=1.32",
+  "menuinst >=2",
+  "packaging >=23.0",
+  "platformdirs >=3.10.0",
+  "pluggy >=1.0.0",
+  "pycosat >=0.6.3",
+  "requests >=2.28.0,<3",
+  "ruamel.yaml >=0.11.14,<0.19",
+  "setuptools >=60.0.0",
+  "tqdm >=4",
+  "truststore >=0.8.0; python_version>='3.10'",
+  "zstandard >=0.15",
+]
+description = "OS-agnostic, system-level binary package manager."
+dynamic = ["version"]
+license = {file = "LICENSE"}
+name = "conda"
+readme = "README.md"
+requires-python = ">=3.9"
+
+[project.scripts]
+conda = "conda.cli.main_pip:main"
+
+[project.urls]
+changelog = "https://github.com/conda/conda/blob/main/CHANGELOG.md"
+documentation = "https://docs.conda.io/projects/conda/en/stable/"
+repository = "https://github.com/conda/conda"
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "pragma: py$PYTHON_MAJOR_VERSION no cover",
+  "pragma: $TEST_PLATFORM no cover",
+  "raise AssertionError",
+  "raise NotImplementedError",
+  "if __name__ == .__main__.:",
+  "def __repr__",
+  '\s*\.\.\.$',
+  "if TYPE_CHECKING:",  # ignoring type checking imports
+]
+omit = [
+  "*/site-packages/*",
+  '*\site-packages\*',
+  "conda/_vendor.py",
+  "conda/console.py",
+  "conda/cli/activate.py",
+  "conda/cli/main_package.py",
+  "conda/exports.py",
+  "conda/gateways/connection/adapters/ftp.py",
+  "conda/gateways/connection/adapters/s3.py",
+  "conda_env/*",
+  "tests/*",
+  "utils/*",
+]
+show_missing = true
+skip_covered = true
+sort = "Miss"
+
+[tool.coverage.run]
+# store relative paths in coverage information
+relative_files = true
+
+[tool.hatch.build]
+include = ["conda", "conda_env"]
+
+[tool.hatch.build.hooks.vcs]
+version-file = "conda/_version.py"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.version.raw-options]
+local_scheme = "dirty-tag"
+
+[tool.pytest.ini_options]
+addopts = [
+  "--color=yes",
+  # "--cov=conda",   # passed in test runner scripts instead (avoid debugger)
+  "--cov-append",
+  "--cov-branch",
+  "--cov-report=term",  # print summary table to screen
+  "--cov-report=xml",  # for codecov/codecov-action upload
+  "--durations=16",
+  "--junitxml=test-report.xml",
+  "--splitting-algorithm=least_duration",
+  "--store-durations",  # pytest-split, update duration cache
+  "--clean-durations",  # pytest-split, remove duration for tests no longer present
+  "--strict-markers",
+  "--tb=native",
+  "-vv",
+]
+doctest_optionflags = [
+  "NORMALIZE_WHITESPACE",
+  "IGNORE_EXCEPTION_DETAIL",
+  "ALLOW_UNICODE",
+  "ELLIPSIS",
+]
+markers = [
+  "integration: integration tests that usually require an internet connect",
+  "slow: slow running tests",
+  "benchmark: benchmark tests",
+  "memray: memory use tests",
+]
+minversion = 3.0
+norecursedirs = [
+  "tests/data/*",
+  "tests/integration/*",
+  "tests/plugins/data/*",
+  "docs",
+  ".git",
+]
+pythonpath = [
+  # faking a test-plugin to test ImportError handling
+  "tests/plugins/data/test-plugin",
+]
+testpaths = ["tests"]
+
+[tool.ruff]
+exclude = [
+  "conda/auxlib",
+  "tests/data/conda_format_repo",
+  "tests/data/env_metadata",
+]
+target-version = "py39"
+
+[tool.ruff.lint]
+extend-per-file-ignores = {"docs/*" = ["D1"], "tests/*" = ["D1"]}
+flake8-type-checking = {exempt-modules = [], strict = true}
+ignore = [
+  "D101",  # Missing docstring in public class
+  "D102",  # Missing docstring in public method
+  "D103",  # Missing docstring in public function
+  "D104",  # Missing docstring in public package
+  "D105",  # Missing docstring in magic method
+  "D107",  # Missing docstring in `__init__`
+  "E402",  # module level import not at top of file
+  "E501",  # line too long
+  "E722",  # do not use bare 'except'
+  "E731",  # do not assign a lambda expression, use a def
+  "UP031",  # do not fix printf-style string formatting
+]
+pydocstyle = {convention = "pep257"}
+# see https://docs.astral.sh/ruff/rules/
+select = [
+  "D1",  # pydocstyle
+  "E",  # pycodestyle errors
+  "F",  # pyflakes
+  "FA",  # flake8-future-annotations
+  "I",  # isort
+  "ISC",  # flake8-implicit-str-concat
+  "RUF100",  # Unused noqa directive
+  "T10",  # flake8-debugger
+  "TCH",  # flake8-type-checking
+  "UP",  # pyupgrade
+  "W",  # pycodestyle warnings
+]

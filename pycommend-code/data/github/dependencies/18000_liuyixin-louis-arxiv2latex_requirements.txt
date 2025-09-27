@@ -1,0 +1,8 @@
+altair<5
+streamlit
+matplotlib
+seaborn
+plotly
+tqdm
+bs4
+lxml

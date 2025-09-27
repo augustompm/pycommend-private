@@ -1,0 +1,4 @@
+crcmod>=1.7
+ffmpeg-python~=0.2
+mutagen>=1.43
+tqdm>=4.28.1

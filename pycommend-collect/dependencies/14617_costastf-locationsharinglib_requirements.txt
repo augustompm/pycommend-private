@@ -1,0 +1,14 @@
+#
+# Please do not manually update this file since the requirements are managed
+# by pipenv through Pipfile and Pipfile.lock .
+#
+# This file is created and managed automatically by the template and it is left
+# here only for backwards compatibility reasons with python's ecosystem.
+#
+# Please use Pipfile to update the requirements.
+#
+coloredlogs>=15.0.1
+requests>=2.31.0
+cachetools>=5.3.2
+pytz>=2023.3.post1
+dataclasses~=0.6 ; python_version == '3.6'

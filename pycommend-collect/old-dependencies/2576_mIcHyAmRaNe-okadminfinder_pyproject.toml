@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "okadminfinder"
+version = "2.0.0"
+description = "OKadminFinder: open-source tool designed to help administrators and penetration testers discover admin panels, directories, and subdomains of a website."
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+keywords = ["admin panel", "admin", "panel", "finder", "directory", "fuzz", "subdomain", "security", "pentest", "okadminfinder", "web"]
+authors = [
+    {name = "mIcHyAmRaNe", email = "6m63er17c@mozmail.com"}
+]
+maintainers = [
+    {name = "mIcHyAmRaNe", email = "6m63er17c@mozmail.com"}
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "typer>=0.15.1",
+    "rich>=13.9.4 ",
+    "urllib3[socks]>=2.3.0",
+    "pyyaml>=6.0.2",
+    "diskcache>=5.6.3",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/mIcHyAmRaNe/okadminfinder"
+"Repository" = "https://github.com/mIcHyAmRaNe/okadminfinder"
+"Bug Tracker" = "https://github.com/mIcHyAmRaNe/okadminfinder/issues"
+
+[project.scripts]
+okadminfinder = "okadminfinder.app:run"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.4",
+    "ruff>=0.8.5",
+]
+
+[tool.setuptools.package-data]
+"okadminfinder.assets" = ["*.yml"]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]

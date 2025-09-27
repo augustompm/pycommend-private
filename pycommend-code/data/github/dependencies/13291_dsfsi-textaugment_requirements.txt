@@ -1,0 +1,5 @@
+gensim>=4.0
+googletrans>=2
+nltk
+numpy
+textblob

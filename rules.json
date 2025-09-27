@@ -1,0 +1,57 @@
+{
+  "project": "sbpo-hindex-calculator",
+  "version": "1.0.0",
+  "directories": {
+    "memory": ".claudecode/memory/",
+    "articles": "article/",
+    "datasets": "data/",
+    "temp": "temp/",
+    "tests": "temp/tests/"
+  },
+  "rules": {
+    "execution": {
+      "no_shortcuts": {
+        "description": "No fallbacks, no artificially speeding up the process, no shortcuts unless explicitly requested",
+        "enforce": "always"
+      },
+      "async_long_tasks": {
+        "description": "If running something is taking too long, start it in the background and return the prompt to the user, set a way to monitor the execution",
+        "timeout_seconds": 30
+      }
+    },
+    "content": {
+      "verified_sources": {
+        "description": "Always use real information that is from a reliable source that is on the article/ folder",
+        "allowed_sources": ["article/"]
+      },
+      "communication_style": {
+        "description": "Always use simple language, as a computer Science student, never use emojis, use kebab case when needed for variables, classes and functions, when needed",
+        "no_emojis": true
+      }
+    },
+    "code_generation": {
+      "comment_location": {
+        "description": "Only make comments on the source code on the header, never inside the code functions",
+        "allowed": ["file_header"],
+        "forbidden": ["inline", "end_of_line"]
+      },
+      "no_llm_markers": {
+        "description": "Never mention inside the code fixes or custom requests or anything that could be attributed to automatic code generation by an LLM"
+      },
+      "no_authors": {
+        "description": "Never mention authors I will do it manually"
+      }
+    },
+    "file_system": {
+      "directory_usage": {
+        "description": "use the .claudecode/memory/ for your memory; use the article/ folder for articles; use the data/ folder for datasets; use the temp/ folder for smaller tests; use temp/tests/ for long tests"
+      }
+    },
+    "behavior": {
+      "expert_mode": {
+        "description": "do your best to act as a PhD in every subject being worked on but if in doubt Always ask, stop the creation process and ask",
+        "ask_when_uncertain": true
+      }
+    }
+  }
+}

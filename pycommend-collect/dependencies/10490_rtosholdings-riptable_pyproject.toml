@@ -1,0 +1,190 @@
+[project]
+name = "riptable"
+description = "Python Package for riptable studies framework"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "RTOS Holdings", email = "rtosholdings-bot@sig.com" }]
+requires-python = ">=3.10"
+dynamic = ["version"]
+dependencies = [
+    "ansi2html >=1.5.2",
+    "numba >=0.56.2",
+    "numpy >=1.23",
+    "pandas >=1.0,<3.0",
+    "python-dateutil",
+    "riptide_cpp >=1.19.0,<2",
+    "typing-extensions >=4.9.0",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Repository = "https://github.com/rtosholdings/riptable"
+Documentation = "https://riptable.readthedocs.io/en/stable/"
+
+[build-system]
+requires = [ #
+    "setuptools >=65",
+    "setuptools_scm[toml] >=7.1",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
+write_to = "riptable/_version.py"
+write_to_template = "__version__ = '{version}'"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["riptable*"]
+
+# NOTE: you have to use single-quoted strings in TOML for regular expressions.
+# It's the equivalent of r-strings in Python.  Multiline strings are treated as
+# verbose regular expressions by Black.  Use [ ] to denote a significant space
+# character.
+
+[tool.black]
+line-length = 120
+skip-string-normalization = true
+target-version = ["py39", "py310", "py311"]
+include = '\.pyi?$'
+exclude = '''
+/(
+  \.cache
+  | \.egg
+  | \.git
+  | \.hypothesis
+  | \.idea
+  | \.ionide
+  | \.mypy_cache
+  | \.pytest_cache
+  | \.tox
+  | \.venv
+  | \.vs
+  | \.vscode
+  | _build
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+xfail_strict = true
+filterwarnings = [
+    "error::DeprecationWarning",
+    "error:FutureWarning",
+    # FastArray converts all scalars into 1-dim arrays; big change required
+    "ignore:Conversion of an array with ndim > 0 to a scalar is deprecated:DeprecationWarning",
+    "ignore:np.find_common_type is deprecated.:DeprecationWarning",
+]
+
+[tool.pydocstyle]
+convention = "numpy"
+add_ignore = "D1,D2,D300,D400,D401,D403,D404,D405,D418"
+
+[tool.validate_docstrings]
+#errors = "GL"
+# for now, ignore EX95: black format error
+not_errors = "ES01,EX01,EX95,EX96,GL01,GL02,GL03,GL09,GL10,GL96,GL97,PR05,PR06,PR08,PR09,PR10,RT04,RT05,SA01,SA03,SA04,SS06"
+flake8_errors = "E9,F63,F7,F82"
+flake8_not_errors = "E111,E122,E127,E128,E201,E203,E222,E225,E231,E251,E261,E302,E402,E501,E999,F811,F821"
+#format = "json"
+xfails = "dev_tools/docstring_xfails.txt"
+filters = "dev_tools/docstring_filters.txt"
+
+[tool.coverage.run]
+branch = true
+source_pkgs = ["riptable"]
+omit = [
+    "*/riptable/benchmarks/*",
+    "*/riptable/tests/*",
+    "*/riptable/testing/*",
+    "*/riptable/hypothesis_tests/*",
+    "*/riptable/test_tooling_integration/*",
+]
+debug = ["config"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "raise RuntimeError\\(\"NotImplemented\"\\)",
+    "if TYPE_CHECKING:",
+    "\\.\\.\\.",
+    "pass",
+]
+
+# ruff is a Python linter implemented in Rust: https://github.com/charliermarsh/ruff
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+# Rule categories (or individual rules) to enable.
+# https://beta.ruff.rs/docs/rules
+select = [
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "E",   # pycodestyle (Errors)
+    "D",   # pydocstyle
+    "ERA", # eradicate
+    "F",   # pyflakes
+    "FBT", # flake8-boolean-trap
+    "INP", # flake8-no-pep420
+    "ISC", # flake8-implicit-str-concat
+    "NPY", # NumPy-specific rules
+    "PD",  # pandas-vet
+    "PT",  # flake8-pytest-style
+    "Q",   # flake8-quotes
+    "UP",  # pyupgrade
+    "W",   # pycodestyle (Warnings)
+]
+
+# Rules NOT to enforce. Either we don't care about them,
+# or we do care but we need to fix them before we can enable
+# the rule again.
+ignore = [
+    #####
+    # Temporarily-disabled rules.
+    # Fix these issues and un-ignore these rules as soon as feasible.
+    #####
+    "D101", # missing docstring in public class
+    "D102", # missing docstring in public method
+    "D202", # No blank lines allowed after function docstring
+    "D205", # 1 blank line required between summary line and description
+
+    #####
+    # Rules we really want to disable (now and maybe forever).
+    #####
+    # This rule doesn't play well with numpy/riptable. In particular,
+    # if someone tries to invert a logical/boolean array by e.g. (my_arr == False)
+    # instead of `np.logical_not()`, the pattern is detected by this rule
+    # and converted to an "is"-based check that won't work with numpy/riptable arrays.
+    "E712", # Comparison to `False` should be `cond is False`
+    # Q000 uses `flake8-quotes.inline-quotes` and seems to prefer double quote. But in our black
+    # configuration above we preserve single quotes (skip-string-normalization = true).
+    "Q000", # Single quotes found but double quotes preferred
+]
+
+# Group output by file. This format is typically most useful for development;
+# override the format via the command-line when running `ruff` from within a CI job.
+output-format = "grouped"
+
+[tool.ruff.flake8-quotes]
+docstring-quotes = "double"
+
+[tool.ruff.pydocstyle]
+# Use numpy-style docstrings.
+convention = "numpy"

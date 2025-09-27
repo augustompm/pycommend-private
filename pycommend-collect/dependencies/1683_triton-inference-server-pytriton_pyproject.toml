@@ -1,0 +1,182 @@
+# Copyright (c) 2022-2024, NVIDIA CORPORATION. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+[project]
+name = "nvidia-pytriton"
+readme = "docs/pypi.rst"
+description = "PyTriton - Flask/FastAPI-like interface to simplify Triton's deployment in Python environments."
+dynamic = ["version"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development",
+    "Topic :: Scientific/Engineering",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: Unix",
+]
+authors = []
+maintainers = []
+keywords = []
+license = { text = "Apache 2.0" }
+requires-python = ">=3.8,<4"
+dependencies = [
+    "numpy >= 1.21, <2.0.0",
+    "protobuf >= 3.7",
+    "pyzmq >= 23.0",
+    "sh >= 1.14",
+    "tritonclient[grpc,http] ~= 2.50",
+    "grpcio >= 1.64.3",  # fix grpc client compatibility
+    "typing_inspect >= 0.6.0",
+    "wrapt >= 1.11",
+    "typer >= 0.9.0",
+    "importlib_metadata >= 7.0.1",
+]
+
+[project.urls]
+"Documentation" = "https://triton-inference-server.github.io/pytriton"
+"Source" = "https://github.com/triton-inference-server/pytriton"
+"Tracker" = "https://github.com/triton-inference-server/pytriton/issues"
+
+[project.optional-dependencies]
+test = [
+    "pytest ~= 8.1.1",
+    "pytest-codeblocks ~= 0.16", # 0.17 causes fail during numpy import
+    "pytest-mock ~= 3.14",
+    "pytest-timeout ~= 2.2",
+    "pytest-asyncio ~= 0.23.5",
+    "pytype!=2021.11.18,!=2022.2.17",
+    "pre-commit >= 3.5", # Python 3.8 maximum for 24.02
+    "tox >= 4.13",
+    "tqdm >= 4.64.1",
+    "psutil ~= 5.9",
+    "py-spy ~= 0.3",
+    "opentelemetry-api <= 1.27.0", # Used for testing Open Telemetry documentiation
+    "opentelemetry-sdk <= 1.27.0", # There is the conflict with tritonclient GRPC
+    "opentelemetry-instrumentation-requests ~= 0.45b0",
+    "opentelemetry-exporter-otlp <= 1.27.0",
+
+]
+doc = [
+    "GitPython >= 3.1",
+    "mike >= 2.0.0",
+    "mkdocs-htmlproofer-plugin >= 1.1",
+    "mkdocs-material >= 9.5",
+    "mkdocstrings[python] >= 0.24.0",
+    "mkdocstrings-python >= 1.8"
+]
+dev = [
+    "nvidia-pytriton[test]",
+    "nvidia-pytriton[doc]",
+    "build >= 0.8, <1.0.0", # to support --plat-name for multiarch build
+    "ipython >= 8.12", # Python 3.8 maximum for 24.02
+    "packaging ~= 24.0",
+    "pudb >= 2024.1",
+    "pip >= 24.0",  # to support editable installation
+    "ruff >= 0.3.0",
+    "twine >= 5.0",
+
+]
+
+[build-system]
+requires = [
+    # Setuptools must albo be installed separately in add_libs_to_wheel.sh
+    # to support Python 3.12. Update versions in both places.
+    "setuptools>=69.2.0",
+    "setuptools_scm[toml]>=8.0",
+    "wheel>=0.42",
+]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+pytriton = "pytriton.__main__:main"
+
+[tool.setuptools]
+include-package-data = true
+license-files = ["LICENSE"]
+
+[tool.setuptools.packages.find]
+namespaces = false
+include = ["pytriton"]
+
+[tool.setuptools.package-data]
+pytriton = [
+    "**/*",
+]
+[tool.setuptools.exclude-package-data]
+pytriton = [
+    "tritonserver/external_libs/*",
+]
+
+[tool.setuptools_scm]
+
+[tool.distutils.bdist_wheel]
+plat-name = "linux_x86_64"
+
+
+[tool.ruff]
+preview = true
+line-length = 120
+indent-width = 4
+target-version = "py38"
+
+[tool.ruff.lint]
+select = [
+    "B",     # flake8-bugbear: bug-focused rules
+    "C",     # mccabe: complexity checker
+    "C4",    # flake8-comprehensions: list/set/dict comprehension rules
+    "C90",   # mccabe: cyclomatic complexity
+    "CPY",   # flake8-copyright: copyright header rules
+    "D",     # pydocstyle: docstring rules
+    "E",     # pycodestyle: error rules
+    "F",     # Pyflakes: error detection
+    "G",     # flake8-logging-format: logging format rules
+    "I",     # isort: import sorting
+    "LOG",   # flake8-logging: extended logging format rules
+    "N",     # pep8-naming: naming conventions
+    "T",     # flake8-print: print statement rules
+    "T10",   # flake8-debugger: debug statement rules
+    "T20",   # flake8-print: print statement rules (additional)
+    "UP",    # pyupgrade: upgradeable syntax rules
+    "W",     # pycodestyle: warning rules
+]
+ignore = ["E266", "E501", "N818"]
+exclude = []
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["D104"]
+"**/__version__.py" = ["D100"]
+"**/{tests,docs,tools,examples}/*" = ["C416", "D"]
+"**/tests/*" = ["CPY"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 18
+
+[tool.ruff.lint.flake8-copyright]
+author = "NVIDIA CORPORATION"
+notice-rgx = 'Copyright \(c\) \d{4}(-\d{4})*,'
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "lf"

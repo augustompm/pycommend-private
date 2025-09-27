@@ -1,0 +1,6 @@
+openai
+PyYAML
+SpeechRecognition
+pyttsx3
+pyaudio
+pyautogui

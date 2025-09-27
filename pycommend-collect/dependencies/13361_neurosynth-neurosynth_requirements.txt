@@ -1,0 +1,9 @@
+matplotlib
+nibabel>=1.2
+numpy
+scipy
+pandas
+ply
+scikit-learn
+six
+biopython

@@ -1,0 +1,82 @@
+[build-system]
+requires = ["setuptools", "setuptools_scm", "numpy>=2.0,<3.0", "Cython>=3.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cesium"
+requires-python = ">=3.8"
+description = "Library for time-series feature extraction and processing"
+authors = [
+    {name = "cesium team"},
+    {name = "Stéfan van der Walt", email = "stefanv@berkeley.edu"}
+]
+license = {text = "BSD-3-Clause"}
+readme = "README.md"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: C",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Operating System :: MacOS",
+]
+dynamic = ["version", "dependencies"]
+
+[project.urls]
+homepage = "http://cesium-ml.org"
+download = "https://github.com/cesium-ml/cesium"
+
+[tool.setuptools]
+include-package-data = true
+
+# We need the equivalent of this clause in setup.py,
+# otherwise the sdist does not build correctly.
+#
+#[tool.setuptools.packages.find]
+#include = ["cesium*"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = "requirements.txt"}
+
+[tool.setuptools_scm]
+write_to = "cesium/version.py"
+
+[tool.ruff]
+line-length = 88
+target-version = 'py38'
+select = [
+    'F',
+    'E',
+    'W',
+    'UP',
+]
+ignore = [
+    'E501',
+    'E741',
+    'E712',
+]
+exclude = [
+    '.git',
+    '.ruff_cache',
+    'dist'
+]
+
+[tool.ruff.per-file-ignores]
+"**/__init__.py" = [
+    'E402',
+    'F401',
+    'F403',
+    'F405',
+]
+"examples/*.py" = [
+    'E402',
+]
+
+[tool.ruff.pydocstyle]
+convention = 'numpy'

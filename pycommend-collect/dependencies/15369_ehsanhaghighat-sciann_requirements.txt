@@ -1,0 +1,16 @@
+protobuf==3.20.1
+tensorflow==2.8.1
+keras
+numpy
+scipy
+pandas
+matplotlib
+scikit_learn
+tqdm
+sklearn
+pybtex
+h5py
+pydot 
+graphviz
+pytest 
+mkdocs

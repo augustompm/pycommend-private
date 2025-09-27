@@ -1,0 +1,5 @@
+PyGObject
+PyQt5
+PyQtWebEngine
+ruamel.yaml
+pyinotify

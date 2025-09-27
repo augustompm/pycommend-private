@@ -1,0 +1,141 @@
+# ==================
+# Build system setup
+# ==================
+
+[build-system]
+requires = [
+    "setuptools>=42",  # At least v42 of setuptools required!
+    "versioningit",
+]
+build-backend = "setuptools.build_meta"
+
+
+[tool.versioningit]
+
+[tool.versioningit.vcs]
+method = "git"
+default-tag = "0.0.0"
+
+
+# =========================
+# Linter and code formatter
+# =========================
+
+[tool.isort]
+profile = "black"
+extend_skip_glob = [
+  # Always.
+  ".*",
+  "__pycache__",
+  # Temporary.
+  "examples",
+  "contrib",
+  "mqttwarn/examples",
+  "mqttwarn/services",
+  "mqttwarn/vendor",
+]
+
+[tool.black]
+line-length = 120
+extend-exclude = """
+  # Always.
+  ^/tests/etc/functions_bad.py |
+  # Temporary.
+  ^/examples |
+  ^/contrib |
+  ^/mqttwarn/examples |
+  ^/mqttwarn/services |
+  ^/mqttwarn/vendor
+"""
+
+[tool.ruff]
+line-length = 120
+ignore = [
+  "E722"  # Do not use bare `except`
+]
+extend-exclude = [
+  # Always.
+  ".venv*",
+  "tests/etc/functions_bad.py",
+  # Temporary.
+  "examples",
+  "contrib",
+  "mqttwarn/examples",
+  "mqttwarn/services",
+  "mqttwarn/vendor",
+]
+
+[tool.mypy]
+ignore_missing_imports = true
+exclude = [
+  "tests/etc/functions_bad.py",
+]
+files = [
+  "examples/**/*.py",
+  "mqttwarn/**/*.py",
+  "tests/acme/**/*.py",
+  "tests/fixtures/**/*.py",
+  "tests/services/**/*.py",
+]
+
+
+# ==================
+# Test configuration
+# ==================
+
+[tool.pytest.ini_options]
+minversion = "2.0"
+addopts = "-rsfEX -p pytester --strict-markers --verbosity=3 --cov --cov-report=term-missing --cov-report=xml --cov-report html:.pytest_results/htmlcov"
+# log_cli = true  # Enable to receive way more log details on stdout.
+log_cli_level = "DEBUG"
+log_level = "DEBUG"
+testpaths = ["examples", "mqttwarn", "tests"]
+xfail_strict = true
+markers = [
+  "e2e",  # Full end-to-end system tests, needing an MQTT broker.
+]
+
+[tool.coverage.run]
+branch = false
+source = ["mqttwarn"]
+
+[tool.coverage.report]
+fail_under = 0
+show_missing = true
+omit = [
+    "mqttwarn/vendor/*",
+]
+
+
+
+# ===================
+# Tasks configuration
+# ===================
+
+[tool.poe.tasks]
+format = [
+  { cmd = "black ." },
+  # Ignore unused imports (F401), unused variables (F841), `print` statements (T201), and commented-out code (ERA001).
+  { cmd = "ruff --fix --ignore=ERA --ignore=F401 --ignore=F841 --ignore=T20 --ignore=ERA001 ." },
+]
+lint = [
+  { cmd = "ruff ." },
+  { cmd = "black --check ." },
+  { cmd = "mypy --install-types --non-interactive" },
+]
+test = [
+  { cmd="pytest" },
+]
+build = {cmd="python -m build"}
+check = ["lint", "test"]
+release = [
+  { cmd = "pip install --upgrade --editable=.[develop]" },
+  { cmd = "pip install --upgrade --requirement requirements-release.txt" },
+  # TODO: Add a basic bump step, which only runs the `git tag` and `git push` commands,
+  #       but offers a convenience option to bump by "patch", "minor", or "major" levels.
+  # TODO: Remind user about updating the changelog file accordingly. Or use `towncrier`?
+  { cmd = "git push" },
+  { cmd = "git push --tags" },
+  { cmd = "python -m build" },
+  { cmd = "twine upload --skip-existing --verbose dist/*" },
+]

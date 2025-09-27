@@ -1,0 +1,17 @@
+python-dotenv
+openai
+anthropic
+groq
+pytest
+pydantic
+assemblyai
+assemblyai[extras]
+sounddevice
+numpy
+elevenlabs
+llm
+llm-claude
+llm-claude-3
+llm-ollama
+llm-gemini
+Pillow

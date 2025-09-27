@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "viral-clips-crew"
+version = "0.0.2"
+description = ""
+authors = ["Alex Fazio <alessandro.fazio@me.com>", "theCyberTech <the_t3ch@pm.me>"]
+
+[tool.poetry.scripts]
+viral-clips-crew = "main:main"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<=3.13"
+pydantic = "*"
+crewai = "0.30.0rc5"
+setuptools = "*"
+python-decouple = "*"
+langchain-community = "*"
+openai-whisper = {git = "https://github.com/openai/whisper.git"}
+torch = "*"
+ffmpeg-python = "*"
+crewai_tools = "*"
+openai = "*"
+send2trash = "*"
+langchain_google_genai = "*"
+maskpass = "*"
+youtube-transcript-api = "*"
+lockfile = "*"
+yt-dlp = "*"
+requests = "*"
+
+[[tool.poetry.packages]]
+include = "*.py"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,72 @@
+# pointers.py
+
+![Tests](https://github.com/ZeroIntensity/pointers.py/actions/workflows/tests.yml/badge.svg)
+
+## Bringing the hell of pointers to Python
+
+Why would you ever need this
+
+-   [Documentation](https://pointers.zintensity.dev/)
+-   [Source](https://github.com/ZeroIntensity/pointers.py)
+-   [PyPI](https://pypi.org/project/pointers.py)
+
+### Examples
+
+```py
+from pointers import _
+
+text: str = "hello world"
+ptr = _&text  # creates a new pointer object
+ptr <<= "world hello"
+print(text)  # world hello
+```
+
+```py
+from pointers import c_malloc, c_free, strcpy, printf
+
+ptr = c_malloc(3)
+strcpy(ptr, "hi")
+printf("%s\n", ptr)  # hi
+c_free(ptr)
+```
+
+```py
+from pointers import malloc, free
+
+my_str = malloc(103)
+my_str <<= "hi"
+second_str = my_str[51]
+second_str <<= "bye"
+print(*my_str, *second_str)  # hi bye
+free(my_str)
+```
+
+### Features
+
+-   Fully type safe
+-   Pythonic pointer API
+-   Bindings for the entire C standard library and CPython ABI
+-   Segfaults
+
+### Why does this exist?
+
+The main purpose of pointers.py is to simply break the rules of Python, but has some other use cases:
+
+-   Can help C/C++ developers get adjusted to Python
+-   Provides a nice learning environment for programmers learning how pointers work
+-   Makes it very easy to manipulate memory in Python
+-   Why _not_?
+
+### Installation
+
+#### Linux/macOS
+
+```
+python3 -m pip install -U pointers.py
+```
+
+#### Windows
+
+```
+py -3 -m pip install -U pointers.py
+```

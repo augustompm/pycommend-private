@@ -1,0 +1,7 @@
+jinja2
+kubernetes
+python-string-utils
+ruamel.yaml
+six
+requests
+requests-oauthlib

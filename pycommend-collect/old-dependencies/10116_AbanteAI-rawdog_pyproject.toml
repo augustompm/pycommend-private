@@ -1,0 +1,41 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages=["src/rawdog"]
+
+[project]
+name = "rawdog-ai"
+version = "0.1.6"
+description = "An AI command-line assistant"
+readme = "README.md"
+dependencies = [
+    "litellm>=1.22.3",
+    "pyreadline3==3.4.1; platform_system == 'Windows'"
+]
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/AbanteAI/rawdog"
+Issues = "https://github.com/AbanteAI/rawdog/issues"
+
+[project.scripts]
+rawdog = "rawdog.__main__:main"
+
+[tool.ruff]
+line-length = 120
+extend-exclude = ["examples", "src/rawdog/prompts.py"]
+
+[tool.isort]
+profile = "black"
+extend_skip = ["examples"]
+
+[tool.black]
+preview = "true"
+extend-exclude = "examples"

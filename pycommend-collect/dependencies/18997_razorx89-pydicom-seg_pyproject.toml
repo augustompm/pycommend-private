@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "pydicom-seg"
+version = "0.4.1"
+description = "Python package for DICOM-SEG medical segmentation file reading and writing"
+authors = ["Sven Koitka <sven.koitka@uk-essen.de>"]
+homepage = "https://github.com/razorx89/pydicom-seg"
+readme = "README.md"
+license = "MIT"
+exclude = ["pydicom_seg/externals"]
+include = [
+    "pydicom_seg/externals/dcmqi/LICENSE.txt",
+    "pydicom_seg/externals/dcmqi/doc/schemas/seg-schema.json",
+    "pydicom_seg/externals/dcmqi/doc/schemas/common-schema.json"
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+pydicom = ">=1.4.2"
+SimpleITK = ">1.2.4"
+numpy = "^1.18.0"
+jsonschema = "^3.2.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.3.2"
+coverage = "^5.0.1"
+sphinx = "^2.3.1"
+sphinx_rtd_theme = "^0.4.3"
+mypy = "^1.0.0"
+pre-commit = "^2.10.1"
+
+[build-system]
+requires = ["poetry>=1.0.5"]
+build-backend = "poetry.masonry.api"

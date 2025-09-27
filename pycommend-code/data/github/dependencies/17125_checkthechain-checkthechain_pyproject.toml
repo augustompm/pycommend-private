@@ -1,0 +1,215 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+#
+# # resources
+#
+
+# https://blog.ganssle.io/articles/2021/10/setup-py-deprecated.html
+# https://github.com/flying-sheep/awesome-python-packaging
+# https://flit.pypa.io/en/latest/pyproject_toml.html
+
+#
+# # build
+#
+
+[build-system]
+requires = ["flit_core >=3.2, <4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "checkthechain"
+readme = "README.md"
+requires-python = ">=3.7"
+dynamic = ["version", "description"]
+license = {text = "MIT OR Apache-2.0"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Typing :: Typed",
+]
+dependencies = [
+    'typing-extensions >=4.2.0, <5',
+    #
+    # data science
+    'numpy >=1.19.0, <1.24',
+    'polars >=0.17.3, <0.18',
+    'pyarrow >=12.0.0, <13',
+    #
+    # io dependencies
+    'aiohttp >=3.7.4, <4',
+    'loguru >=0.5.3, <0.7',
+    'msgspec >=0.14.1, <0.15',
+    'orjson >=3.7.9, <4',
+    'requests >=2.20.0, <3',
+    'toml >=0.10.2, <0.11',
+    #
+    # tool suite
+    'toolcli >=0.6.13, <0.7',
+    'toolconf >=0.1.2, <0.2',
+    'toolsql >=0.6.1, <0.7',
+    'toolstr >=0.9.3, <0.10',
+    'tooltime >=0.2.10, <0.3',
+    #
+    # EVM dependencies
+    'pycryptodome >=3.9.1, <4',  # for keccak()
+    'eth_abi_lite >=3.2.0, <4',  # for abi encoding
+    'idna >=2.10, <4',  # ENS resolution
+]
+
+[project.optional-dependencies]
+test = [
+    'mypy ==1.2.0',
+    'mypy_extensions >= 1.0.0, <1.1.0',
+    'pytest-asyncio ==0.18.0',
+    'pytest-xdist ==3.1.0',
+    'pytest >=6',
+    'tox-asdf ==0.1.0',
+    'tox ==3.8.0',
+    'virtualenv >=20.6.0',
+    'types-requests >= 2.28.11.17',
+]
+
+
+[project.urls]
+Documentation = "https://ctc.readthedocs.io/en/latest/"
+Source = "https://github.com/fei-protocol/checkthechain"
+
+[project.scripts]
+ctc = "ctc.cli.cli_run:run_cli"
+
+[tool.flit.module]
+name = "ctc"
+
+
+#
+# # black
+#
+
+# https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#configuration-via-a-file
+
+# run using `black` in repo root directory
+
+[tool.black]
+line-length = 80
+skip-string-normalization = true
+target-version = ['py37']
+
+
+#
+# # coverage
+#
+
+# https://coverage.readthedocs.io/en/latest/config.html
+
+# run using `coverage run` in repo root directory
+
+[tool.coverage.run]
+command_line = "-m pytest"
+# branch = true
+include = [
+    "src/*",
+]
+
+[tool.coverage.html]
+directory = ".coverage_html"
+
+
+#
+# # mypy
+#
+
+# https://mypy.readthedocs.io/en/stable/config_file.html#using-a-pyproject-toml
+
+# run using `mypy` in repo root directory
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+implicit_reexport = true
+files = ["src/ctc"]
+
+#
+# # pytest
+#
+
+# https://docs.pytest.org/en/latest/reference/customize.html#pyproject-toml
+
+# run using `pytest` in repo root directory
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+asyncio_mode = 'auto'
+
+
+#
+# # tox
+#
+
+# https://tox.wiki/en/latest/example/basic.html#pyproject-toml-tox-legacy-ini
+
+# run using `tox` in repo root directory
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py37,py38,py39,py310,py311,py37-legacy
+isolated_build = True
+
+[testenv]
+deps =
+    pytest >= 6
+    pytest-asyncio
+    matplotlib
+commands = pytest
+
+; the legacy environment uses the oldest allowed dependencies
+[testenv:py37-legacy]
+deps =
+    pytest >= 6
+    pytest-asyncio
+    matplotlib
+    typing-extensions==4.2.0
+    ;
+    ; data science
+    numpy==1.19.0
+    polars==0.17.3
+    pyarrow==12.0.0
+    ;
+    ; data dependencies
+    aiohttp==3.7.4
+    connectorx==0.3.2a3
+    loguru==0.5.3
+    msgspec==0.14.1
+    orjson==3.7.9
+    requests==2.20.0
+    toml==0.10.2
+    ;
+    ; tool suite
+    toolcli==0.6.12
+    toolconf==0.1.2
+    toolsql==0.5.2
+    toolstr==0.9.2
+    tooltime==0.2.10
+    ;
+    ; EVM dependencies
+    pycryptodome==3.9.1
+    eth_abi_lite==3.2.0
+    idna==2.10
+
+commands = pytest --disable-warnings
+"""

@@ -1,0 +1,13 @@
+torch>=1.0.0
+numpy
+scikit-learn
+tqdm
+tensorboardX>=1.4
+visdom
+livelossplot
+mock
+Pillow
+matplotlib
+torchvision
+pycm;python_version>="3.5"
+packaging

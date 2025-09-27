@@ -1,0 +1,9 @@
+torch
+torchvision
+tqdm
+pillow
+decord
+git+https://github.com/huggingface/transformers
+av
+einops
+accelerate

@@ -1,0 +1,72 @@
+[tool.poetry]
+name = "fastapi-security"
+version = "0.5.0"
+description = "Add authentication and authorization to your FastAPI app via dependencies."
+authors = ["Jacob Magnusson <m@jacobian.se>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://jmagnusson.github.io/fastapi-security/"
+repository = "https://github.com/jmagnusson/fastapi-security"
+documentation = "https://jmagnusson.github.io/fastapi-security/"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Framework :: AsyncIO",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development",
+    "Typing :: Typed",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.7,<4.0"
+aiohttp = { version = "^3", optional = true }
+fastapi = "^0"
+pydantic = "^1"
+PyJWT = { version = "^2", extras = ["crypto"], optional = true }
+
+[tool.poetry.extras]
+oauth2 = ["aiohttp", "PyJWT"]
+
+[tool.poetry.dev-dependencies]
+aioresponses = "^0.7.3"
+black = "^22.1.0"
+isort = "^5.10.1"
+pytest = "^7.0.1"
+pytest-cov = "^3.0.0"
+requests = "^2.27.1"
+mypy = "^0.931"
+flake8 = "^4.0.1"
+mkdocs-material = "^8.2.4"
+pytest-asyncio = "^0.18.1"
+uvicorn = "^0.17.5"
+types-requests = "^2.27.11"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py37', 'py38']
+
+[tool.pytest.ini_options]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+]
+asyncio_mode = "strict"

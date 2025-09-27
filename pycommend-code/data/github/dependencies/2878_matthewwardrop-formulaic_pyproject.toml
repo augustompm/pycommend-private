@@ -1,0 +1,182 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "formulaic"
+description = "An implementation of Wilkinson formulas."
+authors = [{ name = "Matthew Wardrop", email = "mpwardrop@gmail.com" }]
+license = "MIT"
+readme = "README.md"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "interface-meta>=1.2.0",
+    "narwhals>=1.17",
+    "numpy>=1.20.0",
+    "pandas>=1.3",
+    "scipy>=1.6",
+    "wrapt>=1.0; python_version <\"3.13\"",
+    "wrapt>=1.17.0rc1; python_version >=\"3.13\"",
+    "typing-extensions>=4.2.0",
+]
+dynamic = ["version"]
+
+[project.urls]
+repository = "https://github.com/matthewwardrop/formulaic"
+documentation = "https://matthewwardrop.github.io/formulaic"
+
+[project.optional-dependencies]
+arrow = ["pyarrow>=1"]
+polars = ["polars>=1"]
+calculus = ["sympy>=1.3,!=1.10"]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "formulaic/_version.py"
+
+# Build target configuration
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "docsite",
+    "benchmarks",
+    "formulaic",
+    "tests",
+    "LICENSE",
+    "pyproject.toml",
+    "README.md",
+]
+
+# Testing configuration
+
+[tool.hatch.envs.default]
+dependencies = [
+    'formulaic[arrow,calculus]',
+    "narwhals>=1.0.0",
+    "pytest==7.4.3",
+    "pytest-cov==4.1.0",
+]
+
+[tool.hatch.envs.default.scripts]
+tests = 'pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=formulaic --cov-report=xml -vv {args:tests}'
+
+[[tool.hatch.envs.test.matrix]]
+python = ["39", "310", "311", "312", "313"]
+
+[[tool.hatch.envs.test_min.matrix]]
+python = ["39"]
+
+[tool.hatch.envs.test_min]
+dependencies = [
+    "formulaic[arrow,calculus]",
+    "pytest==7.2.0",
+    "pytest-cov==4.0.0",
+    "interface-meta==1.2.0",
+    "narwhals==1.17.0",
+    "numpy==1.20.0",
+    "pandas==1.3",
+    "scipy==1.6",
+    "wrapt==1.0",
+    "typing-extensions==4.2.0",
+]
+
+[tool.hatch.envs.lint]
+dependencies = ["mypy[faster-cache]==1.13.0", "ruff==0.8.3"]
+
+[tool.hatch.envs.lint.scripts]
+check = ["ruff check", "ruff format --check", "mypy formulaic"]
+format = ["ruff check --fix", "ruff format"]
+
+# Coverage configuration
+[tool.coverage.run]
+omit = ["formulaic/_version.py"]
+
+# Linting configuration
+
+[tool.ruff]
+target-version = "py39"
+
+exclude = [
+    "*.egg-info",
+    "*.pyc",
+    ".cache",
+    ".coverage.*",
+    ".gradle",
+    ".tox",
+    "build",
+    "dist",
+    "htmlcov.*",
+]
+
+[tool.ruff.lint]
+select = [
+    "F",    # flake8 rules
+    "E",    # pycodestyle
+    "W",    # pycodestyle
+    "S",    # bandit
+    "I001", # import sorting
+    "UP",  # syntax upgrades
+    # "D", # documentation
+]
+pyupgrade = { keep-runtime-typing = true }
+
+ignore = [
+    "C901",
+    "E203",
+    "E501",
+    "E712",
+    "E722",
+    "E731",
+    "S307", # Use of ast.literal_eval
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/docsite/*" = ["F811", "F821"]
+"**/tests/*" = ["F", "E", "W", "S"]
+
+[tool.mypy]
+allow_redefinition = true
+disallow_untyped_defs = true
+disallow_any_generics = false
+ignore_missing_imports = true
+
+# Documentation configuration
+
+[tool.hatch.env]
+requires = ["hatch-pip-compile"]
+
+[tool.hatch.envs.docs]
+dependencies = [
+    "mike",
+    "mkdocs",
+    "mkdocs-jupyter",
+    "mkdocs-material",
+    "mkdocs-material-extensions",
+    "pymdown-extensions",
+    "pygments",
+]
+lock-filename = "docsite/requirements.lock"
+type = "pip-compile"
+
+[tool.hatch.envs.docs.scripts]
+build = "mkdocs build -f docsite/mkdocs.yml {args}"
+serve = "mkdocs serve -f docsite/mkdocs.yml {args}"
+deploy = "mike deploy --config-file docsite/mkdocs.yml -p {args}"

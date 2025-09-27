@@ -1,0 +1,170 @@
+[build-system]
+requires = [
+    "wheel",
+    "setuptools",
+    "Cython>=3",
+    # taken from scipy (2024/06/28)
+    # numpy requirement for wheel builds for distribution on PyPI - building
+    # against 2.x yields wheels that are also compatible with numpy 1.x at
+    # runtime.
+    # Note that building against numpy 1.x works fine too - users and
+    # redistributors can do this by installing the numpy version they like and
+    # disabling build isolation.
+    "numpy>=2.0.0",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyFFTW"
+description = "A pythonic wrapper around FFTW, the FFT library, presenting a unified interface for all the supported transforms."
+authors = [
+    {name = "Henry Gomersall", email = "heng@kedevelopments.co.uk"},
+]
+requires-python = ">=3.10"
+dynamic = ["version"]
+dependencies = [
+    "numpy>=1.20",
+]
+readme = "README.md"
+license = {text = "BSD"}
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Sound/Audio :: Analysis",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+[project.urls]
+Homepage = "https://github.com/pyFFTW/pyFFTW"
+
+[project.optional-dependencies]
+dask = [
+    "dask[array]>=1.0",
+    "numpy>=1.20",
+]
+scipy = [
+    "scipy>=1.8.0",
+]
+
+
+[tool.cibuildwheel]
+build-verbosity = 2
+
+# Note: Tests are run within a docker container on Linux builds
+# This will have a different
+test-requires = "pytest scipy dask packaging"
+# Import-mode=append to use installed (wheel) version of pyfftw
+# rather than the local module
+test-command = "pytest --import-mode=append {project}"
+
+    [tool.cibuildwheel.environment]
+    PIP_PREFER_BINARY = true
+
+    [tool.cibuildwheel.windows]
+    archs = [
+        "AMD64",
+        "x86",
+    ]
+
+    test-skip = [
+        # Until SciPy does not support win32
+        "*win32",
+
+        # Until SciPy gives us PyPy wheels
+        "pp*",
+    ]
+
+    [tool.cibuildwheel.macos]
+
+    archs = [
+        "x86_64",
+        # See issue [#352](https://github.com/pyFFTW/pyFFTW/issues/352)
+        # Current problem seems to be that installed libfftw3 does not provide arm64
+        # symbols
+        # "universal2",
+        "arm64",
+    ]
+
+    test-skip = [
+        # Until SciPy gives us PyPy wheels
+        "pp*",
+        # See: https://github.com/pyFFTW/pyFFTW/issues/326
+        "*arm64",
+    ]
+
+        [tool.cibuildwheel.macos.environment]
+        CC = "/usr/bin/clang"
+        CXX = "/usr/bin/clang++"
+        CFLAGS = "-Wno-implicit-function-declaration -I/usr/local/opt/fftw/include"
+        LDFLAGS = "-Wl,-S,-rpath,/usr/local/opt/fftw/lib -L/usr/local/opt/fftw/lib"
+
+    # On Linux we need to use different package managers depending on image used
+    [tool.cibuildwheel.linux]
+
+    test-skip = [
+        # See: https://github.com/pyFFTW/pyFFTW/issues/326
+        "*aarch64",
+
+        # Until SciPy gives us PyPy wheels
+        "pp*",
+    ]
+
+    # Fallback, but we specify versions more explicitly below to achieve maximal
+    # compatibility
+    before-all = "yum install -y fftw-devel"
+
+    manylinux-x86_64-image = "manylinux_2_28"
+    manylinux-aarch64-image = "manylinux_2_28"
+    manylinux-ppc64le-image = "manylinux_2_28"
+    manylinux-s390x-image = "manylinux_2_28"
+    manylinux-pypy_x86_64-image = "manylinux_2_28"
+    manylinux-pypy_aarch64-image = "manylinux_2_28"
+
+    archs = [
+        "x86_64",
+        "aarch64",
+    ]
+
+    # Currently not supported
+    # Even numpy does not support this
+    # This is ignored in the wheel_tests_and_release.yml file
+    # [[tool.cibuildwheel.overrides]]
+    # select = "*-musllinux*"
+    # before-all = "apk add fftw-dev"
+
+
+[tool.pdm]
+distribution = true
+ignore_package_warnings = ["ipython"]
+
+[tool.pdm.dev-dependencies]
+test = [
+    "pytest>=8.2.2",
+    "packaging>=24.1",
+    "scipy",
+    "dask",
+]
+dev = ["pip", "ipython"]
+doc = [
+    "sphinx>=7.3.7",
+    "scipy>=1.13.1",
+    "dask>=2024.6.2",
+]
+
+[tool.pdm.options]
+lock = ["-G", ":all"]
+
+[tool.pytest.ini_options]
+addopts = "--pdbcls=IPython.terminal.debugger:TerminalPdb"

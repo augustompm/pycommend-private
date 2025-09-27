@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(grep:*)",
+      "Bash(tree:*)",
+      "Bash(python -m pytest tests/test_preprocessor.py -v)",
+      "Bash(pip install:*)",
+      "Bash(python tests:*)",
+      "Bash(python tests/test_nsga2.py)",
+      "Bash(python:*)",
+      "WebSearch",
+      "WebFetch(domain:medium.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:pymoo.org)",
+      "Bash(find:*)",
+      "Bash(awk:*)",
+      "Bash(git init:*)",
+      "Bash(git config:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git remote add:*)",
+      "Bash(git push:*)",
+      "WebFetch(domain:www.researchgate.net)",
+      "WebFetch(domain:esa.github.io)",
+      "Bash(xargs rm:*)",
+      "Bash(chmod:*)",
+      "Bash(bash:*)",
+      "Bash(git restore:*)",
+      "Bash(python3:*)",
+      "Bash(while read f)",
+      "Bash(head:*)",
+      "Bash(done)",
+      "Bash(cat:*)",
+      "WebFetch(domain:ideas.repec.org)",
+      "WebFetch(domain:www.nature.com)",
+      "WebFetch(domain:www.mdpi.com)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

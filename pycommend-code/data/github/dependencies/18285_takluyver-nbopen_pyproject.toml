@@ -1,0 +1,24 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "nbopen"
+authors = [{name = "Thomas Kluyver", email = "thomas@kluyver.me.uk"}]
+readme = "README.rst"
+dependencies = [
+    "notebook>=7",
+    "nbformat",
+]
+requires-python = ">=3.5"
+classifiers = [
+    "License :: OSI Approved :: BSD License", "Programming Language :: Python :: 3",
+    "Framework :: Jupyter",
+]
+dynamic = ["version", "description"]
+
+[project.urls]
+Source = "https://github.com/takluyver/nbopen"
+
+[project.scripts]
+nbopen = "nbopen:main"

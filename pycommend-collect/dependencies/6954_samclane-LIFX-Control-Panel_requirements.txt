@@ -1,0 +1,10 @@
+keyboard
+mouse
+Pillow
+git+https://github.com/samclane/lifxlan@master#egg=lifxlan
+numexpr
+numpy
+mss
+pystray
+pywin32
+# pyaudio

@@ -1,0 +1,7 @@
+keras
+numpy
+cmake
+dlib
+opencv-python
+imutils
+face_recognition

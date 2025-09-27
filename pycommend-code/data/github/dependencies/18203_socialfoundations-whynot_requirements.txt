@@ -1,0 +1,10 @@
+-e .
+
+black
+matplotlib
+jupyter
+pre-commit
+pydocstyle
+pytest
+sphinx
+sphinxcontrib-bibtex

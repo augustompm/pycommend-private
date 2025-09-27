@@ -1,0 +1,3 @@
+gatt>=0.2.7
+pyyaml
+paho-mqtt

@@ -1,0 +1,5 @@
+numpy
+scipy
+networkx>=2.4,<3
+ase
+versioneer

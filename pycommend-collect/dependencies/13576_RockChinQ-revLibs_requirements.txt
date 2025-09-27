@@ -1,0 +1,8 @@
+revChatGPT~=6.8.6
+EdgeGPT~=0.13.2
+hugchat
+requests
+claude-api
+bardapi
+g4f==0.1.9.3
+PyExecJS

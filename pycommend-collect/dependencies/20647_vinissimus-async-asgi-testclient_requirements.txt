@@ -1,0 +1,2 @@
+multidict>=4.0,<7.0
+requests~=2.21

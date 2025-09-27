@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "storyteller-core"
+version = "0.0.4"
+description = "Multimodal AI Story Teller, built with Stable Diffusion, GPT, and neural text-to-speech"
+authors = ["Jaesung Tae <jaesungtae@gmail.com>"]
+readme = "README.md"
+license = "MIT"
+packages = [{include = "storyteller", from = "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.11"
+nltk = "^3.8.1"
+soundfile = ">=0.12.1"
+tts = ">=0.16.5"
+diffusers = "^0.11.1"
+transformers = "^4.25.1"
+pre-commit = {version = "^2.21.0", extras = ["dev"]}
+accelerate = "^0.22.0"
+protobuf = "^4.24.2"
+
+[tool.poetry.scripts]
+storyteller = "storyteller.cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

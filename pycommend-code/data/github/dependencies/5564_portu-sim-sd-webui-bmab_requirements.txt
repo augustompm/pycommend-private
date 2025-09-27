@@ -1,0 +1,9 @@
+segment_anything
+segment_anything_hq
+ultralytics
+pillow
+
+basicsr==1.4.2
+kornia
+omegaconf
+numpy

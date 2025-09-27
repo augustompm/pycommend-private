@@ -1,0 +1,49 @@
+[tool.poetry]
+name = "theine"
+version = "0.4.4"
+description = "high performance in-memory cache"
+authors = ["Yiling-J <njjyl723@gmail.com>"]
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+license = "BSD-3-Clause"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+typing-extensions = "^4.4.0"
+theine-core = "^0.4.5"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.1"
+pytest-benchmark = "^4.0.0"
+typing-extensions = "^4.4.0"
+mypy = "^1.11.1"
+django = "^4.2"
+pytest-django = "^4.5.2"
+pytest-asyncio = "^0.20.3"
+cachetools = "^5.3.0"
+types-cachetools = "^5.3.0.0"
+isort = "^5.5.0"
+py-spy = "^0.3.14"
+cacheout = "^0.14.1"
+bounded-zipf = "^1.0.0"
+django-stubs = "^5.0.2"
+
+[tool.mypy]
+strict = true
+plugins = ["mypy_django_plugin.main", ]
+exclude = [
+    "benchmarks",
+    "tests"
+]
+
+[tool.django-stubs]
+django_settings_module = 'tests.adapters.settings.theine'
+strict_settings = false
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,7 @@
+librosa
+gradio>=3.50.2, <4.0.0
+numpy
+soundfile
+torchaudio
+transformers
+openai-whisper

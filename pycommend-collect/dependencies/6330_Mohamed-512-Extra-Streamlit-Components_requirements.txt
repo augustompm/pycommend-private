@@ -1,0 +1,2 @@
+streamlit>=1.18.0
+extra_streamlit_components~=0.1.3

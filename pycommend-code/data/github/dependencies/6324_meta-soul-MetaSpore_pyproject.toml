@@ -1,0 +1,73 @@
+#
+# Copyright 2022 DMetaSoul
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "metaspore"
+version = "1.2.0"
+description = "Metaspore: A Unified End-to-end Machine Intelligence Platform"
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["training", "ai", "machinelearning", "deeplearning", "pytorch", "spark", "pyspark"]
+license = {text = "Apache-2.0"}
+authors = [{name = "DMetaSoul"}, {email = "opensource@dmetasoul.com"}]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+dependencies = [
+    'numpy',
+    'pandas',
+    'findspark~=2.0.1',
+    'cloudpickle~=2.1.0',
+    'nest-asyncio~=1.6.0',
+    'attrs~=23.2.0',
+    'cattrs~=23.2.3',
+    'PyYAML',
+    'tabulate~=0.8.10',
+    'pyarrow==7.0.0',
+    'botocore',
+    'boto3',
+    'awscli',
+    'awscli-plugin-endpoint',
+    'fsspec[s3]',
+    's3fs',
+    'requests'
+]
+
+[project.urls]
+repository = "https://github.com/meta-soul/MetaSpore"
+
+[tool.setuptools.packages.find]
+where = ["python"]
+include = ["metaspore*", "ps"]
+
+[tool.cibuildwheel]
+manylinux-x86_64-image = "dmetasoul/py-wheel-env-manylinux2014:v1.2.0"
+build = "*-manylinux_x86_64"
+skip = ["cp36-*", "cp37-*", "cp311-*", "cp312-*", "pp*"]
+
+[tool.cibuildwheel.linux]
+before-all = "pushd /opt/_internal && tar -xJf static-libs-for-embedding-only.tar.xz && popd"
+before-build = "python -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/ && python -m pip config set globa.extra-index-url 'https://pypi.tuna.tsinghua.edu.cn/simple/ https://pypi.org/simple/' && python -m pip install 'grpcio[protobuf]==1.47.2' pyarrow==7.0.0 numpy --no-cache-dir && rm -rf /opt/metaspore-build-release/ && cmake -B /opt/metaspore-build-release -S {project} -DCMAKE_PREFIX_PATH=/opt/vcpkg_installed/x64-linux -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_TESTS=OFF -DBUILD_SERVING_BIN=OFF -DBUILD_TRAIN_PKG=ON && cmake --build /opt/metaspore-build-release --target metaspore_shared -- -j`nproc`"
+
+[tool.cibuildwheel.linux.environment]
+_METASPORE_SO = "/opt/metaspore-build-release/_metaspore.so"

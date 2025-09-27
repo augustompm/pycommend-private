@@ -1,0 +1,10 @@
+requests
+Pillow
+ansicolors
+colorama>=0.4.6
+numpy
+pysocks
+stem
+tflite-runtime[auto-captcha];python_version < '3.10'
+tensorflow[auto-captcha];python_version >= '3.10'
+cloudscraper

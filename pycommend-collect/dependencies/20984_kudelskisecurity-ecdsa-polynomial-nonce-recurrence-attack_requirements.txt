@@ -1,0 +1,7 @@
+scapy
+pycryptodome
+ecdsa
+bitcoinlib
+eth_keys
+coincurve
+gmpy2

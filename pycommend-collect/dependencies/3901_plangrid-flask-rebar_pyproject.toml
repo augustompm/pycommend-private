@@ -1,0 +1,37 @@
+[tool.black]
+exclude = '''
+/(
+    \.pytest_cache
+  | \.git
+  | \.venv
+)/
+'''
+
+[tool.mypy]
+exclude = ['build', 'docs', 'examples']
+disallow_untyped_defs = true
+check_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = [
+    "marshmallow_enum",
+    "marshmallow_objects",
+    "parametrize"
+]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false
+check_untyped_defs = false
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "error"
+]
+
+[build-system]
+requires = [
+    "setuptools >= 35.0.2",
+]
+build-backend = "setuptools.build_meta"

@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "pandas-bokeh"
+version = "0.6.0"
+description = "Pandas Bokeh provides a Bokeh plotting backend for Pandas and GeoPandas, similar to the already existing Visualization feature of Pandas."
+authors = ["Patrik Hlobil <patrik.hlobil@gmail.com>"]
+readme = "description.md"
+homepage = "https://patrikhlobil.github.io/Pandas-Bokeh/"
+repository = "https://github.com/PatrikHlobil/Pandas-Bokeh"
+license = "MIT"
+packages = [
+    { include = "pandas_bokeh" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Visualization"
+    ]
+
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+bokeh = ">=2.4.2,<3.0.0"
+pandas = ">=1.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.2"
+pytest-cov = "^4.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

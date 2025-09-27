@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "hekatomb"
+version = "1.5.2.3"
+description = "Python library to extract and decrypt all credentials from all domain computers"
+license = "GPL-3.0-only"
+authors = ["Processus Thief <hekatomb@thiefin.fr>"]
+maintainers = [
+    "Processus Thief <hekatomb@thiefin.fr>"
+]
+readme = "README.md"
+homepage = "https://github.com/ProcessusT/HEKATOMB"
+repository = "https://github.com/ProcessusT/HEKATOMB"
+documentation = "https://github.com/ProcessusT/HEKATOMB"
+keywords = ["hekatomb", "dpapi", "windows", "blob", "masterkey", "activedirectory", "credentials"]
+classifiers = [
+	"Topic :: System :: Systems Administration :: Authentication/Directory",
+	"Topic :: System :: Systems Administration :: Authentication/Directory :: LDAP"
+]
+packages = [
+    { include = "hekatomb", from = "src" }
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.7"
+impacket = "^0.10.0"
+dnspython = "^2.2.1"
+pycryptodomex = "^3.15.0"
+ldap3 = "^2.9"
+chardet = "^5.2.0"
+
+[tool.poetry.scripts]
+hekatomb = "hekatomb.hekatomb:main"
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/ProcessusT/HEKATOMB/issues"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+# to compile : python3 -m pyproject_installer build
+# then, upload with twine to pypi

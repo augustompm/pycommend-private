@@ -1,0 +1,341 @@
+[project]
+name = "archivebox"
+version = "0.8.6rc3"
+requires-python = ">=3.10"
+description = "Self-hosted internet archiving solution."
+authors = [{name = "Nick Sweeting", email = "pyproject.toml@archivebox.io"}]
+license = {text = "MIT"}
+readme = "README.md"
+keywords = ["internet archiving", "web archiving", "digipres", "warc", "preservation", "backups", "archiving", "web", "bookmarks", "puppeteer", "browser", "download"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Legal Industry",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Indexing/Search",
+    "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+    "Topic :: Sociology :: History",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Archiving",
+    "Topic :: System :: Archiving :: Backup",
+    "Topic :: System :: Recovery Tools",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+
+
+dependencies = [
+    ### Django libraries
+    "setuptools>=74.1.0",   # for: django 5 on python >=3.12, distutils is no longer in stdlib but django 5.1 expects distutils (TODO: check if this can be removed eventually)
+    "django>=5.1.4,<6.0",
+    "channels[daphne]>=4.1.0",
+    "django-ninja>=1.3.0",
+    "django-extensions>=3.2.3",
+    "django-huey>=1.2.1",
+    "django-huey-monitor>=0.9.0",
+    "django-signal-webhooks>=0.3.0",
+    "django-admin-data-views>=0.4.1",
+    "django-object-actions>=4.3.0",
+    "django-charid-field>=0.4",  # TODO: remove this and dedicated ABID field in favor of using KVTag for charids
+    "django-taggit==6.1.0",     # TODO: remove this in favor of KVTags only
+
+    ### State Management
+    "pluggy>=1.5.0",         # for: archivebox plugin system (abx)
+    "python-statemachine>=2.3.6",
+
+    ### CLI / Logging
+    "click>=8.1.7",          # for: nicer CLI command + argument definintions
+    "rich>=13.8.0",          # for: pretty CLI output
+    "rich-click>=1.8.4",     # for: pretty CLI command help text & output
+    "ipython>=8.27.0",       # for: archivebox shell (TODO: replace with bpython?)
+    
+    ### Host OS / System
+    "abx-pkg>=0.6.0",        # for: Binary, BinProvider, SemVer and archivebox install
+    "supervisor>=4.2.5",     # for: archivebox server starting daphne and workers
+    "psutil>=6.0.0",         # for: monitoring orchestractor,actors,workers,etc. and machine.models.Process
+    "platformdirs>=4.3.6",   # for: finding a xdg-config dir to store tmp/lib files in
+    "py-machineid>=0.6.0",   # for: machine/detect.py calculating unique machine guid
+    "atomicwrites==1.4.1",   # for: config file writes, index.json file writes, etc. (TODO: remove this deprecated lib in favor of archivebox.filestore.util/os.rename/os.replace)
+    "python-crontab>=3.2.0", # for: archivebox schedule (TODO: remove this in favor of our own custom archivebox scheduler)
+    "croniter>=3.0.3",       # for: archivebox schedule (TODO: remove this in favor of our own custom archivebox scheduler)
+    
+    ### Base Types
+    "pydantic>=2.8.0",       # for: archivebox.api (django-ninja), Binary & BinProvider (abx-pkg), archivebox.config (pydantic-settings), and archivebox.index.schema (pydantic)
+    "pydantic-settings>=2.5.2", # for: archivebox.config
+    "python-benedict[io,parse]>=0.33.2", # for: dict replacement all over the codebase to allow .attr-style access
+    "ulid-py>=1.1.0",        # TODO: remove this in favor of pure ABID / UUID4
+    "typeid-python>=0.3.1",  # TODO: remove this in favor of pure ABID / UUID4
+    "base32-crockford==0.3.0",  # TODO: remove this in favor of pure ABID / UUID4
+    "blake3>=1.0.0",         # TODO: remove this in favor of sha256 everywhere?
+    
+    ### Static Typing
+    "mypy-extensions>=1.0.0", # for: django-stubs type hints (TODO: remove in favor of pylance/pyright?)
+    "django-stubs>=5.0.4",    # for: vscode type hints on models and common django APIs
+
+    ### API clients
+    "requests>=2.32.3",      # for: fetching title, static files, headers (TODO: replace with httpx?)
+    "sonic-client>=1.0.0",
+    "pocket>=0.3.6",         # for: importing URLs from Pocket API
+
+    ### Parsers
+    "feedparser>=6.0.11",    # for: parsing pocket/pinboard/etc. RSS/bookmarks imports
+    "dateparser>=1.2.0",     # for: parsing pocket/pinboard/etc. RSS/bookmark import dates
+    "tzdata>=2024.2",        # needed for dateparser {TZ: UTC} on some systems: https://github.com/ArchiveBox/ArchiveBox/issues/1553
+    "w3lib>=2.2.1",          # used for parsing content-type encoding from http response headers & html tags
+
+    ### Main Plugin Interfaces
+    "abx>=0.1.0",
+    "abx-spec-abx-pkg>=0.1.1",
+    "abx-spec-config>=0.1.0",
+    "abx-spec-archivebox>=0.1.0",
+    "abx-spec-django>=0.1.0",
+    "abx-spec-extractor>=0.1.0",
+    "abx-spec-searchbackend>=0.1.0",
+
+    ### Default Plugins
+    "abx-plugin-default-binproviders>=2024.10.24",
+    "abx-plugin-pip>=2024.10.24",
+    "abx-plugin-npm>=2024.10.24",
+    "abx-plugin-playwright>=2024.10.24",
+    "abx-plugin-puppeteer>=2024.10.28",
+    "abx-plugin-ripgrep-search>=2024.10.28",
+    "abx-plugin-sqlitefts-search>=2024.10.28",
+    "abx-plugin-sonic-search>=2024.10.28",
+    "abx-plugin-ldap-auth>=2024.10.28",
+    "abx-plugin-curl>=2024.10.27",
+    "abx-plugin-wget>=2024.10.28",
+    "abx-plugin-git>=2024.10.28",
+    "abx-plugin-chrome>=2024.10.28",
+    "abx-plugin-ytdlp>=2024.10.28",
+    "abx-plugin-title>=2024.10.27",
+    "abx-plugin-favicon>=2024.10.27",
+    # "abx-plugin-headers>=2024.10.27",
+    "abx-plugin-archivedotorg>=2024.10.28",
+    "abx-plugin-singlefile>=2024.10.28",
+    "abx-plugin-readability>=2024.10.28",
+    "abx-plugin-mercury>=2024.10.28",
+    "abx-plugin-htmltotext>=2024.10.28",
+    # TODO: add gallery-dl
+    # TODO: add forum-dl
+]
+
+[project.optional-dependencies]
+sonic = [
+    # sonic client lib now included by default, sonic group is now a no-op:
+    # "sonic-client>=1.0.0",
+
+    # to use sonic make sure you have a sonic server running in docker (archivebox/sonic) or locally:
+    # echo "deb [signed-by=/usr/share/keyrings/valeriansaliou_sonic.gpg] https://packagecloud.io/valeriansaliou/sonic/debian/ bookworm main" > /etc/apt/sources.list.d/valeriansaliou_sonic.list
+    # curl -fsSL https://packagecloud.io/valeriansaliou/sonic/gpgkey | gpg --dearmor -o /usr/share/keyrings/valeriansaliou_sonic.gpg
+    # apt install sonic
+]
+ldap = [
+    # python-ldap depends on the openldap bindings which provide no prebuilt wheels becuase they link against tons of other system packages
+    # apt install build-essential python3-dev python3-ldap libsasl2-dev libldap2-dev libssl-dev
+    "python-ldap>=3.4.3",
+    "django-auth-ldap>=4.1.0",
+]
+debug = [
+    # packages needed for running with DEBUG=True
+    "django-debug-toolbar>=4.4.6",
+    "djdt_flamegraph>=0.2.13",
+    "ipdb>=0.13.13",
+    "requests-tracker>=0.3.3",
+    "django-autotyping>=0.5.1",
+]
+all = [
+    "archivebox[sonic,ldap,debug]"
+]
+
+[tool.uv]
+environments = ["sys_platform == 'darwin'", "sys_platform == 'linux'"]
+package = true
+# compile-bytecode = true
+dev-dependencies = [
+    ### BUILD
+    "uv>=0.4.26",
+    "pip>=24.2",
+    "setuptools>=75.1.0",
+    "wheel>=0.44.0",
+    "bumpver>=2023.1129",
+    #"homebrew-pypi-poet>=0.10.0", # for: generating archivebox.rb brewfile list of python packages
+    ### DOCS
+    "recommonmark>=0.7.1",
+    "sphinx>=8.1.3",
+    "sphinx-rtd-theme>=2.0.0",
+    "myst-parser>=4.0.0",
+    "sphinx-autodoc2>=0.5.0",
+    "linkify-it-py>=2.0.3",
+    ### DEBUGGING
+    "django-debug-toolbar>=4.4.6",
+    "requests-tracker>=0.3.3",
+    "djdt_flamegraph>=0.2.13",
+    "ipdb>=0.13.13",
+    "logfire[django]>=0.51.0",
+    "opentelemetry-instrumentation-django>=0.47b0",
+    "opentelemetry-instrumentation-sqlite3>=0.47b0",
+    "viztracer>=0.17.0",                               # usage: viztracer ../.venv/bin/archivebox manage check
+    # "snakeviz",                                      # usage: python -m cProfile -o flamegraph.prof ../.venv/bin/archivebox manage check
+    ### TESTING
+    "pytest>=8.3.3",
+    "bottle>=0.13.1",
+    ### LINTING
+    "ruff>=0.6.6",
+    "flake8>=7.1.1",
+    "mypy>=1.11.2",
+]
+
+[tool.uv.sources]
+# abx-pkg = { workspace = true }
+
+abx = { workspace = true }
+abx-spec-abx-pkg = { workspace = true }
+abx-spec-config = { workspace = true }
+abx-spec-archivebox = { workspace = true }
+abx-spec-django = { workspace = true }
+abx-spec-extractor = { workspace = true }
+abx-spec-searchbackend = { workspace = true }
+
+abx-plugin-default-binproviders = { workspace = true }
+abx-plugin-pip = { workspace = true }
+abx-plugin-npm = { workspace = true }
+abx-plugin-playwright = { workspace = true }
+abx-plugin-puppeteer = { workspace = true }
+abx-plugin-ripgrep-search = { workspace = true }
+abx-plugin-sqlitefts-search = { workspace = true }
+abx-plugin-sonic-search = { workspace = true }
+abx-plugin-ldap-auth = { workspace = true }
+
+abx-plugin-curl = { workspace = true }
+abx-plugin-wget = { workspace = true }
+abx-plugin-git = { workspace = true }
+abx-plugin-chrome = { workspace = true }
+abx-plugin-ytdlp = { workspace = true }
+
+abx-plugin-title = { workspace = true }
+abx-plugin-favicon = { workspace = true }
+# abx-plugin-headers = { workspace = true }
+abx-plugin-archivedotorg = { workspace = true }
+
+abx-plugin-singlefile = { workspace = true }
+abx-plugin-readability = { workspace = true }
+abx-plugin-mercury = { workspace = true }
+abx-plugin-htmltotext = { workspace = true }
+
+
+[tool.uv.workspace]
+members = ["archivebox/pkgs/*"]
+exclude = ["archivebox/pkgs/__pycache__"]
+
+[tool.uv.pip]
+python-version = "3.11"
+# compile-bytecode = true
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+# https://github.com/astral-sh/uv/issues/3957
+
+[tool.setuptools]
+packages = ["archivebox"]
+package-dir = {"archivebox" = "archivebox"}
+
+[tool.ruff]
+line-length = 140
+target-version = "py310"
+src = ["archivebox"]
+exclude = ["*.pyi", "typings/", "migrations/"]
+
+# https://docs.astral.sh/ruff/rules/
+[tool.ruff.lint]
+ignore = ["E731", "E303", "E266", "E241", "E222"]
+
+[tool.pytest.ini_options]
+testpaths = [ "tests" ]
+
+[tool.mypy]
+mypy_path = "archivebox,archivebox/typings"
+namespace_packages = true
+explicit_package_bases = true
+# follow_imports = "silent"
+# ignore_missing_imports = true
+# disallow_incomplete_defs = true
+# disallow_untyped_defs = true
+# disallow_untyped_decorators = true
+# exclude = "tests/.*"
+plugins = ["mypy_django_plugin.main"]
+
+[tool.django-stubs]
+django_settings_module = "core.settings"
+
+[tool.pyright]
+include = [
+    "archivebox",
+]
+exclude = [
+    ".venv",
+    "**/*.pyi",
+    "**/__init__.pyi",
+    "**/node_modules",
+    "**/__pycache__",
+    "**/migrations",
+]
+stubPath = "./archivebox/typings"
+venvPath = "."
+venv = ".venv"
+# ignore = ["src/oldstuff"]
+# defineConstant = { DEBUG = true }
+reportMissingImports = true
+reportMissingTypeStubs = false
+pythonVersion = "3.10"
+pythonPlatform = "Linux"
+
+
+[project.scripts]
+archivebox = "archivebox.cli:main"
+
+
+[project.urls]
+Homepage = "https://github.com/ArchiveBox/ArchiveBox"
+Source = "https://github.com/ArchiveBox/ArchiveBox"
+Documentation = "https://github.com/ArchiveBox/ArchiveBox/wiki"
+"Bug Tracker" = "https://github.com/ArchiveBox/ArchiveBox/issues"
+Changelog = "https://github.com/ArchiveBox/ArchiveBox/releases"
+Roadmap = "https://github.com/ArchiveBox/ArchiveBox/wiki/Roadmap"
+Community = "https://github.com/ArchiveBox/ArchiveBox/wiki/Web-Archiving-Community"
+Demo = "https://demo.archivebox.io"
+Donate = "https://github.com/ArchiveBox/ArchiveBox/wiki/Donations"
+
+
+
+[tool.bumpver]
+current_version = "v0.8.5rc53"
+version_pattern = "vMAJOR.MINOR.PATCH[PYTAGNUM]"
+commit_message = "bump version {old_version} -> {new_version}"
+tag_message = "{new_version}"
+tag_scope = "default"
+pre_commit_hook = ""
+post_commit_hook = ""
+commit = true
+tag = true
+push = true
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+    'current_version = "{version}"',
+    'version = "{pep440_version}"',
+]

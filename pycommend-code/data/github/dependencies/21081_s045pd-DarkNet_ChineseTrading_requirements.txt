@@ -1,0 +1,12 @@
+ddddocr==1.0.6
+moment==0.8.2
+requests_html==0.10.0
+requests[socks]
+peewee==3.13.1
+imgcat==0.4.0
+stem==1.8.0
+PyMySQL==0.9.3
+telepot==12.7
+termcolor==1.1.0
+retry==0.9.2
+nudepy

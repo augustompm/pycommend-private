@@ -1,0 +1,54 @@
+[tool.poetry]
+name = "dnschef-ng"
+version = "0.7.2"
+description = "A highly configurable DNS proxy for Penetration Testers and Malware Analysts"
+authors = ["iphelix <iphelix@thesprawl.org>","byt3bl33d3r <byt3bl33d3r@pm.me>"]
+readme = "README.md"
+license = "BSD-3-Clause"
+packages = [{include = "dnschef"}]
+classifiers = [
+    "Environment :: Console",
+    "Programming Language :: Python :: 3",
+    "Topic :: Security",
+]
+exclude = ["tests"]
+
+[tool.poetry.scripts]
+dnschef = 'dnschef.__main__:main'
+dnschef-ng = 'dnschef.__main__:main'
+
+[tool.poetry.dependencies]
+python = "^3.11"
+dnslib = "^0.9.23"
+rich = "^13.5.3"
+structlog = "^23.1.0"
+fastapi = { version = "^0.103.1", optional = true }
+uvicorn = { version = "^0.23.2", optional = true }
+pydantic-settings = { version = "^2.0.3", optional = true }
+
+[tool.poetry.extras]
+api = ["fastapi", "uvicorn", "pydantic-settings"]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.2"
+pytest-asyncio = "^0.21.1"
+poetry-plugin-export = "^1.6.0"
+ruff = "^0.1.6"
+dnspython = "^2.4.2"
+pytest-cov = "^4.1.0"
+httpx = "^0.25.1"
+
+[tool.pytest.ini_options]
+addopts = "--cov=dnschef"
+log_cli = false
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+filterwarnings = [
+    # note the use of single quote below to denote "raw" strings in TOML
+    'ignore:`general_plain_validator_function` is deprecated',
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

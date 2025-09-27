@@ -1,0 +1,136 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.setuptools.packages.find]
+where = ["pyms/"]
+
+[tool.poetry]
+name = "py-ms"
+packages = [
+    {include = "pyms"}
+]
+version = "2.9.0rc1"
+description = "Library of utils to create REST Python Microservices"
+readme = "README.md"
+homepage = "https://python-microservices.github.io/"
+documentation = "https://python-microservices.github.io/"
+repository = "https://github.com/python-microservices/pyms/"
+license = "GPL-3.0-only"
+authors = ["avara1986 <a.vara.1986@gmail.com>"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: Flask",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+flask = "<=2.3.3"
+werkzeug = "<=2.3.8"
+python-json-logger = ">=2.0.0"
+pyyaml = ">=6.0.1"
+anyconfig = ">=0.14.0"
+cryptography = ">=42.0.7"
+requests = { version = "^2.26.0", optional = true }
+boto3 = { version = "^1.18.36", optional = true }
+connexion = { version = "<=3.0.6", extras=["flask"], optional = true }
+swagger-ui-bundle = { version = "^1.1.0", optional = true }
+prance = { version = "^23.6.21.0", optional = true }
+openapi-spec-validator = { version = "^0.7.1", optional = true }
+#jaeger-client = { version = "^4.6.1", optional = true }
+#Flask-OpenTracing = { version = "^1.1.0", optional = true }
+#opentracing = { version = "^2.4.0", optional = true }
+#opentracing-instrumentation = { version = "^3.3.1", optional = true }
+prometheus-client = { version = "^0.11.0", optional = true }
+py-ms-consulate = { version = "^1.0.0", optional = true }
+
+[tool.poetry.dev-dependencies]
+pytest = "^8.2.1"
+requests-mock = "^1.9.3"
+coverage = "^7.5.1"
+pytest-cov = "^5.0.0"
+pylint = "^3.2.2"
+flake8 = "^5.0.4"
+tox = "^4.15.0"
+bandit = "^1.7.0"
+mkdocs = "^1.6.0"
+lightstep = "^4.4.8"
+safety = "^3.2.0"
+mypy = "^1.10.0"
+build = "^1.1.0"
+pre-commit = "^2.14.0"
+wrapt = "1.12.1"
+
+[tool.poetry.extras]
+requests = [
+    "requests",
+]
+aws = [
+    "boto3",
+]
+swagger = [
+    "connexion",
+    "swagger-ui-bundle",
+    "semver",
+    "prance",
+    "openapi-spec-validator",
+]
+traces = [
+    "jaeger-client",
+    "flask-opentracing",
+    "opentracing",
+    "opentracing-instrumentation",
+]
+metrics = [
+    "prometheus_client",
+]
+consul = [
+    "py-ms-consulate",
+]
+
+all = [
+    "requests",
+    "boto3",
+    "connexion",
+    "swagger-ui-bundle",
+    "semver",
+    "prance",
+    "openapi-spec-validator",
+    "jaeger-client",
+    "flask-opentracing",
+    "opentracing",
+    "opentracing-instrumentation",
+    "prometheus_client",
+    "py-ms-consulate",
+]
+
+[tool.black]
+line-length = 120
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''

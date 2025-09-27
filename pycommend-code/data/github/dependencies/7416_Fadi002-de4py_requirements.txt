@@ -1,0 +1,10 @@
+requests
+eel
+eel[jinja2]
+psutil
+pyinstaller
+py2exe
+pycryptodome
+colorama
+xdis
+pypresence

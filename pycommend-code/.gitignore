@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Large Data Files (>100MB) - GitHub limit
+data/package_similarity_matrix_10k.pkl
+data/PyPI/dependencies_10000.json
+data/PyPI/top_10000_packages.json
+
+# Medium Data Files (10-50MB) - Optional exclusion
+# Uncomment if repo size is a concern
+# data/package_embeddings_10k.pkl
+# data/package_relationships_10k.pkl
+
+# Temporary files
+temp/
+*.tmp
+*.log
+
+# Results (can be regenerated)
+results/*.csv
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Documentation builds
+docs/_build/
+docs/_static/
+docs/_templates/

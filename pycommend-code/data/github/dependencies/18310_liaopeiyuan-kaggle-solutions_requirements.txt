@@ -1,0 +1,10 @@
+keras
+tensorflow-gpu
+torch
+torchvision
+tensorboard
+Pillow
+opencv-python
+pandas
+matplotlib
+numpy

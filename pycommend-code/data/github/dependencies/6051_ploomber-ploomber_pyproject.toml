@@ -1,0 +1,16 @@
+[tool.black]
+extend-exclude = "ploomber_add"
+
+[tool.pytest.ini_options]
+addopts = "--pdbcls=IPython.terminal.debugger:Pdb"
+
+[tool.pkgmt]
+github = "ploomber/ploomber"
+
+[tool.pkgmt.check_links]
+extensions = ["rst", "py", "md", "ipynb"]
+ignore_substrings = ["snowflakecomputing.com",
+                     "https://github.com/jupyter/notebook",
+                     "{your-user}",
+                     "{version}",
+                     "marketplace.visualstudio.com"]

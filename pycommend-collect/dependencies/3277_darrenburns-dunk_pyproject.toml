@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "dunk"
+version = "0.4.0a0"
+description = "Beautiful side-by-side diffs"
+authors = ["Darren Burns <darrenb900@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+unidiff = "^0.7.3"
+rich = "^12.1.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.1"
+black = "^22.3.0"
+mypy = "^0.942"
+
+[tool.poetry.scripts]
+dunk = "dunk.dunk:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

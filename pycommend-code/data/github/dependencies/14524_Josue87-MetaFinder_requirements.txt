@@ -1,0 +1,8 @@
+requests
+pikepdf
+beautifulsoup4
+openpyxl
+python-docx
+python-pptx
+prompt-toolkit
+urllib3

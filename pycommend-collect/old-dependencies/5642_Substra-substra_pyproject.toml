@@ -1,0 +1,81 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+exclude = ["tests*"]
+
+[tool.hatch.version]
+path = "substra/__version__.py"
+
+[project]
+name = "substra"
+description = "Low-level Python library for interacting with a Substra network"
+dynamic = ["version"]
+readme = "README.md"
+requires-python = ">= 3.10"
+dependencies = [
+    "requests!=2.32.*",
+    "docker",
+    "pyyaml",
+    "pydantic>=2.3.0,<3.0.0",
+    "tqdm",
+    "python-slugify",
+]
+keywords = ["substra"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Topic :: Utilities",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+license = { file = "LICENSE" }
+authors = [{ name = "Owkin, Inc." }]
+
+
+[project.optional-dependencies]
+dev = [
+    "pandas",
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
+    "substratools~=1.0.0",
+    "black",
+    "flake8",
+    "isort",
+    "docstring_parser",
+    "towncrier",
+]
+
+[project.urls]
+Documentation = "https://docs.substra.org/en/stable/"
+Repository = "https://github.com/Substra/substra"
+Changelog = "https://github.com/Substra/substra/blob/main/CHANGELOG.md"
+
+[tool.pytest.ini_options]
+addopts = "-v --cov=substra --ignore=tests/unit --ignore=tests/e2e"
+
+[tool.black]
+line-length = 120
+target-version = ['py39']
+
+[tool.isort]
+filter_files = true
+force_single_line = true
+line_length = 120
+profile = "black"
+
+[tool.towncrier]
+directory = "changes"
+filename = "CHANGELOG.md"
+start_string = "<!-- towncrier release notes start -->\n"
+underlines = ["", "", ""]
+title_format = "## [{version}](https://github.com/Substra/substra/releases/tag/{version}) - {project_date}"
+issue_format = "[#{issue}](https://github.com/Substra/substra/pull/{issue})"
+[tool.towncrier.fragment.added]
+[tool.towncrier.fragment.removed]
+[tool.towncrier.fragment.changed]
+[tool.towncrier.fragment.fixed]

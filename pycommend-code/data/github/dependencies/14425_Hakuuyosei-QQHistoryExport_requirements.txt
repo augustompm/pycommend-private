@@ -1,0 +1,11 @@
+commentjson
+emoji
+google==3.0.0
+protobuf==3.19.4
+reportlab
+requests
+Pillow
+PyQt5
+configparser
+DateTime
+javaobj-py3

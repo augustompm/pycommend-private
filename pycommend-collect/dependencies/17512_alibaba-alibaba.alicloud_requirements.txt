@@ -1,0 +1,4 @@
+collections:
+  - name: https://github.com/alibaba/alibaba.alicloud.git
+    type: git
+    branch: master

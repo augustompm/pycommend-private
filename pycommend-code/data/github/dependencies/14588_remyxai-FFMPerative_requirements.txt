@@ -1,0 +1,7 @@
+numpy
+pillow
+requests
+opencv-python
+ffprobe-python
+ffmpeg-python
+soundfile

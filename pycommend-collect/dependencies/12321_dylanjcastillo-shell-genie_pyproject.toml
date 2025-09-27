@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "shell-genie"
+version = "0.2.10"
+description = "Shell Genie is a command-line tool that lets you interact with the terminal in plain English. You ask the genie what you want to do and it will give you the command you need."
+authors = ["Dylan Castillo <dylanjcastillo@gmail.com>"]
+readme = "README.md"
+packages = [{include = "shell_genie"}]
+license = "MIT"
+
+[tool.poetry.scripts]
+shell-genie = "shell_genie.main:app"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+typer = {extras = ["all"], version = "^0.7.0"}
+openai = ">=0.26.0,<1.0.0"
+pyperclip = "^1.8.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.12.0"
+flake8 = "^6.0.0"
+isort = "^5.11.4"
+pytest = "^7.2.1"
+ipykernel = "^6.20.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

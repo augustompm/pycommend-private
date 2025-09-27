@@ -1,0 +1,9 @@
+pip==21
+setuptools==65.5.0
+stable-baselines3==1.7.0
+gym==0.21.0
+numpy==1.26.0
+pygame==2.5.1
+shimmy==1.2.1
+wandb==0.15.10
+tensorboard==2.14.0

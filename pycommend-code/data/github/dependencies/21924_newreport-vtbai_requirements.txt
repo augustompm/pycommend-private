@@ -1,0 +1,8 @@
+openai
+torchvision
+pyaudio
+xlrd
+xlwt
+xlutils
+flask
+flask_cors

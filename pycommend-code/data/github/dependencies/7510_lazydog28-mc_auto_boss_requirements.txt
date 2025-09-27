@@ -1,0 +1,15 @@
+pynput
+opencv-python
+pywin32
+pillow
+numpy==1.26.4
+setuptools
+pyyaml
+pydantic
+onnxruntime-gpu
+paddlepaddle-gpu
+paddleocr<2.8.0
+colorama
+requests
+pyautogui==0.9.50
+psutil

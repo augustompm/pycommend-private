@@ -1,0 +1,81 @@
+[project]
+name = "codeinterpreterapi"
+version = "0.1.20"
+description = "CodeInterpreterAPI is an (unofficial) open source python interface for the ChatGPT CodeInterpreter."
+authors = [{ name = "Shroominic", email = "contact@shroominic.com" }]
+dependencies = [
+    "langchain>=0.1, <0.2",
+    "langchain_openai",
+    "codeboxapi==0.1.19",
+    "pyzmq==25.1.2",
+]
+license = { file = "LICENSE" }
+readme = "README.md"
+requires-python = ">= 3.9.7, <3.13"
+keywords = [
+    "codeinterpreter",
+    "chatgpt",
+    "codeinterpreterapi",
+    "api",
+    "langchain",
+    "codeboxapi",
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.urls]
+Code = "https://github.com/shroominic/codeinterpreter-api"
+Docs = "https://shroominic.github.io/codeinterpreter-api"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "ruff",
+    "mypy",
+    "isort",
+    "pytest",
+    "ipython",
+    "pre-commit",
+    "codeinterpreterapi[all]",
+    "mkdocs-material>=9.4",
+]
+
+[project.optional-dependencies]
+localbox = ["codeboxapi[local_support]"]
+frontend = ["streamlit"]
+image_support = ["codeboxapi[image_support]"]
+all = ["codeboxapi[all]", "codeinterpreterapi[frontend]"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.pytest.ini_options]
+addopts = "-p no:warnings"
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+line_length = 120
+
+[tool.flake8]
+max-line-length = 120
+
+[tool.mypy]
+ignore_missing_imports = true
+disallow_untyped_defs = true
+disallow_untyped_calls = true
+disallow_incomplete_defs = true
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

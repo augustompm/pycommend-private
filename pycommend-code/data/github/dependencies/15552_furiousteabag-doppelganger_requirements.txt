@@ -1,0 +1,13 @@
+scipy
+torch
+transformers
+peft
+accelerate
+bitsandbytes
+trl
+datasets
+sentencepiece
+wandb
+loguru
+tqdm
+fire

@@ -1,0 +1,13 @@
+alive-progress
+click
+numpy
+tiktoken==0.3.0
+pinecone-client==2.2.1
+result
+pytest
+scikit-learn
+tqdm
+traitlets
+anthropic
+aiohttp
+termcolor

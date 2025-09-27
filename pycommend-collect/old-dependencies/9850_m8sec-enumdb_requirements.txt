@@ -1,0 +1,4 @@
+openpyxl
+pymssql
+ipparser
+mysqlclient

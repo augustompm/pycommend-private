@@ -1,0 +1,4 @@
+requests
+configargparse
+configparser
+botocore

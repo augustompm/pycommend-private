@@ -1,0 +1,104 @@
+[build-system]
+requires = ["setuptools", "wheel", "setuptools_scm[toml]", "Cython", "numpy>=2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wordllama"
+dynamic = ["version"]
+description = "WordLlama NLP Utility"
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { file = "LICENSE" }
+requires-python = ">=3.8"
+authors = [{ name = "Lee Miller", email = "dleemiller@gmail.com" }]
+dependencies = [
+  "numpy>=2",
+  "safetensors",
+  "tokenizers",
+  "toml",
+  "pydantic>=2",
+  "requests"
+]
+
+[project.optional-dependencies]
+train = [
+  "accelerate",
+  "torch>=2",
+  "transformers>=4",
+  "sentence-transformers",
+  "datasets",
+  "nltk",
+]
+
+[project.urls]
+Homepage = "https://github.com/dleemiller"
+Repository = "https://github.com/dleemiller/WordLlama"
+
+[tool.setuptools]
+include-package-data = true  # Ensures non-code files are included in the package
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["wordllama*"]
+
+[tool.setuptools.package-data]
+wordllama = [
+    "algorithms/*.so",          # Compiled shared libraries
+    "algorithms/*.pyd",         # Compiled Python extensions for Windows
+    "algorithms/*.pyx",         # Cython source files
+    "algorithms/*.pxd",         # Cython declaration files
+    "**/*.pyx",                 # Catch any other *.pyx files
+    "**/*.pxd",                 # Catch any other *.pxd files
+    "**/*.toml",                # TOML configuration files
+    "tokenizers/*.json",        # Tokenizer JSON configuration files
+    "weights/*.safetensors"     # Model weights
+]
+
+[tool.setuptools.dynamic]
+classifiers = { file = "classifiers.txt" }
+
+[tool.setuptools_scm]
+write_to = "wordllama/_version.py"
+version_scheme = "post-release"
+local_scheme = "no-local-version"
+
+[tool.cibuildwheel]
+archs = ["x86_64", "arm64"]
+test-command = """
+python -c "import wordllama; print(wordllama.__version__); \
+from wordllama import WordLlama, Config, WordLlamaConfig; \
+wl = WordLlama.load(); \
+similarity_score = wl.similarity(\\"i went to the car\\", \\"i went to the pawn shop\\"); \
+print(similarity_score);"
+"""
+
+[tool.cibuildwheel.macos]
+# before-all = """
+# brew install openblas libomp llvm
+# 
+# # Create a NumPy site.cfg so that it detects your Homebrew-installed OpenBLAS
+# cat > ~/.numpy-site.cfg <<EOF
+# [openblas]
+# libraries = openblas
+# library_dirs = /usr/local/opt/openblas/lib
+# include_dirs = /usr/local/opt/openblas/include
+# runtime_library_dirs = /usr/local/opt/openblas/lib
+# EOF
+# 
+# # Use Homebrew's Clang/Clang++
+# export CC=/usr/local/opt/llvm/bin/clang
+# export CXX=/usr/local/opt/llvm/bin/clang++
+# export PATH="/usr/local/opt/llvm/bin:$PATH"
+# 
+# # Add necessary flags for libomp
+# export CXXFLAGS="$CXXFLAGS -Xclang -fopenmp -I/usr/local/opt/libomp/include -I/usr/local/opt/openblas/include"
+# export LDFLAGS="$LDFLAGS -L/usr/local/opt/libomp/lib -L/usr/local/opt/openblas/lib -lomp"
+# """
+
+[tool.cibuildwheel.windows]
+before-all = """
+python -m ensurepip
+python -m pip install --upgrade pip
+"""
+
+[tool.ruff]
+ignore = ["E501"]

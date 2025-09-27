@@ -1,0 +1,15 @@
+tensorflow==2.6.2 
+pandas
+numpy
+ray[default]==2.1.0 
+ray[rllib]==2.1.0 
+ray[tune]==2.1.0 
+attrs==19.1.0 
+gym
+lxml
+pillow
+jupyter==1.0.0
+yaml-config-wrapper==1.0.4
+GPUtil
+--extra-index-url https://test.pypi.org/simple/
+malmo==0.36.0

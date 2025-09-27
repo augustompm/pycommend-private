@@ -1,0 +1,55 @@
+[tool.poetry]
+name = "eval"
+version = "0.1.0"
+description = ""
+authors = ["Taeho Lee <taeho@corca.ai>", "Chung Hwan Han <hanch@corca.ai>"]
+packages = [{include = "api"}]
+
+[tool.poetry.scripts]
+serve = "api.main:serve"
+dev = "api.main:dev"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.94.1"
+langchain = "^0.0.139"
+diffusers = "^0.14.0"
+pydantic = "^1.10.6"
+tenacity = "^8.2.2"
+llama-index = "0.4.29"
+python-dotenv = "^1.0.0"
+pillow = "^9.4.0"
+boto3 = "^1.26.94"
+uvicorn = "^0.21.1"
+python-ptrace = "^0.9.8"
+jinja2 = "^3.1.2"
+python-multipart = "^0.0.6"
+celery = "^5.2.7"
+redis = "^4.5.4"
+
+[tool.poetry.group.gpu]
+optional = true
+
+[tool.poetry.group.gpu.dependencies]
+torch = "^2.0.0"
+accelerate = "^0.17.1"
+transformers = {git = "https://github.com/huggingface/transformers.git", rev = "main"}
+sentencepiece = "^0.1.97"
+bitsandbytes = "^0.37.2"
+
+[tool.poetry.group.tools]
+optional = true
+
+[tool.poetry.group.tools.dependencies]
+psycopg2-binary = "^2.9.5"
+wikipedia = "^1.4.0"
+google-search-results = "^2.4.2"
+beautifulsoup4 = "^4.11.2"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

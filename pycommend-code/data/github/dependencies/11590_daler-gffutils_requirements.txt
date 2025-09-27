@@ -1,0 +1,4 @@
+pyfaidx>=0.5.5.2
+argh>=0.26.2
+argcomplete>=1.9.4
+simplejson

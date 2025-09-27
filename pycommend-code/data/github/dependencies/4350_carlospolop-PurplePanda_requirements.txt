@@ -1,0 +1,16 @@
+google-api-python-client
+pyyaml
+py2neo
+shodan
+pygithub
+kubernetes
+dnspython
+tld
+rich
+requests
+google-cloud-secret-manager==2.5.0
+validators
+concoursepy
+pycircleci
+python3-nmap
+setuptools

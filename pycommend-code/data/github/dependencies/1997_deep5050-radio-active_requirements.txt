@@ -1,0 +1,9 @@
+setuptools
+requests
+urllib3
+psutil
+pyradios==1.0.2
+requests_cache
+rich
+pick
+zenlog

@@ -1,0 +1,4 @@
+openai
+capstone
+pygments
+langchain==0.0.292

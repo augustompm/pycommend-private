@@ -1,0 +1,70 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "aishell"
+version = "0.0.0"
+description = ""
+authors = []
+readme = "README.md"
+
+[tool.pyright]
+typeCheckingMode = "strict"
+
+# Python environment settings
+pythonPlatform = "All"
+venvPath = "./.venv"
+stubPath = "./.type_stubs"
+include = ["./*"]
+exclude = ["**/node_modules", "**/__pycache__"]
+
+# For untyped modules
+useLibraryCodeForTypes = true     # Attempt to read and infer types from third-party modules if no stub files are present
+reportMissingTypeStubs = false    # Ignore errors from modules without type stubs
+reportUnknownMemberType = false   # Ignore errors from untyped function calls in third-party modules
+reportUnknownVariableType = false # Ignore errors from untyped function calls in third-party modules
+
+pythonVersion = "3.9"
+
+[tool.yapf]
+based_on_style = "pep8"
+spaces_before_comment = 2
+split_before_logical_operator = true
+column_limit = 119
+allow_split_before_dict_value = false
+
+[tool.ruff]
+line-length = 119
+select = ["PLE", "PLW", "E", "W", "F", "I", "Q"]
+
+[tool.pytest.ini_options]
+addopts = ["--cov=aishell"]
+
+
+[tool.poetry.dependencies]
+python = "^3.9"
+poetry = "^1.4.0"
+typer = { extras = ["all"], version = "^0.7.0" }
+ygka = "^2023.4.16.post1"
+revchatgptauth = "^2023.4.16"
+
+[tool.poetry.scripts]
+aishell = "aishell:main"
+
+[tool.ruff.flake8-quotes]
+inline-quotes = "single"
+docstring-quotes = "single"
+multiline-quotes = "single"
+
+[tool.poetry.group.dev.dependencies]
+toml = "^0.10.2"
+types-toml = "^0.10.8.6"
+invoke = "^2.0.0"
+types-invoke = "^2.0.0.6"
+ruff = "^0.0.261"
+yapf = "^0.32.0"
+pyright = "^1.1.302"
+pytest = "^7.2.2"
+pytest-cov = "^4.0.0"
+pytest-sugar = "^0.9.7"

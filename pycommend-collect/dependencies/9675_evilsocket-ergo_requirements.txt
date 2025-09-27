@@ -1,0 +1,9 @@
+tensorflow>2
+pandas
+scikit-learn==0.20.0
+pydot
+matplotlib
+flask
+terminaltables
+seaborn
+pyyaml

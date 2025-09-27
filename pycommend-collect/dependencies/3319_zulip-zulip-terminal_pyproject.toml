@@ -1,0 +1,208 @@
+[tool.black]
+# Default line-length, but use explicit value here since used for isort & ruff
+line-length = 88
+target-version = ['py37']
+
+[tool.coverage.run]
+branch = true
+# omit = ...
+
+[tool.coverage.report]
+exclude_lines = [
+    # Have to re-enable the standard pragma
+    "pragma: no cover",
+
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+    "if self.debug",
+
+    # Don't complain if tests don't hit defensive assertion code
+    "raise AssertionError",
+    "raise NotImplementedError",
+
+    # Don't complain if non-runnable code is not run:
+    "if 0:",
+    "if __name__ == .__main__.:",
+]
+precision = 1
+skip_covered = true
+show_missing = true
+
+[tool.typos.default.extend-identifiers]
+# See crate-ci/typos#744 and crate-ci/typos#773
+"O_WRONLY" = "O_WRONLY"
+
+[tool.typos.default.extend-words]
+# Allow iterm terminal emulator (ideally only per-file)
+"iterm" = "iterm"
+
+[tool.isort]
+py_version = 37
+# Use black for the default settings (with adjustments listed below)
+profile = "black"
+# For compatibility with 'black' we'd want to set this consistently
+line_length = 88
+atomic = true
+# This is compatible with black, but we could remove it
+lines_after_imports = 2
+
+[tool.mypy]
+python_version = 3.7
+
+# Logistics of what code to check and how to handle the data.
+# mypy_path = stubs/
+scripts_are_modules = true
+show_traceback = true
+cache_dir = ".mypy_cache"
+
+# Non-strict dynamic typing (unlikely to be enabled)
+disallow_any_unimported = false
+disallow_any_expr = false
+disallow_any_decorated = false
+disallow_any_explicit = false  # May be useful to improve checking of non-UI files
+
+# Optional handling (mypy defaults)
+no_implicit_optional = true
+strict_optional = true
+
+# Warnings (mypy defaults)
+warn_no_return = true
+
+# Misc strictness (mypy defaults)
+disallow_untyped_globals = true
+disallow_redefinition = true
+
+# Warnings not in strict
+warn_unreachable = true
+
+# Options to make the checking stricter, as included in mypy --strict
+# (in order of mypy --help docs for --strict)
+warn_unused_configs = true
+disallow_any_generics = true
+disallow_subclassing_any = false
+disallow_untyped_calls = false
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = false
+no_implicit_reexport = true  # NOTE: Disabled explicitly for tests/ in run-mypy
+strict_equality = true
+
+extra_checks = true
+
+enable_error_code = [
+    "redundant-expr",
+    "truthy-bool",
+    "truthy-iterable",
+    "ignore-without-code",
+    "unused-awaitable",  # Even if await unused, it may be in future
+]
+
+# Follow imports to look for typing information, erroring if not present
+follow_imports = "normal"
+ignore_missing_imports = false
+
+[[tool.mypy.overrides]]
+# Libraries used in main application, for which typing is unavailable
+# NOTE: When missing imports are ignored, all types are set to be Any
+module = [
+    "urwid.*",         # Minimal typing of this is in urwid_types.py
+    "urwid_readline",  # Typing this likely depends on typing urwid
+    "pyperclip",       # Hasn't been updated in some time, unlikely to be typed
+    "pudb",            # This is barely used & could be optional/dev dependency
+]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# Development-only tools, for which typing is unavailable
+module = [
+    "gitlint.*",  # This lack of typing should only impact our custom rules
+]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# Tests remaining to be typed
+module = [
+    "tests.model.test_model",
+    "tests.ui.test_ui_tools",
+    "tests.ui_tools.test_messages",
+]
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = false
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+xfail_strict = true
+addopts = "-rxXs --cov=zulipterminal --no-cov-on-fail"
+filterwarnings = [
+    # distutils: imp module is deprecated in favor of importlib
+    # * python3.6/3.7/3.8
+    "ignore::DeprecationWarning:distutils.*:",
+    # bs4: ABCs must be imported from collections.abc, not collections, from python3.9
+    # * python 3.7/3.8
+    "ignore::DeprecationWarning:bs4.*:",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py37"
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    "zt_venv",
+]
+ignore = [
+    "ANN101", # Missing type annotation for `self` in method
+    "ANN102", # Missing type annotation for `cls` in classmethod
+    "ANN401", # Dynamically typed expressions (typing.Any) are disallowed
+    "B006", # Do not use mutable data structures for argument defaults
+    "B007", # Loop control variable not used within the loop body [informative!]
+    "C408", # Unnecessary 'dict' call (rewrite as a literal)
+    "N818",  # Exception name should be named with an Error suffix
+    "PLC1901",  # Allow explicit falsey checks in tests, eg. x == "" vs not x
+    "SIM108", # Prefer ternary operator over if-else (as per zulip/zulip)
+    "UP015", # Unnecessary open mode parameters [informative?]
+]
+select = [
+    "ANN", # Annotations
+    "B", # Bugbear
+    "C4", # Comprehensions
+    "E", # Error (pycodestyle)
+    "F", # pyFlakes
+    "G", # loGging
+    "N", # Naming
+    "PGH", # PyGrep Hooks
+    "PIE", # pie (miscellaneous)
+    "PLC", # pylint convention
+    "PLE", # pylint error
+    "RSE", # RaiSE
+    "PLW", # pylint warning
+    "RUF100", # Checks noqa rules are used
+    "SIM", # SIMplify
+    "T20", # prinT present
+    "W", # Warnings (pycodestyle)
+    "UP", # pyUPgrade
+    "YTT", # Year TwentyTwenty (flake8-2020), sys.version checks
+]
+[tool.ruff.per-file-ignores]
+# ANN: We don't consider this worth typing
+"setup.py" = ["ANN"]
+# ANN: These test files are not yet typed
+"tests/model/test_model.py" = ["ANN"]
+"tests/ui/test_ui_tools.py" = ["ANN"]
+"tests/ui_tools/test_messages.py" = ["ANN"]
+# E501: Ignore length in tools for now (and otherwise where noqa specified)
+# T20: Expect print output from CLI from tools
+"tools/*" = ["E501", "T20"]
+# T20: Expect print output from CLI from run.py
+"zulipterminal/cli/run.py" = ["T20"]
+# N802: Allow upper-case in test function names, eg. for commands, such as test_keypress_ENTER
+# N803: Allow upper-case in test function argument names, eg. ZFL, API
+# N806: Allow upper-case in test function variables
+"tests/*" = ["N802", "N803", "N806"]

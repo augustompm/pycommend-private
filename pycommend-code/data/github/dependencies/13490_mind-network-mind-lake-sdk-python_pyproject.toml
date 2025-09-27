@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mindlakesdk"
+version = "v1.0.8"
+authors = [
+  { name="Mind Labs", email="biz@mindnetwork.xyz" },
+]
+description = "A Python SDK to connect to Mind Lake"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+keywords = ["web3", "encryption", "datalake"]
+dependencies = [
+    "eth_account",
+    "web3",
+    "pynacl"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/mind-network/mind-lake-sdk-python"
+"Bug Tracker" = "https://github.com/mind-network/mind-lake-sdk-python/issues"
+
+[tool.hatch.build]
+exclude = ["/examples", "/tests", "/tutorial"]

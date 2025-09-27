@@ -1,0 +1,9 @@
+transformers>=4.4.2
+loguru
+jieba
+gensim
+lxml
+tqdm
+bs4
+numpy
+nltk

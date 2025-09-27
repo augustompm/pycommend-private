@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Renate"
+description = "Library for Continual Learning for Practitioners"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+]
+requires-python = ">=3.8, <3.11"
+dynamic = ["version", "readme", "dependencies"]
+
+[project.optional-dependencies]
+avalanche = [
+    "avalanche_lib==0.3.1",
+    "torch>=1.10.0, <1.12.2",
+]
+benchmark = [
+    "wild-time-data==0.1.1",
+]
+dev = [
+    "black==24.4.2",
+    "avalanche_lib==0.3.1",
+    "wild-time-data==0.1.1",
+    "torch>=1.10.0, <1.12.2",
+    # PyTest Dependencies
+    "pytest==8.2.2",
+    "pytest-cov==5.0.0",
+    "pytest-helpers-namespace==2021.12.29",
+    ]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = {attr = "renate.__version__"}
+readme = {file = ["README.rst"]}
+dependencies = {file = ["requirements.txt"]}
+
+[tool.black]
+line-length = 100
+target-version = ["py38", "py39", "py310"]
+include = '\.pyi?$'
+
+[tool.pytest.ini_options]
+addopts = "--cov --cov-fail-under 80"
+
+[tool.coverage.run]
+source = ["src"]
+relative_files = true

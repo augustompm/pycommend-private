@@ -1,0 +1,28 @@
+[project]
+name = "llamppl"
+version = "0.0.1"
+authors = [
+  { name="Alex Lew", email="alexlew@mit.edu" },
+]
+description = "LLaMPPL: A domain-specific library for language model probabilistic programming and SMC steering."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/probcomp/llamppl"
+"Bug Tracker" = "https://github.com/probcomp/llamppl/issues"
+
+
+[build-system]
+requires = [
+    "setuptools>=42",
+    "scikit-build>=0.13",
+    "cmake>=3.18",
+    "ninja",
+]
+build-backend = "setuptools.build_meta"

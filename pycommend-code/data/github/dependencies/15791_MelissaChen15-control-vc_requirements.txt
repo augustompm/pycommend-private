@@ -1,0 +1,12 @@
+torch
+numpy
+librosa
+scipy
+tensorboard
+soundfile
+amfm_decompy
+matplotlib
+ffmpeg
+tqdm
+fairseq
+psola

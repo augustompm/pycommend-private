@@ -1,0 +1,25 @@
+rich
+tqdm
+ninja
+torch
+numpy 
+scipy
+lpips
+pandas
+PyMCubes
+torch-ema
+dearpygui
+packaging
+matplotlib
+tensorboardX
+opencv-python
+imageio
+imageio-ffmpeg
+xatlas
+scikit-learn
+torchmetrics
+trimesh
+torch_efficient_distloss
+
+# segment-anything
+git+https://github.com/facebookresearch/segment-anything.git

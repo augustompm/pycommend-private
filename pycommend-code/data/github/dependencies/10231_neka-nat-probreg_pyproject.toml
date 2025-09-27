@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "probreg"
+version = "0.3.8"
+description = "Probablistic point cloud resitration algorithms"
+authors = ["nekanat <nekanat.stock@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+pybind11 = "^2.6.2"
+six = "^1.15.0"
+scipy = "^1.6.0"
+transforms3d = "^0.4.0"
+scikit-learn = "^1.0"
+matplotlib = "^3.3.3"
+open3d = "0.18.0"
+dq3d = {version = "^0.3.6", optional = true}
+cupy = {version = "^12.0.0", optional = true}
+pyyaml = "^6.0"
+addict = "^2.4.0"
+pandas = "^2.0.0"
+
+[tool.poetry.group.dev.dependencies]
+Sphinx = "^3.4.3"
+flake8 = "^3.8.4"
+sphinx-rtd-theme = "^0.5.1"
+twine = "^3.3.0"
+setuptools = "^52.0.0"
+isort = "^5.9.3"
+black = "22.3.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "setuptools", "pybind11"]
+build-backend = "setuptools.build_meta"
+
+[tool.poetry.extras]
+experimental = ["dq3d"]
+gpu = ["cupy"]

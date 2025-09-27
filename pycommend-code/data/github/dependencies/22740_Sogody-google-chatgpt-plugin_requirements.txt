@@ -1,0 +1,8 @@
+flask
+requests
+beautifulsoup4
+lxml
+python-dotenv
+flask-cors
+gunicorn
+pyyaml

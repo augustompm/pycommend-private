@@ -1,0 +1,14 @@
+setuptools
+werkzeug
+flask
+flask-httpauth
+flask-socketio
+sqlalchemy
+requests
+decorator
+dnspython
+ipaddress
+simpleeval
+pyyaml
+argon2
+eventlet

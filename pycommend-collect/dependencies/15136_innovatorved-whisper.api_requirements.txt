@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+sqlalchemy
+psycopg2-binary
+pytest
+pytest-cov
+faker
+requests-mock
+passlib
+httpx
+PyJWT
+python-multipart
+gdown
+pydantic-settings

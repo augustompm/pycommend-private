@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "openlogprobs"
+version = "0.0.0"
+description = "Logprob estimation from LLM APIs"
+authors = ["Justin Chiu <chiu.justin.t@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+numpy = "*"
+pyparsing = "*"
+tqdm = "*"
+tiktoken = "*"
+tokenizers = ">=0.13.3"
+openai = "*"
+tenacity = "*"
+scipy = "*"
+datasets = "*"
+pytest = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+

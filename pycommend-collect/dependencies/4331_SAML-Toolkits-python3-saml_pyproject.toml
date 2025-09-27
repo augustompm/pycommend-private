@@ -1,0 +1,122 @@
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python3-saml"
+version = "1.16.0"
+description = "Saml Python Toolkit. Add SAML support to your Python software using this library"
+license = {file = "LICENSE"}
+authors = [
+    {name = "SAML-Toolkits", email = "contact@iamdigitalservices.com"}
+]
+maintainers = [
+    {name = "Sixto Martin", email = "sixto.martin.garcia@gmail.com"}
+]
+readme = "README.md"
+keywords = [
+    "saml",
+    "saml2",
+    "sso",
+    "xmlsec",
+    "federation",
+    "identity",
+]
+classifiers = [
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "lxml>=4.6.5,!=4.7.0",
+    "xmlsec>=1.3.9",
+    "isodate>=0.6.1",
+]
+requires-python = ">=3.7"
+
+[project.urls]
+Homepage = "https://saml.info"
+Source = "https://github.com/SAML-Toolkits/python3-saml"
+"Bug Tracker" = "https://github.com/SAML-Toolkits/python3-saml/issues"
+Changelog = "https://github.com/SAML-Toolkits/python3-saml/blob/master/changelog.md"
+
+[project.optional-dependencies]
+test = [
+    "coverage[toml]>=4.5.2",
+    "pytest>=4.6",
+]
+lint = [
+    "black==24.4.2",
+    "flake8>=3.6.0, <=5.0.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.package-data]
+"onelogin.saml2.schemas" = ["*.xsd"]
+
+[tool.pytest.ini_options]
+minversion = "4.6.11"
+addopts = "-ra -vvv"
+testpaths = [
+    "tests",
+]
+pythonpath = [
+    "tests",
+]
+
+[tool.black]
+line-length = 200
+
+[tool.isort]
+profile = "black"
+# The 'black' profile means:
+#   multi_line_output = 3
+#   include_trailing_comma = true
+#   force_grid_wrap = 0
+#   use_parentheses = true
+#   ensure_newline_before_comments = true
+#   line_length = 88
+line_length = 200  # override black provile line_length
+force_single_line = true  # override black profile multi_line_output
+star_first = true
+group_by_package = true
+force_sort_within_sections = true
+lines_after_imports = 2
+honor_noqa = true
+atomic = true
+ignore_comments = true
+skip_gitignore = true
+src_paths = ['src']
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.paths]
+source = [
+    "src/onelogin/saml2"
+]
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug",
+    "if debug",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:"
+]
+show_missing = true
+ignore_errors = true
+
+
+[tool.coverage.html]
+directory = "coverage_html_report"

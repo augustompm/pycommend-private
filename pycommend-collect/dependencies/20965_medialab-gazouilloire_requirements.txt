@@ -1,0 +1,8 @@
+elasticsearch >= 7.10.1, < 8.0
+requests
+urllib3[secure]
+psutil
+minet >= 0.61.4
+future
+click
+tqdm

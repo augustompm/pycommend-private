@@ -1,0 +1,7 @@
+google-cloud-aiplatform==1.42.1
+numexpr==2.8.7
+open-interpreter==0.1.18
+streamlit==1.27.1
+streamlit-extras==0.3.2
+streamlit-option-menu==0.3.6
+wget==3.2

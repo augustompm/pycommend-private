@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "codegraph"
+version = "0.1.0"
+license = "MIT"
+readme = "docs/README.rst"
+homepage = "https://github.com/xnuinside/codegraph"
+repository = "https://github.com/xnuinside/codegraph"
+description = "Tool that create a graph of code to show dependencies between code entities (methods, classes and etc)."
+authors = ["xnuinside <xnuinside@gmail.com>"]
+classifiers = [
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Utilities",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+matplotlib = "^3.9"
+networkx = "^3.4"
+click = "^8.1.7"
+
+[tool.poetry.dev-dependencies]
+pytest = "^8.3"
+
+[tool.poetry.scripts]
+codegraph = 'codegraph.main:cli'
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.1.1"
+pre-commit = "^4.0.1"
+
+[build-system]
+requires = ["poetry>=1.8"]
+build-backend = "poetry.masonry.api"

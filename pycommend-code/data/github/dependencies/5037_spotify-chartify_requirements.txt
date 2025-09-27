@@ -1,0 +1,13 @@
+pandas>=1.2.0
+Pillow>=9.1.0
+# Avoid selenium bug:
+# https://github.com/SeleniumHQ/selenium/issues/5296
+selenium>=4.0.0
+bokeh>=3.4.2
+scipy>=1.6.0
+ipykernel>=6.0
+ipython>=7.17.0
+pyyaml>=6.0.0
+Jinja2>=3.1.0
+jupyter-bokeh>=3.0.7
+tornado>=6.3.2 # not directly required, pinned by Snyk to avoid a vulnerability

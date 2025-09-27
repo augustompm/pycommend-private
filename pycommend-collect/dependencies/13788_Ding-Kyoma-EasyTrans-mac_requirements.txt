@@ -1,0 +1,13 @@
+certifi
+charset-normalizer
+idna
+lxml
+PyExecJS
+PyMuPDF
+python-docx
+requests
+six
+tqdm
+urllib3
+openai==0.28
+tenacity

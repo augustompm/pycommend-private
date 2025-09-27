@@ -1,0 +1,55 @@
+[tool.poetry]
+name = "networkml"
+version = "0.7.0"
+description = "Machine Learning model for use in determining device classes based on packet headers."
+authors = ["Ryan <rashley@iqt.org>"]
+license = "Apache 2.0"
+include = [
+    "networkml/trained_models/*.*",
+    "networkml/*.py",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8 <3.11"
+cython = "0.29.32"
+humanize = "4.4.0"
+joblib = "1.2.0"
+netaddr = "0.8.0"
+numpy = "1.23.5"
+pandas = "1.5.2"
+pyshark = "0.5.3"
+scikit-learn = "1.2.0"
+scipy = "1.9.3"
+
+#optional dependencies
+pygments = { version = "2.13.0", optional = true }
+pytest = { version = "7.2.0", optional = true }
+pytest-cov = { version = "4.0.0", optional = true }
+pytest-xdist = { version = "3.1.0", optional = true }
+pytest-rabbitmq = { version = "2.2.1", optional = true }
+nest_asyncio = { version = "1.5.6", optional = true }
+MarkupSafe = { version = "2.1.1", optional = true }
+notebook = { version = "6.5.2", optional = true }
+pytype = { version = "2022.11.29", optional = true }
+
+[tool.poetry.extras]
+test = [
+"pygments",
+"pytest",
+"pytest-cov",
+"pytest-xdist",
+"pytest-rabbitmq",
+"nest_asyncio",
+"MarkupSafe",
+"notebook",
+"pytype",
+]
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["setuptools", "poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+networkml = 'networkml.__main__:main'

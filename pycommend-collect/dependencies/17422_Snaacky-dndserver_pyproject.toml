@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "dndserver"
+version = "0.1.0"
+description = "Dark and Darker private server implementation written in Python."
+authors = ["Snaacky <snaacky@pm.me>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+alembic = "^1.10.4"
+argon2-cffi = "^21.3.0"
+arrow = "^1.2.3"
+loguru = "^0.7.0"
+protobuf = "^4.22.3"
+pyaml-env = "^1.2.1"
+sqlalchemy = "^2.0.11"
+sqlalchemy-utils = "^0.41.0"
+twisted = {extras = ["tls"], version = "^22.10.0"}
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+flake8 = "^6.0.0"
+pre-commit = "^3.3.1"
+jurigged = "^0.5.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120

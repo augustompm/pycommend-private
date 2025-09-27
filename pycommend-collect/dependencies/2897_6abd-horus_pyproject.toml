@@ -1,0 +1,17 @@
+[project]
+name = "horus"
+version = "0.0.0"
+dependencies = [
+    "shodan",
+    "dhooks",
+    "nmap",
+    "colorama",
+    "cryptography",
+    "hashcat",
+    "protonvpn-cli",
+    "onionshare_cli"
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"

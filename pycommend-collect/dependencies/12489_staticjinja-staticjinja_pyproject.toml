@@ -1,0 +1,56 @@
+[tool.poetry]
+name = "staticjinja"
+# This needs to match what is in the source code.
+version = "5.0.0"
+description = "jinja based static site generator"
+authors = ["Ceasar Bautista <cbautista2010@gmail.com>"]
+maintainers = ["Nick Crews <nicholas.b.crews@gmail.com>"]
+license = "MIT"
+readme = "README.rst"
+homepage = "https://github.com/staticjinja/staticjinja"
+repository = "https://github.com/staticjinja/staticjinja"
+documentation = "https://staticjinja.readthedocs.io"
+keywords = ["jinja", "static", "website"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Development Status :: 5 - Production/Stable",
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+docopt-ng = ">=0.7.2"
+watchdog = ">=1.0.0"
+jinja2 = ">=2.10.1"
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.3.0"
+flake8 = "^3.8.4"
+markdown = "^3.3.3"
+mypy = "^0.961"
+pytest = "^6.0.0"
+pytest-check = "^1.0.1"
+pytest-cov = "^2.5"
+sphinx = "^4.1.1"
+sphinx-rtd-theme = "^0.5.1"
+tomlkit = "^0.5.8"
+tox = "^3.0.0"
+twine = "^3.3.0"
+typing-extensions = "^4.2.0"
+
+[tool.poetry.scripts]
+staticjinja = "staticjinja.cli:main"
+
+[build-system]
+requires = ["poetry-core>=1.2.0"]
+build-backend = "poetry.core.masonry.api"

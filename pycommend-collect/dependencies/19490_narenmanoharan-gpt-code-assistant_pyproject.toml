@@ -1,0 +1,80 @@
+[tool.poetry]
+name = "gpt-code-assistant"
+version = "0.0.1"
+description = "gpt-code-assistant is an intelligent coding assistant leveraging language models to search, retrieve, explore and comprehend your codebase."
+authors = ["narenmanoharan <narenkmanoharan@gmail.com>", "skovy <smiskoviak@gmail.com>"]
+license = "Apache-2.0"
+readme = "README.md"
+packages = [
+        { include = "ai" },
+        { include = "core" },
+        { include = "data" },
+        { include = "index" },
+        { include = "repository" },
+    ]
+repository = "https://github.com/narenmanoharan/gpt-code-assistant"
+keywords = ["gpt", "code", "search", "gpt4", "llm"]
+
+[tool.poetry.urls]
+issues = "https://github.com/narenmanoharan/gpt-code-assistant/issues"
+discussions = "https://github.com/narenmanoharan/gpt-code-assistant/discussions"
+wiki = "https://github.com/narenmanoharan/gpt-code-assistant/wiki"
+
+[tool.poetry.scripts]
+gpt-code-assistant = "core.main:app"
+
+[tool.poetry.dependencies]
+python = "^3.8.17"
+typer = {extras = ["all"], version = "^0.9.0"}
+rich = "^13.4.2"
+tiktoken = "^0.4.0"
+openai = "^0.27.8"
+termcolor = "^2.3.0"
+requests = "^2.31.0"
+toml = "^0.10.2"
+scikit-learn = "^1.2.2"
+chromadb = "^0.4.0"
+sqlalchemy-pydantic = "^0.0.7"
+sqlalchemy-utils = "^0.41.1"
+tqdm = "^4.65.0"
+halo = "^0.0.31"
+tenacity = "^8.2.2"
+
+[tool.poetry.dev-dependencies]
+pre-commit = "^2.15.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-mock = "^3.11.1"
+
+[tool.ruff]
+fixable = ["A", "B", "C", "D", "E", "F", "G", "I", "N", "Q", "S", "T", "W", "ANN", "ARG", "BLE", "COM", "DJ", "DTZ", "EM", "ERA", "EXE", "FBT", "ICN", "INP", "ISC", "NPY", "PD", "PGH", "PIE", "PL", "PT", "PTH", "PYI", "RET", "RSE", "RUF", "SIM", "SLF", "TCH", "TID", "TRY", "UP", "YTT"]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+line-length = 120
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

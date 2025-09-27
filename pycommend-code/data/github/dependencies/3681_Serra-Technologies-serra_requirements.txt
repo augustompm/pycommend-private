@@ -1,0 +1,15 @@
+pyspark
+click
+pyyaml
+pandas==1.5.3
+boto3
+databricks-sdk
+loguru
+wheel
+snowflake-connector-python
+google-cloud-bigquery
+db-dtypes
+geopy
+schedule
+nltk
+fuzzywuzzy

@@ -1,0 +1,11 @@
+evtx
+netaddr
+numpy
+pandas
+python-dateutil
+pytz
+six
+XlsxWriter
+flatten_json
+geoip2
+requests

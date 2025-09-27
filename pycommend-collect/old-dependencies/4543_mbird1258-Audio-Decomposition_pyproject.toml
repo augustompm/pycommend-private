@@ -1,0 +1,12 @@
+[project]
+name = "audio-decomposition"
+version = "0.1.0"
+readme = "README.md"
+dependencies = [
+    "beautifulsoup4==4.11.1",
+    "matplotlib==3.6.3",
+    "numpy==1.24.1",
+    "Requests==2.32.3",
+    "scipy==1.14.1",
+    "soundfile==0.12.1",
+]

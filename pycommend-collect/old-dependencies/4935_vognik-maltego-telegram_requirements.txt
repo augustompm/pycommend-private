@@ -1,0 +1,23 @@
+blinker==1.8.2
+certifi==2024.8.30
+cffi==1.17.1
+charset-normalizer==3.4.0
+click==8.1.7
+colorama==0.4.6
+cryptography==43.0.3
+cssselect==1.2.0
+Flask==3.0.3
+idna==3.10
+itsdangerous==2.2.0
+Jinja2==3.1.4
+lxml==5.3.0
+maltego-trx==1.6.1
+MarkupSafe==3.0.2
+pyaes==1.6.1
+pycparser==2.22
+Pyrogram @ git+https://github.com/KurimuzonAkuma/pyrogram.git@d4d5a2d316719f6e98de87246cf4c573994d728d
+PySocks==1.7.1
+requests==2.32.3
+TgCrypto==1.2.5
+urllib3==2.2.3
+Werkzeug==3.0.6

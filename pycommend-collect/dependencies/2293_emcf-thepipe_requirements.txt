@@ -1,0 +1,12 @@
+llama-index==0.10.50
+aiohttp>=3.8.6,<4.0.0
+charset-normalizer
+colorama
+requests
+pillow
+pydantic
+supabase
+markdownify==0.12.1
+magika
+scikit-learn
+python-dotenv

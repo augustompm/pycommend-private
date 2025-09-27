@@ -1,0 +1,6 @@
+PyQt5
+frida==16.0.8
+hexdump==3.3
+capstone==4.0.2
+keystone-engine
+click

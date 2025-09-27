@@ -1,0 +1,85 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gcalcli"
+dynamic = ["version"]
+requires-python = ">= 3.10"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+  { name = "Eric Davis" },
+  { name = "Brian Hartvigsen" },
+  { name = "Joshua Crowgey" },
+]
+maintainers = [
+  { name = "David Barnett" },
+  { name = "Martin Dengler" },
+]
+description = "Google Calendar Command Line Interface"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Intended Audience :: End Users/Desktop",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+]
+dependencies = [
+  "argcomplete",
+  "babel",
+  "google-api-python-client>=1.4",
+  "google_auth_oauthlib",
+  "httplib2",
+  "parsedatetime",
+  "platformdirs",
+  "pydantic",
+  "python-dateutil",
+  "tomli; python_version < '3.11'",
+  "truststore",
+]
+
+[project.urls]
+Repository = "https://github.com/insanum/gcalcli"
+Issues = "https://github.com/insanum/gcalcli/issues"
+Changelog = "https://github.com/insanum/gcalcli/blob/HEAD/ChangeLog"
+
+[project.optional-dependencies]
+dev = [
+  "google-api-python-client-stubs",
+  "types-python-dateutil",
+  "types-requests",
+  "types-toml; python_version < '3.11'",
+  "types-vobject",
+]
+vobject = ["vobject"]
+
+[tool.setuptools]
+packages = ["gcalcli"]
+
+[tool.setuptools.data-files]
+"share/man/man1" = ["docs/man1/gcalcli.1"]
+
+[tool.setuptools_scm]
+version_file = "gcalcli/_version.py"
+
+[project.scripts]
+gcalcli = "gcalcli.cli:main"
+
+[tool.ruff]
+line-length = 80
+extend-exclude = ["tests/cli/"]
+
+[tool.ruff.lint]
+# Enable Errors, Warnings, Flakes
+select = ["E", "W", "F"]
+
+[tool.ruff.format]
+# Permit mixed quote style, project currently uses a mix of both.
+quote-style = "preserve"
+
+[tool.ruff.lint.extend-per-file-ignores]
+"*.pyi" = ["E501"]
+
+[tool.mypy]
+mypy_path = "gcalcli:stubs:tests"

@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "vbuild"
+version = "0.0.0" # auto-updated
+description = "A simple module to extract html/script/style from a vuejs '.vue' file (can minimize/es2015 compliant js) ... just python3, NO nodejs !"
+authors = ["manatlan <manatlan@gmail.com>"]
+#include = ["LICENSE"]
+readme = 'README.md'
+keywords=['vuejs', 'vue', 'html', 'javascript', 'style', 'minimize', 'es2015']
+homepage = "https://github.com/manatlan/vbuild"
+repository = "https://github.com/manatlan/vbuild"
+documentation = "https://github.com/manatlan/vbuild"
+license="MIT"
+classifiers = [
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+pscript = "^0.7.7"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+closure = "^20191111"
+pyscss = "^1.4.0"
+lesscpy = "^0.15.1"
+
+[build-system]
+requires = ["poetry>=1.5.1"]
+build-backend = "poetry.masonry.api"

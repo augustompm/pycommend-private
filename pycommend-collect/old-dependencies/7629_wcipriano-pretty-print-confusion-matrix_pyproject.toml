@@ -1,0 +1,55 @@
+[tool.poetry]
+name = "pretty-confusion-matrix"
+version = "0.6.0"
+description = "plot a pretty confusion matrix (like Matlab) in python using seaborn and matplotlib"
+repository = "https://github.com/wcipriano/pretty-print-confusion-matrix"
+authors = ["Wagner Cipriano <wagnao@gmail.com>", "Khuyen Tran <khuyentran1476@gmail.com>"]
+keywords = ["confusion matrix"]
+readme = "README.md"
+
+[project.urls]
+homepage = "https://pypi.org/project/pretty-confusion-matrix"
+source = "https://github.com/wcipriano/pretty-print-confusion-matrix"
+download = "https://pypi.org/project/pretty-confusion-matrix/#files"
+tracker = "https://github.com/wcipriano/pretty-print-confusion-matrix/issues"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.12"
+numpy = [
+    {version = "^2.0.0", python = ">=3.9"},
+]
+matplotlib = [
+    {version = "^3.9.0", python = ">=3.9"},
+]
+seaborn = "^0.13.2"
+pandas = [
+    {version = "^2.2.2", python = ">=3.9"},
+]
+scikit-learn = [
+    {version = "^1.5", python = ">=3.9"},
+]
+
+[tool.poetry.dev-dependencies]
+pre-commit = "^3.5.0"
+black = "^24.4.2"
+flake8 = "^5.0.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 79
+include = '\.pyi?$'
+exclude = '''
+/(
+	\.git
+| \.hg
+| \.mypy_cache
+| \.tox
+| \.venv
+| _build
+| buck-out
+| build   
+)/ 
+'''

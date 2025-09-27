@@ -1,0 +1,14 @@
+scikit-learn
+jieba
+numpy
+scipy
+pandas
+networkx
+matplotlib
+pypinyin
+rdflib
+python-louvain
+tqdm
+w3lib
+nltk
+opencc-python-reimplemented

@@ -1,0 +1,15 @@
+appdirs
+setuptools>=11.3
+cryptography>=1.3.4
+lxml>=2.3.2
+imgsize
+Jinja2
+markupsafe
+py3DNS
+PySocks
+pgpdump
+pillow
+pbr
+fasteners
+stem>=1.4
+icalendar

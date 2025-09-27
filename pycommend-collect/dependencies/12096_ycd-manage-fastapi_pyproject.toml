@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "manage-fastapi"
+description = "Managing FastAPI projects made easy."
+version = "1.1.1"
+authors = [
+  { name = "Yagiz Degirmenci", email = "yagizcanilbey1903@gmail.com" },
+  { name = "Marcelo Trylesinski", email = "marcelotryle@gmail.com" },
+]
+license = "MIT"
+readme = "README.md"
+classifiers = [
+  "Topic :: Software Development :: Build Tools",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+  "cookiecutter >= 1.7.2",
+  "pydantic[email] >= 1.7.2",
+  "questionary >= 1.10.0",
+  "typer >= 0.4, < 0.10",
+]
+
+[project.urls]
+Homepage = "https://github.com/ycd/manage-fastapi"
+Documentation = "https://github.com/ycd/manage-fastapi"
+Source = "https://github.com/ycd/manage-fastapi"
+
+[project.scripts]
+fastapi = 'manage_fastapi.main:app'

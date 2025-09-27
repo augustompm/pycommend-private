@@ -1,0 +1,7 @@
+tqdm
+matplotlib
+tensorboard
+pyyaml
+scipy
+imageio
+cython

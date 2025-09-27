@@ -1,0 +1,19 @@
+# Use conda install ... to install these
+Pillow >= 4.1.1
+graphviz # for graphviz, installation via the system might be required, e.g. sudo apt-get install graphviz
+pytest >= 3.0.7
+
+# Use pip install ... to install these
+scikit-image
+codecov
+pytest-cov
+h5py
+PyHamcrest
+muscima == 0.10.0
+mung
+numpy
+lxml # Transitive dependency from musicma that is not fulfilled there
+tqdm
+twine
+sphinx_rtd_theme
+pandas

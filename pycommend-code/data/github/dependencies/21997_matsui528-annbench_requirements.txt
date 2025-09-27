@@ -1,0 +1,7 @@
+hydra-core
+psutil
+matplotlib
+annoy
+hnswlib
+scann
+pynndescent

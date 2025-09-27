@@ -1,0 +1,3 @@
+certbot-nginx>=2.0.0
+acme>=2.0.0
+certbot>=2.0.0

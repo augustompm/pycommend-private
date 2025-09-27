@@ -1,0 +1,8 @@
+tensorflow
+cython
+hyperopt
+lightgbm
+statsmodels
+matplotlib
+kaggle
+xgboost

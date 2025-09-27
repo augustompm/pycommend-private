@@ -1,0 +1,8 @@
+progress
+inquirer
+selenium-wire
+progress
+colorama
+requests
+wget
+blinker==1.7.0

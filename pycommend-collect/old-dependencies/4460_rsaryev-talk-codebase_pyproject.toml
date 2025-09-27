@@ -1,0 +1,45 @@
+[tool.poetry]
+name = "talk-codebase"
+version = "0.1.50"
+description = "talk-codebase is a powerful tool for querying and analyzing codebases."
+authors = ["Saryev Rustam <rustam1997@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "talk_codebase" }]
+keywords = ["chatgpt", "openai", "cli"]
+
+[tool.poetry.dependencies]
+python = ">=3.8.1,<4.0"
+fire = "^0.5.0"
+faiss-cpu = "^1.7.4"
+halo = "^0.0.31"
+urllib3 = "1.26.18"
+gitpython = "^3.1.31"
+questionary = "^1.10.0"
+sentence-transformers = "^2.2.2"
+unstructured = "^0.6.10"
+langchain = ">=0.0.223,<0.1.12"
+llama-cpp-python = { version = "^0.1.68", optional = true }
+gpt4all = { version = "^1.0.1", optional = true }
+openai = { version = "^0.27.7", optional = true }
+tiktoken = { version = "^0.4.0", optional = true }
+
+[tool.poetry.extras]
+local = ["gpt4all", "llama-cpp-python"]
+all = ["gpt4all", "llama-cpp-python", "openai", "tiktoken"]
+
+
+[tool.poetry.group.dev.dependencies]
+setuptools = ">=68,<71"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[project.urls]
+"Source" = "https://github.com/rsaryev/talk-codebase"
+"Bug Tracker" = "https://github.com/rsaryev/talk-codebase/issues"
+
+[tool.poetry.scripts]
+talk-codebase = "talk_codebase.cli:main"
+
+

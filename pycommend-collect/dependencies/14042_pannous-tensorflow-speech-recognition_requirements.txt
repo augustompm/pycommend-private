@@ -1,0 +1,22 @@
+librosa
+#required
+tensorflow
+tflearn
+numpy
+layer
+# or git clone --recursive for layer submodule
+
+#optional:
+scikit-image
+pyaudio
+wave
+
+python_speech_features
+#OR:
+librosa
+
+matplotlib
+libtorrent
+tensorlayer
+# cv,cv2 #  deprecated, we use matplotlib.pyplot now
+# python-tk   only if you want to visualize speech recognition

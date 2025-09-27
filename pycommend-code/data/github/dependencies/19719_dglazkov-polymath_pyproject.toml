@@ -1,0 +1,29 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "polymath"
+version = "0.0.8"
+authors = [
+  { name="Alex Komoroske", email="alex@komoroske.com" },
+  { name="Dimitri Glazkov", email="dimitri@glazkov.com" },
+  { name="Dion Almaer", email="dion@almaer.com" }
+]
+description = "Federating wisdom one library at a time."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = ["License :: OSI Approved :: MIT License"]
+dependencies = [
+  "numpy",
+  "openai",
+  "transformers",
+  "google-cloud-firestore",
+  "docstring-parser",
+  "overrides",
+  "pinecone-client"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/dglazkov/polymath"
+"Bug Tracker" = "https://github.com/dglazkov/polymath/issues"

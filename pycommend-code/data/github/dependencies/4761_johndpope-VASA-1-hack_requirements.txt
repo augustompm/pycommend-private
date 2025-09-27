@@ -1,0 +1,11 @@
+hsemotion_onnx
+insightface
+transformers
+decord
+torchaudio
+vgg19
+seaborn
+hydra-core
+rich 
+memory_profiler
+git+https://github.com/pythonprofilers/memory_profiler.git

@@ -1,0 +1,43 @@
+[project]
+name = "pgtracer"
+description = "Tracing tools for PostgreSQL"
+version = "0.1.0"
+authors = [
+    { name = "Ronan Dunklau", email = "ronan.dunklau@aiven.com" }
+]
+dependencies = [
+    "pyelftools",
+    "pypsutil"
+]
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: PostgreSQL License",
+    "Operating System :: POSIX :: Linux",
+]
+
+
+[project.scripts]
+pgtrace_queries = "pgtracer.scripts.pgtrace_queries:main"
+pgtrace_gucs = "pgtracer.scripts.pgtrace_gucs:main"
+
+[project.optional-dependencies]
+lint = [
+  'black',
+  'isort',
+  'mypy',
+  'pylint',
+  'pylint-exit',
+]
+
+test = [
+  'psycopg',
+  'pytest',
+  'pytest-coverage',
+  'pytest-postgresql',
+  'flaky'
+]
+
+[tool.isort]
+profile = "black"

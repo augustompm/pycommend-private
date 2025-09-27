@@ -1,0 +1,5 @@
+numpy
+scipy
+speechpy
+python-coveralls
+pytest

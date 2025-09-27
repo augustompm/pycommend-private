@@ -1,0 +1,47 @@
+[project]
+name = "modelz-llm"
+dynamic = ["version"]
+description = "LLM unified service"
+authors = [{ name = "TensorChord", email = "modelz@tensorchord.ai" }]
+requires-python = ">=3.8"
+readme = "README.md"
+classifiers = [
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "llmspec",
+    "falcon>=3",
+    "uvicorn>=0.22",
+    "mosec>0.6",
+]
+[project.optional-dependencies]
+gpu = [
+    "torch",  # CUDA 11.7, ref https://pytorch.org/get-started/locally/
+    "transformers",
+    "sentencepiece",
+    "accelerate",
+    "cpm_kernels",
+]
+[project.urls]
+"Homepage" = "https://github.com/tensorchord/modelz-llm"
+[project.scripts]
+modelz-llm = "modelz_llm.cli:main"
+
+[build-system]
+requires = ["setuptools", "setuptools_scm>=7.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+write_to = "src/modelz_llm/_version.py"
+
+[tool.ruff]
+target-version = "py38"
+line-length = 88
+select = ["E", "F", "B", "I", "SIM", "TID", "PL"]
+[tool.ruff.pylint]
+max-branches = 35
+max-statements = 100
+
+[tool.black]
+line-length = 88

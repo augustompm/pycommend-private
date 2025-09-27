@@ -1,0 +1,12 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel",
+    "colorama",
+    "appdirs",
+    "requests",
+    "pyyaml",
+    "Jinja2",
+    "bitstring"
+]
+build-backend = "setuptools.build_meta"

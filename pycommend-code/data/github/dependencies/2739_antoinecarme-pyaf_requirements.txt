@@ -1,0 +1,8 @@
+pandas
+datetime
+scikit-learn
+matplotlib
+pydot
+flask
+statsmodels
+

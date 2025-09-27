@@ -1,0 +1,3 @@
+python-decouple
+selenium==2.4.0
+webdriver_manager

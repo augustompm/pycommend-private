@@ -1,0 +1,11 @@
+diffusers
+einops>=0.4
+gradio>=3.15.0
+lightning
+matplotlib>=3.6.2
+numpy
+omegaconf
+torch>=1.6
+torchaudio
+tqdm
+typing_extensions

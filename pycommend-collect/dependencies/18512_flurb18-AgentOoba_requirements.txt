@@ -1,0 +1,9 @@
+langchain
+typing
+wikipedia
+wolframalpha
+chromadb
+python-dotenv
+uuid
+requests
+InstructorEmbedding

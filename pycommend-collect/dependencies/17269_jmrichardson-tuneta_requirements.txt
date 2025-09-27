@@ -1,0 +1,14 @@
+pandas-ta
+finta
+ta-lib
+pathos
+tabulate
+dcor==0.5
+yfinance
+optuna
+yellowbrick
+scikit-learn
+pandas
+numpy
+numba
+kmodes

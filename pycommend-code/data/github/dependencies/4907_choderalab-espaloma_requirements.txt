@@ -1,0 +1,6 @@
+dgl
+torch
+matplotlib
+pandas
+numpy
+qcportal

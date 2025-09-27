@@ -1,0 +1,42 @@
+[tool.black]
+target_version = ['py39', 'py310', 'py311', 'py312', 'py313']
+
+[build-system]
+requires = ["setuptools>=75.3.0", "wheel", "mypy==1.13.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lagom"
+description = "Lagom is a dependency injection container designed to give you 'just enough' help with building your dependencies."
+readme = "README.md"
+authors = [{ name = "Meadsteve", email = "steve@meadsteve.dev" }]
+license = { file = "LICENSE" }
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Libraries",
+  "Typing :: Typed",
+]
+dependencies = []
+requires-python = ">=3.7"
+dynamic = ["version"]
+
+[tool.setuptools]
+packages = ["lagom", "lagom.util", "lagom.integrations", "lagom.experimental", "lagom.experimental.integrations"]
+
+[project.optional-dependencies]
+env = ["pydantic >=1.0.0,<3.0.0"]
+
+[project.urls]
+Documentation = "https://lagom-di.readthedocs.io/"
+Changelog = "https://lagom-di.readthedocs.io/en/stable/CHANGELOG/"
+Homepage = "https://lagom-di.readthedocs.io/"
+Github = "https://github.com/meadsteve/lagom"
+Source = "https://github.com/meadsteve/lagom"
+Issues = "https://github.com/meadsteve/lagom/issues"

@@ -1,0 +1,77 @@
+[project]
+name = "nonebot-plugin-bing-chat"
+version = "0.7.11"
+description = "基于nonebot2的bing-chat软件"
+authors = [{ name = "Harry", email = "Harry0259@163.com" }]
+readme = "README.md"
+license = { text = "GPL-3" }
+requires-python = ">=3.10"
+dependencies = [
+  "EdgeGPT>=0.2.1",
+  "nonebot2>=2.0.0rc3",
+  "nonebot-adapter-onebot>=2.2.2",
+  "nonebot-plugin-apscheduler>=0.2.0",
+  "nonebot-plugin-guild-patch>=0.2.3",
+  "pydantic>=1.10.7",
+]
+classifiers = [
+  "Framework :: Pydantic",
+  "Topic :: Communications",
+  "License :: OSI Approved :: GNU General Public License (GPL)",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Natural Language :: Chinese (Simplified)",
+]
+
+
+[project.optional-dependencies]
+image = ["nonebot-plugin-htmlrender>=0.2.0.3"]
+all = ["nonebot-plugin-htmlrender>=0.2.0.3"]
+
+
+[project.urls]
+Homepage = "https://github.com/Harry-Jing/nonebot-plugin-bing-chat"
+
+
+[tool.nonebot]
+adapters = [
+  { name = "OneBot V11", module_name = "nonebot.adapters.onebot.v11" },
+  # { name = "Telegram", module_name = "nonebot.adapters.telegram" },
+  # { name = "QQ 频道", module_name = "nonebot.adapters.qqguild" },
+  # { name = "开黑啦", module_name = "nonebot.adapters.kaiheila" },
+  # { name = "OneBot V12", module_name = "nonebot.adapters.onebot.v12" },
+  # { name = "Console", module_name = "nonebot.adapters.console" },
+]
+plugins = []
+plugin_dirs = ["src/plugins"]
+builtin_plugins = []
+
+
+[tool.pyright]
+include = ["nonebot_plugin_bing_chat"]
+pythonVersion = "3.10"
+typeCheckingMode = "basic"
+
+
+[tool.black]
+target-version = ["py310"]
+skip-string-normalization = true
+
+
+[tool.isort]
+profile = "black"
+py_version = 310
+length_sort = true
+
+
+[tool.setuptools.packages.find]
+where = ["src/plugins"]
+include = ["nonebot_plugin_bing_chat*"]
+
+
+[build-system]
+requires = ["setuptools >= 67.5.0"]
+build-backend = "setuptools.build_meta"

@@ -1,0 +1,13 @@
+Flask
+Flask-Cors
+jsonify
+tiktoken
+openai
+orjson
+numpy
+scikit-learn
+setuptools
+tqdm
+flask-socketio
+colorlog
+pillow

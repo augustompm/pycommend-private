@@ -1,0 +1,9 @@
+requests
+PyYAML
+pycryptodome
+pypiwin32
+easygui
+colorama
+easyyaml
+tls-client>=0.2.1
+easy_gui

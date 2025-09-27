@@ -1,0 +1,14 @@
+pillow
+numpy
+easydict
+scikit-image
+scipy
+requests
+prettytable
+tqdm
+visualdl
+scikit-learn>=0.23.2
+opencv-python
+onnxruntime-gpu
+onnx
+paddle2onnx

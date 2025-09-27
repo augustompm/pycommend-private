@@ -1,0 +1,9 @@
+backoff
+chapterize
+datasets
+requests
+loguru
+tqdm
+accelerate
+faiss-gpu
+transformers

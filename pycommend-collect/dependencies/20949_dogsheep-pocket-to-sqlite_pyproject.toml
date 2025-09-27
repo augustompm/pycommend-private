@@ -1,0 +1,26 @@
+[project]
+name = "pocket-to-sqlite"
+version = "0.2.3"
+description = "Create a SQLite database containing data from your Pocket account"
+readme = "README.md"
+authors = [{name = "Simon Willison"}]
+license = {text = "Apache-2.0"}
+classifiers = [
+    "License :: OSI Approved :: Apache Software License"
+]
+dependencies = [
+    "sqlite-utils>=2.4.4",
+    "click",
+    "requests"
+]
+requires-python = ">3.7"
+scripts = {pocket-to-sqlite = "pocket_to_sqlite.cli:cli"}
+
+[project.urls]
+Homepage = "https://github.com/dogsheep/pocket-to-sqlite"
+Changelog = "https://github.com/dogsheep/pocket-to-sqlite/releases"
+Issues = "https://github.com/dogsheep/pocket-to-sqlite/issues"
+CI = "https://github.com/dogsheep/pocket-to-sqlite/actions"
+
+[project.optional-dependencies]
+test = ["pytest"]

@@ -1,0 +1,8 @@
+absl-py
+backoff
+mock
+ntplib
+PyYAML
+requests
+six
+git+http://github.com/google/winops@master#egg=gwinpy

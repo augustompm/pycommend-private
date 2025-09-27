@@ -1,0 +1,35 @@
+[tool.setuptools.packages.find]
+where = ["src"]
+[tool.setuptools.package-data]
+assets = ["*.py", "*.css"]
+comgra = ["*.py"]
+scripts = ["*.py"]
+[project]
+name = "comgra"
+version = "0.11.5"
+authors = [
+    { name="Florian Dietz", email="floriandietz44@gmail.com" },
+]
+dependencies = [
+    'torch',
+    'dash',
+    'dash-svg',
+    'dash-bootstrap-components>=1.5.0',
+    'msgpack',
+    'numpy',
+    'pandas',
+]
+description = "A package for analyzing computation graphs"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+[project.urls]
+"Homepage" = "https://github.com/FlorianDietz/comgra"
+"Bug Tracker" = "https://github.com/FlorianDietz/comgra/issues"
+[project.scripts]
+comgra = "scripts.server:main"
+comgra-test-run = "scripts.run:main"

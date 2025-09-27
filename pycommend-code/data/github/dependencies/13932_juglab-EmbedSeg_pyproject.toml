@@ -1,0 +1,62 @@
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+# read more about configuring hatch at:
+# https://hatch.pypa.io/latest/config/build/
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["EmbedSeg"]
+sources = ["EmbedSeg"]
+
+# https://peps.python.org/pep-0621/
+[project]
+name = "EmbedSeg"
+dynamic = ["version"]
+description = "EmbedSeg provides automatic detection and segmentation of objects in microscopy images"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "BSD-3-Clause" }
+authors = [
+    { name = 'Manan Lalit', email = 'lalitm@janelia.hhmi.org' },
+    { name = 'Pavel Tomancak' },
+    { name = 'Florian Jug' },
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: BSD License",
+]
+dependencies = [
+    "matplotlib",
+    "numpy",
+    "scipy",
+    "tifffile",
+    "numba",
+    "tqdm",
+    "jupyter",
+    "pandas",
+    "seaborn",
+    "scikit-image",
+    "colorspacious",
+    "pycocotools",
+]
+
+[project.optional-dependencies]
+# development dependencies and tooling
+test = ["pytest", "pytest-cov"]
+
+# https://docs.pytest.org/en/6.2.x/customize.html
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = ["EmbedSeg/_tests"]
+
+[project.urls]
+homepage = "https://github.com/juglab/EmbedSeg/"
+repository = "https://github.com/juglab/EmbedSeg/"

@@ -1,0 +1,24 @@
+# Specify that we use setuptools and setuptools_scm (to generate the version
+# string). Actual configuration is in setup.cfg.
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+version_scheme =  "post-release"
+local_scheme =  "node-and-date"
+write_to =  "verde/_version_generated.py"
+
+# Make sure isort and Black are compatible
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.burocrata]
+notice = '''
+# Copyright (c) 2017 The Verde Developers.
+# Distributed under the terms of the BSD 3-Clause License.
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# This code is part of the Fatiando a Terra project (https://www.fatiando.org)
+#'''

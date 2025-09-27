@@ -1,0 +1,32 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "forallpeople"
+authors = [{name = "Connor Ferster", email = "connorferster@structuralpython.com"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = ["License :: OSI Approved :: Apache Software License"]
+dynamic = ["version", "description"]
+
+
+[project.urls]
+Home = "https://github.com/connorferster/forallpeople"
+Documentation = "https://connorferster.github.io/forallpeople"
+
+[project.optional-dependencies]
+
+dev = [
+    "black >= 22.3.0"
+]
+
+doc = [
+    "sphinx",
+    "nbsphinx",
+    "pydata-sphinx-theme"
+]
+
+test = [
+    "pytest-cov"
+]

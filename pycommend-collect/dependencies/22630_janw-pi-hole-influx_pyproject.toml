@@ -1,0 +1,16 @@
+[tool.black]
+line-length = 88
+include = '\.pyi?$'
+exclude = '''
+/(
+  | \.git
+  | \.venv
+  | venv
+  | __pycache__
+  | \.readme\-assets
+)/
+'''
+
+[build-system]
+requires = [ "setuptools >= 35.0.2", "wheel >= 0.29.0" ]
+build-backend = "setuptools.build_meta"

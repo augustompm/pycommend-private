@@ -1,0 +1,30 @@
+[project]
+name = "pdf_reports"
+version = "0.3.8"
+license = "MIT"
+authors = [{ name = "Zulko" }]
+description = "Create nice-looking PDF reports from HTML content."
+readme = "pypi-readme.rst"
+keywords = ["PDF", "report", "web", "jinja", "weasyprint"]
+dependencies = [
+  "pypugjs",
+  "jinja2",
+  "weasyprint",
+  "beautifulsoup4",
+  "pandas",
+  "Markdown",
+  "backports.functools-lru-cache",
+]
+
+[project.urls]
+Homepage = "https://github.com/Edinburgh-Genome-Foundry/pdf_reports"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+exclude = ["docs"]

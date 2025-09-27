@@ -1,0 +1,7 @@
+uiautomator2
+uiautomator
+colorama
+croniter
+peewee
+psycopg2-binary
+Pillow

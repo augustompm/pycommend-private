@@ -1,0 +1,36 @@
+#--find-links https://download.pytorch.org/whl/torch_stable.html
+--extra-index-url https://download.pytorch.org/whl/cu117
+torch==2.0.0+cu117
+torchvision
+torchmetrics
+torch-ema
+ninja
+trimesh
+opencv-python
+tensorboardX
+torch
+numpy 
+pandas
+tqdm
+matplotlib
+PyMCubes
+rich
+dearpygui
+scipy
+huggingface_hub
+diffusers==0.20 # for stable-diffusion 2.0
+transformers==4.30.2
+xatlas
+scikit-learn
+imageio
+imageio-ffmpeg
+accelerate==0.19.0
+tensorboard
+pymeshlab
+moviepy
+invisible_watermark
+safetensors
+scikit-image
+taming-transformers
+carvekit-colab==4.1.0
+git+https://github.com/NVlabs/nvdiffrast

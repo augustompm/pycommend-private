@@ -1,0 +1,7 @@
+requests
+beautifulsoup4
+packaging
+ebooklib~=0.18
+tqdm
+colorama
+PyYAML

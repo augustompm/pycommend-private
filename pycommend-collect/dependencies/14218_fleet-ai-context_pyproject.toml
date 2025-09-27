@@ -1,0 +1,43 @@
+[project]
+name = "fleet-context"
+version = "1.1.8"
+description = "A chat interface over up-to-date Python library documentation."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {file = "LICENSE.txt"}
+keywords = ["libraries", "embeddings", "ai"]
+authors = [
+  {name = "Fleet AI", email = "team@fleet.so" }
+]
+maintainers = [
+  {name = "Nic Ouporov", email = "nic@fleet.so" },
+  {name = "Alec Jo", email = "alec@fleet.so" },
+  {name = "Andrew Zhou", email = "andrew@fleet.so" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Build Tools",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = [
+  "openai>1.1.0",
+  "pandas",
+  "pyarrow",
+  "requests",
+  "rich>=13.0.0",
+  "tiktoken>=0.3.3",
+  "tqdm",
+]
+[project.urls]
+"Homepage" = "https://fleet.so"
+"Source" = "https://github.com/fleet-ai/context"
+
+[build-system]
+requires = ["setuptools>=43.0.0", "wheel"]
+build-backend = "setuptools.build_meta"

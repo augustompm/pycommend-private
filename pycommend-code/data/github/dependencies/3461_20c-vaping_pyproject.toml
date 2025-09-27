@@ -1,0 +1,114 @@
+[tool.poetry]
+name = "vaping"
+version = "1.5.4"
+description = "vaping is a healthy alternative to smokeping!"
+readme = "README.md"
+repository = "https://github.com/20c/vaping"
+authors = ["20C <code@20c.com>"]
+license = "Apache-2.0"
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    'Environment :: No Input/Output (Daemon)',
+    'Intended Audience :: System Administrators',
+    'Intended Audience :: Telecommunications Industry',
+    'License :: OSI Approved :: Apache Software License',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Topic :: Internet',
+    'Topic :: Software Development :: Libraries :: Python Modules',
+    'Topic :: System :: Monitoring',
+    'Topic :: System :: Networking :: Monitoring',
+]
+
+packages = [{ include = "vaping", from = "src" }]
+
+[tool.poetry.scripts]
+vaping = "vaping.cli:cli"
+
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pid = ">=3"
+pluginmgr = ">=1.2"
+python-daemon = ">=2"
+# Package docutils (0.21.post1) not found.
+docutils = "<=0.21"
+munge = { extras = ["tomlkit", "yaml"], version = ">=1.2.0" }
+confu = ">=1.7.1"
+
+# plugins
+
+# graphite
+requests = { version = ">=2.19.1", optional = true }
+graphyte = { version = ">=1.4", optional = true }
+
+# rrdtool
+rrdtool = { version = ">=0.1.14, <1", optional = true }
+
+# prometheus
+prometheus_client = { version = ">=0.11.0", optional = true }
+
+# standalone
+graphsrv = { version = "^2", optional = true }
+vodka = { version = "^3.1", optional = true }
+# FIXME: wekzeug >2.1.0 breaks static file serving
+Werkzeug = { version = ">2,<2.1.0", optional = true }
+Flask = { version = ">2,<2.2", optional = true }
+
+# whisper
+whisper = { version = ">=0.9.15, <2", optional = true }
+
+# zeromq
+pyzmq = { version = ">=15.3.0", optional = true }
+
+[tool.poetry.dev-dependencies]
+# tests
+coverage = ">=5.3"
+pytest = ">=6.1.2"
+pytest-cov = ">=2.10.1"
+pytest-filedata = ">=1"
+tox = ">=3.20.1"
+
+# linting
+ruff = ">=0.1"
+mypy = ">=0.950"
+pre-commit = ">=2.13"
+pyupgrade = ">=2.19"
+
+# ctl
+ctl = ">=1"
+jinja2 = ">=3"
+tmpl = ">=1"
+twine = ">=3.3.0"
+
+# docs
+markdown-include = ">=0.5,<1"
+mkdocs = ">=1.2.3"
+pymdgen = ">=1"
+
+[tool.poetry.extras]
+graphite = ["graphyte", "requests"]
+rrdtool = ["rrdtool"]
+prometheus = ["prometheus_client"]
+standalone = ["graphsrv", "vodka"]
+whisper = ["whisper"]
+zeromq = ["pyzmq"]
+
+# all extras
+all = [
+    "graphsrv",
+    "graphyte",
+    "prometheus_client",
+    "pyzmq",
+    "rrdtool",
+    "requests",
+    "vodka",
+    "whisper",
+]
+
+[build-system]
+requires = ["poetry-core>=1"]
+build-backend = "poetry.core.masonry.api"

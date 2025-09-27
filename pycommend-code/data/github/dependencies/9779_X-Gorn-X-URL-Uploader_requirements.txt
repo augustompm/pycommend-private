@@ -1,0 +1,11 @@
+git+https://github.com/X-Gorn/pyrogram.git@dev
+TgCrypto
+aiohttp
+yt-dlp
+beautifulsoup4
+hachoir
+numpy
+Pillow
+motor
+dnspython
+python-dotenv

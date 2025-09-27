@@ -1,0 +1,11 @@
+rebootpy
+BenBotAsync
+crayons
+pypresence
+FortniteAPIAsync
+aiofiles
+cryptography==3.2.1
+aioconsole
+pytz
+tzdata
+tzlocal

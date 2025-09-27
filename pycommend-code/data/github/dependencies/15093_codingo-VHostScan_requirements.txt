@@ -1,0 +1,7 @@
+dnspython
+fuzzywuzzy
+numpy
+pandas
+requests
+simplejson
+urllib3

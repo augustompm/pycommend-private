@@ -1,0 +1,8 @@
+[project]
+name = "Dough"
+description = "Open source tool for steering AI animations with precision"
+readme = "README.md"
+
+[tool.black]
+line-length = 110
+target-version = ['py310']

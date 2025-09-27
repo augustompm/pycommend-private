@@ -1,0 +1,9 @@
+lxml
+polib
+pylint
+pytest
+pytest-cov
+pytest-timeout
+python-dateutil
+mock
+sakee

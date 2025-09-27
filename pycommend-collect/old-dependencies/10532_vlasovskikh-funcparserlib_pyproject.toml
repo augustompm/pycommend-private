@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "funcparserlib"
+version = "2.0.0a0"
+description = "Recursive descent parsing library based on functional combinators"
+authors = ["Andrey Vlasovskikh <andrey.vlasovskikh@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://funcparserlib.pirx.ru"
+repository = "https://github.com/vlasovskikh/funcparserlib"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.dev-dependencies]
+pre-commit = {version = "^3.5.0"}
+tox = {version = "^4.4.6"}
+mkdocs = {version = "^1.4.2"}
+mkdocs-material = {version = "^9.1.1"}
+mkdocstrings = {extras = ["python"], version = "^0.24.0"}
+
+[build-system]
+requires = ["poetry-core>=1.5.1"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,10 @@
+ansible
+ansible-core
+ansible-runner
+boto3
+click
+jinja2
+python-terraform
+requests
+tabulate
+uuid

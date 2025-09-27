@@ -1,0 +1,8 @@
+airtest
+PySide6
+tqdm
+Flask
+pponnxcr
+pulp
+matplotlib
+netifaces

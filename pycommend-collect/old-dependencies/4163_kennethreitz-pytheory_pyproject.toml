@@ -1,0 +1,16 @@
+[project]
+name = "pytheory"
+version = "0.2.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "pytuning",
+    "numeral",
+    "sounddevice",
+    "scipy",
+]
+
+[tool.setuptools]
+packages = ["pytheory"]

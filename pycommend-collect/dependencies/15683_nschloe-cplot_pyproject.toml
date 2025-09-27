@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.isort]
+profile = "black"
+
+[project]
+name = "cplot"
+authors = [{name = "Nico Schlömer", email = "nico.schloemer@gmail.com"}]
+description = "Plot complex-valued functions"
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Framework :: Matplotlib",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Visualization",
+]
+dynamic = ["version"]
+requires-python = ">=3.7"
+dependencies = [
+  "matplotlib",
+  "matplotx[all] >= 0.3.10",
+  "npx",
+  "numpy >= 1.20.0",
+]
+
+[project.optional-dependencies]
+all = [
+  "meshzoo",
+  "pyvista",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "cplot.__about__.__version__"}
+
+[project.urls]
+Code = "https://github.com/nschloe/cplot"
+Issues = "https://github.com/nschloe/cplot/issues"
+Funding = "https://github.com/sponsors/nschloe"

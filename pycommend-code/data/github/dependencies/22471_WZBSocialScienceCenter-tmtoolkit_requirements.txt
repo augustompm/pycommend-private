@@ -1,0 +1,9 @@
+# requirements.txt
+#
+# installs dependencies from ./setup.py, and the package itself,
+# in editable mode for development
+
+-e .[all]
+
+# don't forget to install the language models too via:
+# python -m tmtoolkit setup all

@@ -1,0 +1,14 @@
+shapely
+scikit-image
+imgaug
+pyclipper
+lmdb
+tqdm
+numpy
+tensorboard
+rapidfuzz
+opencv-python
+cython
+attrdict
+pyyaml
+onnxruntime

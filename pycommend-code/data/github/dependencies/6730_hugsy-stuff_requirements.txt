@@ -1,0 +1,13 @@
+bs4
+lxml
+matplotlib
+netaddr
+numpy
+pefile
+pyelftools
+python-magic
+python-magic-bin
+requests
+termcolor
+rich
+black

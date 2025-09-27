@@ -1,0 +1,42 @@
+[build-system]
+requires = [
+    "setuptools",
+    "wget"
+]
+
+[tool.poetry]
+name        = "pydp"
+version     = "1.1.5.rc4"
+description = ""
+authors     = [
+    "Chinmay Shah <chinmayshah3899@gmail.com>",
+]
+license     = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.dev-dependencies]
+black            = "*"
+black-nb         = "*"
+bumpversion      = "==0.5.3"
+coverage         = "*"
+gcovr            = "*"
+isort            = "*"
+jupyter          = "*"
+matplotlib       = "*"
+mypy             = "*"
+nbqa             = "*"
+pandas           = "*"
+pre-commit       = "*"
+pytest           = "*"
+pytest-randomly  = "*"
+pytest-sugar     = "*"
+pytest-xdist     = "*"
+seaborn          = "*"
+setuptools       = "*"
+scikit-learn     = "*"
+sphinx           = "*"
+sphinx-rtd-theme = "*"
+twine            = "*"
+wheel            = "*"

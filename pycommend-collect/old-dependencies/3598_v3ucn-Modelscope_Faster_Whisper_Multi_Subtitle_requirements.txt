@@ -1,0 +1,16 @@
+faster-whisper
+ffmpeg-python
+gradio
+modelscope==1.10.0
+moviepy==1.0.3
+transformers==4.36.2
+sentencepiece
+librosa
+tensorflow
+sacremoses
+subword_nmt
+jieba
+funasr>=1.1.1
+ollama
+pysub-parser==1.7.0
+pyttsx3==2.90

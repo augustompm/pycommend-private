@@ -1,0 +1,10 @@
+python-dotenv
+agentmemory
+agentbrowser
+easycompletion
+agentloop
+agentlogger
+pytest
+prompt_toolkit
+black
+astor

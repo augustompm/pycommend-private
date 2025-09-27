@@ -1,0 +1,52 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "lobbyboy"
+version = "0.4.0"
+description = "Give me a server."
+authors = ["laixintao <laixintaoo@gmail.com>"]
+license = "GNU"
+
+[tool.poetry.scripts]
+lobbyboy-server = 'lobbyboy.main:main'
+lobbyboy-config-example = 'lobbyboy.scripts:print_example_config'
+
+[tool.poetry.dependencies]
+python = "^3.7"
+paramiko = {extras = ["gssapi"], version = "^2.8.0"}
+python-digitalocean = "^1.17.0"
+toml = "^0.10.2"
+linode-api4 = "^5.2.1"
+pyvultr = "^0.1.5"
+pre-commit = "^2.16.0"
+
+[tool.poetry.dev-dependencies]
+black = "^21.9b0"
+bumpversion = "^0.6.0"
+pytest = "^6.2.5"
+flake8 = "^4.0.1"
+freezegun = "^1.1.0"
+pytest-cov = "^3.0.0"
+
+[tool.black]
+target-version = ["py37"]
+line-length = 120
+
+[tool.coverage.run]
+source = ["lobbyboy"]
+
+[tool.isort]
+profile = "black"
+atomic = true
+
+[tool.bandit]
+recursive = true
+# B108: Probable insecure usage of temp file/directory.
+# B602: Subprocess call with shell=True identified, security issue.
+# B404: Consider possible security implications associated with the subprocess module.
+# B603: Subprocess call - check for execution of untrusted input.
+# B607: Starting a process with a partial executable path.
+skips = ["B108", "B602", "B404", "B603", "B607"]
+assert_used.skips = ['tests/test_*.py']

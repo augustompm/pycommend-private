@@ -1,0 +1,4 @@
+TTS
+librosa
+pydub
+ffmpeg-python

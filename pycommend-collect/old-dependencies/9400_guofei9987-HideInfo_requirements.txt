@@ -1,0 +1,6 @@
+setuptools
+numpy
+Pillow
+opencv-python
+scipy
+piexif

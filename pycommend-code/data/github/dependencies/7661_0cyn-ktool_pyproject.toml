@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "k2l"
+version = "2.1.1"
+description = "Static MachO/ObjC Reverse Engineering Toolkit"
+authors = ["cynder <kat@cynder.me>"]
+license = "MIT"
+repository = "https://github.com/cxnder/ktool"
+readme = "README.md"
+packages = [
+   { include = "ktool", from="src" },
+   { include = "ktool_macho", from="src" },
+   { include = "ktool_swift", from="src" },
+   { include = "lib0cyn", from="src" }
+]
+
+[tool.isort]
+profile = "black"
+
+[tool.poetry.scripts]
+ktool = "ktool.ktool_script:main"
+
+[tool.poetry.dependencies]
+python = "^3.6.2"
+Pygments = "^2.11.2"
+windows-curses = {version = "^2.3.1", platform = "win32"}
+
+[tool.poetry.dev-dependencies]
+pylint = "^2.12.2"
+pytest = "^7.0.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

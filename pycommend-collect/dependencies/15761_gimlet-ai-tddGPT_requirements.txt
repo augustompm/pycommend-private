@@ -1,0 +1,6 @@
+pydantic<2,>=1
+openai>=0.27
+langchain>=0.0.247
+faiss-cpu>=1.7
+langchain-experimental>=0.0.7
+tiktoken>=0.4

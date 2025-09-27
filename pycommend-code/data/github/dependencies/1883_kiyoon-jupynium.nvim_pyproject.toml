@@ -1,0 +1,223 @@
+[build-system]
+requires = ["hatchling", "hatch-requirements-txt", "version-pioneer"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata.hooks.requirements_txt]
+files = ["deps/requirements.in"]
+
+[tool.hatch.metadata.hooks.requirements_txt.optional-dependencies]
+dev = ["deps/requirements_dev.in"]
+
+[tool.hatch.version]
+source = "version-pioneer"
+
+[tool.hatch.build.hooks.version-pioneer]
+
+[tool.version-pioneer]
+versionscript = "src/jupynium/_version.py"
+versionfile-sdist = "src/jupynium/_version.py"
+versionfile-wheel = "jupynium/_version.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "src",
+  "docs",
+  "tests",
+  "tools",
+  "scripts",
+  "deps",
+  "after",
+  "lua",
+  "plugin",
+]
+
+[tool.hatch.build.targets.wheel]
+sources = ["src"]
+
+[project]
+name = "jupynium"
+dynamic = ["version", "dependencies", "optional-dependencies"]
+description = "Neovim plugin that automates Jupyter Notebook editing/browsing using Selenium."
+authors = [
+  { name = "Kiyoon Kim" },
+]
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.9"
+classifiers = [
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "License :: OSI Approved :: MIT License",
+]
+keywords = ["neovim", "vim", "jupyter", "selenium", "jupyter-notebook", "nvim", "neovim-plugin", "nvim-plugin"]
+
+[project.urls]
+"Homepage" = "https://github.com/kiyoon/jupynium.nvim"
+
+[project.scripts]
+jupynium = "jupynium.cmds.jupynium:main"
+ipynb2jupytext = "jupynium.cmds.ipynb2jupytext:main"
+
+[tool.projector.pip-compile]
+# https://github.com/deargen/workflows/blob/master/python-projector
+requirements-in-dir = "deps"
+requirements-out-dir = "deps/lock"
+python-platforms = ["x86_64-manylinux_2_28", "aarch64-apple-darwin", "x86_64-apple-darwin"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=jupynium"
+testpaths = [
+  "tests",
+]
+
+[tool.coverage.report]
+omit = [
+  "src/jupynium/_version.py", # CHANGE
+  # OPTIONALLY ADD MORE LATER
+]
+
+[tool.tox]
+requires = ["tox>=4.19"]
+env_list = ["python3.9", "python3.10", "python3.11", "python3.12", "python3.13"]
+isolated_build = true
+
+[tool.tox.gh-actions]
+python = """
+  3.9: python3.9
+  3.10: python3.10
+  3.11: python3.11
+  3.12: python3.12
+  3.13: python3.13
+"""
+
+[tool.tox.env_run_base]
+# setenv = ["PYTHONPATH={toxinidir}"]
+deps = ["-r{toxinidir}/deps/lock/x86_64-manylinux_2_28/requirements_dev.txt"]
+commands = [["pytest", "--basetemp={envtmpdir}"]]
+
+[tool.pyright]
+include = ["src"]
+
+typeCheckingMode = "standard"
+useLibraryCodeForTypes = true
+autoImportCompletions = true
+
+pythonVersion = "3.9"
+# pythonPlatform = "Linux"
+
+reportDuplicateImport = true
+
+[tool.ruff]
+# Ignore INP001 on these directories
+# The directories that do not contain s, r, and c are already ignored.
+namespace-packages = ["scripts"]
+
+[tool.ruff.lint]
+# OPTIONALLY ADD MORE LATER
+select = [
+  "ALL",
+]
+
+ignore = [
+  "E402",    # Module level import not at top of file
+  "W293",    # Blank line contains whitespace
+  "W291",    # Trailing whitespace
+  "D10",     # Missing docstring in public module / function / etc.
+  "D200",    # One-line docstring should fit on one line with quotes
+  "D205",    # 1 blank line required between summary line and description
+  "D212",    # Multi-line docstring summary should start at the first line
+  "D417",    # require documentation for every function parameter.
+  "D401",    # require an imperative mood for all docstrings.
+  "DOC201",  # missing Return field in docstring
+  "PTH123",  # Path.open should be used instead of built-in open
+  "PT006",   # Pytest parameterize style
+  "N812",    # Lowercase `functional` imported as non-lowercase `F` (import torch.nn.functional as F)
+  "NPY002",  # legacy numpy random
+  "UP017",   # datetime.timezone.utc -> datetime.UTC
+  "SIM108",  # use ternary operator instead of if-else
+  "TRY003",  # long message in except
+  "TRY400",  # logger.exception instead of logger.error
+  "PLR2004", # magic value comparison
+  "PLW2901",  # loop variable overwritten by assignment target
+  "COM812",  # missing trailing comma
+  "RET504",  # return with unnecessary assignment
+  "RET505",
+  "RET506",
+  "RET507",
+  "RET508",
+  "S",       # Security issues
+  "ANN",     # Missing type annotations
+  "ERA001",  # commented-out code
+  "G",       # Logging with format string
+  "EM",      # error message has to be variable
+  "SLF001",  # private member access
+  "TD",      # TODO
+  "FIX",     # TODO
+  "ARG",     # unused argument
+  "PERF",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = [
+    "F401", # Ignore seemingly unused imports (they're meant for re-export)
+]
+# Directories that do not contain s, r, and c
+"[!s][!r][!c]*/**" = ["INP001"] # Implicit namespace package (no __init__.py)
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.pycodestyle]
+# Black or ruff will enforce line length to be 88, except for docstrings and comments.
+# We set it to 120 so we have more space for docstrings and comments.
+max-line-length = 120
+
+[tool.ruff.lint.isort]
+# combine-as-imports = true
+known-third-party = ["wandb"]
+known-first-party = [
+  "rust_graph",
+  "bio_data_to_db",
+  "reduce_binary",
+  "apbs_binary",
+  "msms_binary",
+  "slack_helpers",
+  "biotest",
+]
+
+## Uncomment this if you want to use Python < 3.10
+# required-imports = [
+#   "from __future__ import annotations",
+# ]
+
+# [tool.ruff.lint.flake8-tidy-imports]
+# Ban certain modules from being imported at module level, instead requiring
+# that they're imported lazily (e.g., within a function definition, if TYPE_CHECKING, etc.)
+# banned-module-level-imports = ["torch"]
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"pytorch_lightning".msg = "Use lightning.fabric instead"
+"lightning.pytorch".msg = "Use lightning.fabric instead"
+"lightning_fabric".msg = "Use lightning.fabric instead"
+"accelerate".msg = "Use lightning.fabric instead"
+"os.system".msg = "Use subprocess.run or subprocess.Popen instead"
+"easydict".msg = "Use typing.TypedDict instead (also consider dataclasses and pydantic)"
+
+[tool.ruff.lint.pylint]
+max-args = 15
+max-bool-expr = 10
+max-statements = 100
+max-returns = 6
+max-public-methods = 30
+max-nested-blocks = 10
+max-locals = 30
+max-branches = 24
+
+[tool.ruff.lint.mccabe]
+# C901: limit the number of decision points in a function
+max-complexity = 20

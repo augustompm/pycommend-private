@@ -1,0 +1,4 @@
+cryptography
+pytz
+requests
+websocket_client

@@ -1,0 +1,6 @@
+tqdm
+loguru
+tqdm
+text_generation
+vllm==0.4.0
+numpy==1.23.3

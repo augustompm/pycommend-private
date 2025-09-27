@@ -1,0 +1,8 @@
+fastapi==0.105.0
+numpy==1.26.2
+requests==2.31.0
+uvicorn==0.25.0
+transformers==4.33.2
+torch==2.1.2
+accelerate==0.25.0
+gradio==3.44.3

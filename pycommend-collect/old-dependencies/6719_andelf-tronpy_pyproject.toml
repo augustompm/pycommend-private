@@ -1,0 +1,76 @@
+[tool.poetry]
+name = "tronpy"
+version = "0.4.0"
+description = "TRON Python client library"
+authors = ["andelf <andelf@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/andelf/tronpy"
+repository = "https://github.com/andelf/tronpy"
+keywords = ["tron", "api", "blockchain"]
+classifiers = [
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    'Natural Language :: English',
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+base58 = "*"
+coincurve = "*"
+eth-abi = ">=5.0.0,<6.0.0"
+httpx = "*"
+pycryptodome = "<4"
+requests = "*"
+
+mnemonic = { version = "0.20", optional = true }
+
+[tool.poetry.extras]
+mnemonic = ["mnemonic"]
+
+[tool.poetry.dev-dependencies]
+pytest = "*"
+pytest-cov = "*"
+flake8 = "*"
+black = "*"
+isort = "*"
+mypy = "*"
+sphinx = "*"
+pytest-asyncio = "*"
+codecov = "*"
+pre-commit = "*"
+
+[tool.pytest.ini_options]
+addopts = ["--cov=.", "--cov-report", "term-missing"]
+filterwarnings = [
+    "error::DeprecationWarning",
+    "error::PendingDeprecationWarning",
+]
+
+[tool.black]
+line-length = 127
+
+[tool.isort]
+profile = "black"
+line_length = 127
+
+[tool.mypy]
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+warn_return_any = true
+no_implicit_optional = true
+strict_optional = true
+ignore_missing_imports = true
+
+
+[tool.coverage.run]
+omit = ["*__init__.py", "tests/*", "venv/*", "env/*", "setup.py"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

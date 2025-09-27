@@ -1,0 +1,119 @@
+[tool.poetry]
+authors = ["SFU Database System Lab <dsl.cs.sfu@gmail.com>"]
+description = "Dataprep: Data Preparation in Python"
+maintainers = [
+  "Weiyuan Wu <youngw@sfu.com>",
+  "Jinglin Peng <jinglin_peng@sfu.ca>",
+  "Pei Wang <peiw@sfu.ca>",
+  "Brandon Lockhart <brandon_lockhart@sfu.ca>",
+  "Song Bian <biansonghz@gmail.com>",
+  "Danrui Qi <qidanrui@gmail.com>",
+  "Wenbin Li <freyalisfu@gmail.com>",
+  "Alvin Lam <hfl6@sfu.ca>"
+]
+name = "dataprep"
+version = "0.4.6"
+
+license = "MIT"
+
+readme = "README.md" # Markdown files are supported
+
+homepage = "https://github.com/sfu-db/dataprep"
+repository = "https://github.com/sfu-db/dataprep"
+
+keywords = ["dataprep", "eda", "connector", "data science", "exploratory data analysis", "data exploration"]
+
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Topic :: Software Development :: Build Tools",
+  "Environment :: Console",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Financial and Insurance Industry",
+  "Intended Audience :: Healthcare Industry",
+  "Topic :: Scientific/Engineering",
+  "Framework :: IPython",
+]
+
+[tool.poetry.build]
+generate-setup-file = false
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.13"
+
+# Dependencies for EDA
+bokeh = "^2"
+dask = {version = ">=2022.3.0", extras = ["array", "dataframe", "delayed"]}
+nltk = "^3.6.7"
+numpy = [
+  {version = "^1.24", python = "<3.9"},
+  {version = "^1.26", python = ">=3.9"}
+]
+pandas = "^1.1"
+pydot = "^1.4.2"
+scipy = [
+  {version = "^1.8", python = "<3.12"},
+  {version = ">1.8", python = ">=3.12"}
+]
+wordcloud = "^1.8"
+sqlalchemy = "2.0.25"
+
+# Dependencies for Connector
+aiohttp = "^3.6"
+ipywidgets = "^7.5"
+jinja2 = ">=3.0,<3.1"
+jsonpath-ng = "^1.5"
+pydantic = "^1.6"
+tqdm = "^4.48"
+
+# Dependencies for Clean
+flask = "^2"
+flask_cors = "^3.0.10"
+metaphone = "^0.6"
+python-stdnum = "^1.16"
+regex = "^2021.8.3"
+varname = "^0.8.1"
+python-crfsuite = "0.9.10"
+rapidfuzz = "^2.1.2"
+
+[tool.poetry.dev-dependencies]
+black = "^24.2.0"
+codecov = "^2"
+docopt = "^0.6"
+gitpython = "^3"
+ipykernel = "^6"
+ipython = "^7"
+nbsphinx = "^0.8"
+pylint = "^2"
+pyright = "^0.0.13"
+pytest = "^6"
+pytest-cov = "^3"
+rope = "^0.16"
+rstcheck = "^3"
+seaborn = "^0.11"
+sphinx = "^4"
+sphinx-autobuild = "^2021"
+sphinx-autodoc-typehints = "^1"
+toml = "^0.10"
+
+
+[tool.black]
+exclude = '''
+(
+    /(
+        \.eggs
+    | \.git
+    | \.pytype
+    | \.pytest_cache
+    | build
+    | dist
+    )/
+)
+'''
+line-length = 100
+target-version = ['py38','py39','py310','py311','py312']
+
+[build-system]
+build-backend = "poetry.masonry.api"
+requires = ["poetry>=1"]

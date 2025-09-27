@@ -1,0 +1,6 @@
+﻿Augmentor
+discord.py==1.7.3
+numpy
+aiohttp
+nudepy
+git+https://github.com/dimitrismistriotis/alt-profanity-check

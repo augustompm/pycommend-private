@@ -1,0 +1,14 @@
+certifi
+chardet
+gitdb2
+GitPython
+idna
+Jinja2
+MarkupSafe
+mistune
+mistune-contrib
+requests
+smmap2
+urllib3
+pytz
+watchdog
