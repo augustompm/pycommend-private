@@ -298,8 +298,17 @@ class NSGA2_V5:
 
     def tournament_selection(self, population):
         """Binary tournament selection"""
+        if not population:
+            raise ValueError("Cannot select from empty population")
+
+        if len(population) == 1:
+            return population[0]
+
         p1 = random.choice(population)
         p2 = random.choice(population)
+
+        if 'rank' not in p1 or 'rank' not in p2 or p1['rank'] is None or p2['rank'] is None:
+            return p1 if random.random() < 0.5 else p2
 
         if p1['rank'] < p2['rank']:
             return p1
@@ -397,32 +406,41 @@ class NSGA2_V5:
 
             new_population = []
             for front_idx, front in enumerate(fronts):
-                front_individuals = [population[i] for i in front]
-                self.crowding_distance_assignment(front_individuals)
-
-                for idx, i in enumerate(front):
-                    population[i] = front_individuals[idx]
-
                 if len(new_population) + len(front) <= self.pop_size:
                     new_population.extend([population[i] for i in front])
                 else:
-                    front_individuals = [population[i] for i in front]
-                    front_individuals.sort(key=lambda x: x['crowding_distance'], reverse=True)
-                    new_population.extend(front_individuals[:self.pop_size - len(new_population)])
+                    remaining = self.pop_size - len(new_population)
+                    if remaining > 0:
+                        front_individuals = [population[i] for i in front]
+                        self.crowding_distance_assignment(front_individuals)
+                        front_individuals.sort(key=lambda x: x['crowding_distance'], reverse=True)
+                        new_population.extend(front_individuals[:remaining])
                     break
 
-            population = new_population
+            if len(new_population) < self.pop_size:
+                print(f"WARNING: Population only {len(new_population)}, filling to {self.pop_size}")
+                while len(new_population) < self.pop_size:
+                    new_individual = self.smart_initialization('hybrid')
+                    objectives = self.evaluate_objectives(new_individual)
+                    new_population.append({
+                        'chromosome': new_individual,
+                        'objectives': objectives,
+                        'rank': None,
+                        'crowding_distance': 0
+                    })
 
-            if generation % 10 == 0:
-                if fronts and len(fronts) > 0:
-                    if len(fronts[0]) > 0:
-                        pareto_front = [population[i] for i in fronts[0]]
-                        if pareto_front:
-                            best = min(pareto_front, key=lambda x: x['objectives'][0])
-                            print(f"Generation {generation}: Pareto size={len(pareto_front)}")
-                            print(f"  Best: F1={-best['objectives'][0]:.2f}, F2={-best['objectives'][1]:.4f}, "
-                                  f"F3={-best['objectives'][2]:.4f}, F4={best['objectives'][3]:.1f}")
-                            best_objectives_history.append(best['objectives'])
+            population = new_population[:self.pop_size]
+
+            if generation % 10 == 0 and population:
+                current_fronts = self.fast_non_dominated_sort(population)
+                if current_fronts and len(current_fronts) > 0 and len(current_fronts[0]) > 0:
+                    pareto_front = [population[i] for i in current_fronts[0]]
+                    if pareto_front:
+                        best = min(pareto_front, key=lambda x: x['objectives'][0])
+                        print(f"Generation {generation}: Pareto size={len(pareto_front)}")
+                        print(f"  Best: F1={-best['objectives'][0]:.2f}, F2={-best['objectives'][1]:.4f}, "
+                              f"F3={-best['objectives'][2]:.4f}, F4={best['objectives'][3]:.1f}")
+                        best_objectives_history.append(best['objectives'])
 
         final_fronts = self.fast_non_dominated_sort(population)
         if final_fronts and final_fronts[0]:

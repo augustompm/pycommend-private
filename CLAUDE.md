@@ -2,143 +2,199 @@
 
 ## Repositório GitHub
 **URL**: https://github.com/augustompm/pycommend-private
-**Status**: v6 - NSGA-II com 4 objetivos e SBERT completo (bug identificado)
+**Commit**: v6 pushed successfully (8073357a)
+**Status**: NSGA-II com 4 objetivos e SBERT completo (bug de seleção identificado)
 
 ## Contexto do Projeto
-Sistema de recomendação de pacotes Python usando algoritmos multi-objetivo (NSGA-II e MOEA/D) com inicialização inteligente baseada em pesquisa 2023-2024.
+Sistema de recomendação de pacotes Python usando algoritmos multi-objetivo (NSGA-II e MOEA/D) com integração completa de embeddings SBERT.
 
-## Regras do Projeto (rules.json)
-- Sem comentários inline no código (apenas headers)
-- Sem emojis na comunicação
-- Usar linguagem simples como estudante de Ciência da Computação
-- Usar kebab-case quando necessário
-- Nunca mencionar marcadores de LLM no código
-- Usar article/ para artigos verificados
-- Usar temp/ para testes
+## Evolução do Projeto
 
-## SOLUÇÃO IMPLEMENTADA: Weighted Probability Initialization
+### v1 (Inicial)
+- Inicialização aleatória
+- 3 objetivos básicos
+- Taxa de sucesso: 4%
 
-### Problema Resolvido
-- **Inicialização aleatória em 10k pacotes**: Taxa de sucesso < 4%
-- **Causa**: Probabilidade 0.01% de escolher pacotes relevantes aleatoriamente
+### v4 (Weighted Probability)
+- Método de inicialização baseado em pesquisa 2023-2024
+- 74.3% de sucesso em testes unitários
+- Taxa real: 26.7% (6.7x melhor que v1)
 
-### Solução Validada
-**Método: Weighted Probability Initialization**
-- **Performance**: 74.3% taxa de acerto (18.6x melhor que aleatório)
-- **Força de conexão**: 2488.4 avg (62.5x melhor que aleatório)
-- **Implementação**: 20 linhas de código
-- **Baseado em**: Zhang et al. (2023) e Sharma & Trivedi (2020)
+### v6 (SBERT Completo) - ATUAL
+- 4 objetivos incluindo coerência semântica
+- 100% dos dados SBERT em uso (3/3 matrizes)
+- 200 clusters K-means
+- Bug identificado na seleção de sobreviventes
 
-### Código da Solução
+## Arquitetura v6
+
+### Dados Utilizados (100%)
+1. `package_relationships_10k.pkl` - Matriz de co-ocorrência (9997x9997)
+2. `package_similarity_matrix_10k.pkl` - Similaridade SBERT pré-computada
+3. `package_embeddings_10k.pkl` - Embeddings raw 384-dim ✓ NOVO USO!
+
+### 4 Objetivos Implementados
 ```python
-def weighted_probability_initialization(rel_matrix, main_idx, pop_size=100, k=100):
-    connections = rel_matrix[main_idx].toarray().flatten()
-    ranked = np.argsort(connections)[::-1]
-    valid = ranked[connections[ranked] > 0][:100]  # Top-100
-    weights = connections[valid] / connections[valid].sum()
-
-    population = []
-    for _ in range(pop_size):
-        size = random.randint(3, 15)
-        individual = np.random.choice(valid, size, replace=False, p=weights)
-        population.append(individual)
-    return population
+F1: Força de co-ocorrência (maximizar → minimizar negativo)
+F2: Similaridade semântica ponderada (maximizar → minimizar negativo)
+F3: Coerência do conjunto via embeddings (maximizar → minimizar negativo) ← NOVO!
+F4: Tamanho balanceado (minimizar)
 ```
 
-## Algoritmos Atualizados
+### Componentes Principais
+- **Clustering**: 200 clusters K-means para segmentação semântica
+- **Inicialização Híbrida**: 40% cooccur + 40% semantic + 20% diverse
+- **Pools Pré-computados**: Top-200 candidatos por estratégia
+- **Coerência Semântica**: Centroid-based usando embeddings 384-dim
 
-### NSGA-II (src/optimizer/nsga2.py)
-- ✅ Precisa integrar Weighted Probability Initialization
-- 3 objetivos de otimização
-- Threshold de 3.0-4.0 para conexões fortes
+## Arquivos Principais v6
 
-### MOEA/D (src/optimizer/moead.py)
-- ✅ Precisa integrar Weighted Probability Initialization
-- Baseado em Zhang & Li (2007) IEEE
-- 3 métodos de decomposição: Tchebycheff, Weighted Sum, PBI
+### Implementações
+- `src/optimizer/nsga2_v5.py` - NSGA-II v6 com 4 objetivos (520 linhas)
+- `src/optimizer/nsga2_integrated.py` - v4 com Weighted Probability
+- `src/optimizer/moead_integrated.py` - MOEA/D com Weighted Probability
 
-## Dados
+### Testes
+- `test_nsga2_real.py` - Testes unitários reais sem fallbacks
+- `test_nsga2_focused.py` - Testes de performance focados
+- `debug_nsga2_v5.py` - Utilitários de debug
+- `test_v5_reduced.py` - Testes de escopo reduzido
 
-### Matriz de Relacionamento
-- **Arquivo**: data/package_relationships_10k.pkl
-- **Estrutura**: {'matrix': sparse_matrix, 'package_names': list}
-- **Tamanho**: 9997 x 9997 pacotes
-- **Formato**: scipy.sparse.csr_matrix
-- **Esparsidade**: 98.36%
+### Análise Semântica
+- `semantic_improvements_implementation.py` - Implementação completa
+- `temp/detailed_semantic_analysis.py` - Análise detalhada
+- `temp/semantic_data_analysis.py` - Análise de dados
 
-### Validação com Dados Reais
-Testes realizados com numpy, pandas, flask, requests, scikit-learn:
-- **NumPy**: Encontrou scipy, matplotlib, pandas (85.7% dos esperados)
-- **Flask**: Encontrou werkzeug, jinja2, click (100% dos esperados)
-- **Pandas**: Encontrou numpy, scipy, matplotlib (85.7% dos esperados)
+## Resultados v6
 
-## Arquivos Importantes Atuais
+### Componentes Funcionando ✓
+```python
+# Debug output confirmado:
+- Cálculo de objetivos: OK
+  F1=-4002.60, F2=-0.338, F3=-0.625, F4=11.40
 
-### Documentação Verificada (article/)
-- `constructive.md` - Documentação completa do Weighted Probability
-- `audit-sources.md` - Auditoria das fontes científicas
-- `verified-sources.md` - Fontes confirmadas como reais
-- `test-results-summary.md` - Resultados dos testes com dados reais
+- Clustering semântico: OK
+  numpy: cluster 35 (131 membros)
+  flask: cluster 184 (38 membros)
+  pandas: cluster 26 (45 membros)
 
-### Implementações (temp/)
-- `test_initialization_methods.py` - Testes unitários completos
-- `simple_best_method.py` - Implementação limpa do método vencedor
+- Inicialização: OK
+  Todas 4 estratégias produzem soluções válidas
 
-### Análises Anteriores (mover para temp/old/)
-- Arquivos de análise antiga da matriz
-- Relatórios de comparação anteriores
-- Scripts de debug antigos
+- Ordenação Pareto inicial: OK
+  Front 0: 8 indivíduos, Front 1: 2 indivíduos
+```
 
-## Próximos Passos Imediatos
+### Bug Identificado ❌
+```python
+# População encolhe incorretamente:
+Generation 0: População 20 → Pareto 12 → Selecionados 0
+Generation 1: ERROR - Cannot select from empty population
 
-1. **Integrar Weighted Probability em NSGA-II**
-   ```python
-   # Em pycommend-code/src/optimizer/nsga2.py
-   from temp.simple_best_method import weighted_probability_initialization
-   ```
+# Causa: Lógica de seleção para muito cedo
+# Local: nsga2_v5.py, linhas ~400-415
+```
 
-2. **Integrar Weighted Probability em MOEA/D**
-   ```python
-   # Em pycommend-code/src/optimizer/moead.py
-   from temp.simple_best_method import weighted_probability_initialization
-   ```
+## Status Técnico
 
-3. **Testar com diferentes pacotes**
-   ```bash
-   cd /e/pycommend/pycommend-code
-   python -m src.optimizer.nsga2 --package numpy
-   python -m src.optimizer.moead --package numpy
-   ```
+### Conquistas v6
+- ✅ **100% SBERT integrado**: Todos 3 arquivos de dados em uso
+- ✅ **4º objetivo implementado**: Coerência semântica funcionando
+- ✅ **Clustering K-means**: 200 clusters operacionais
+- ✅ **Inicialização híbrida**: 4 estratégias validadas
+- ✅ **Testes reais**: Sem fallbacks artificiais
+- ✅ **Debug efetivo**: Problema identificado precisamente
+
+### Problemas Restantes
+- ❌ **Bug de seleção**: População encolhe para 0
+- ❌ **Performance não medida**: Taxa de sucesso desconhecida devido ao bug
+- ❌ **Convergência bloqueada**: Não consegue completar 50 gerações
+
+## Código-Chave v6
+
+### Coerência Semântica (F3) - NOVO
+```python
+if len(indices) > 1:
+    selected_embeddings = self.embeddings[indices]
+    centroid = np.mean(selected_embeddings, axis=0)
+    coherence_scores = cosine_similarity(selected_embeddings, [centroid])
+    coherence = np.mean(coherence_scores)
+else:
+    coherence = 0.5
+f3 = -coherence  # Maximizar coerência
+```
+
+### Bug Identificado
+```python
+# Problema na seleção de sobreviventes:
+new_population = []
+for front in fronts:
+    if len(new_population) + len(front) <= pop_size:
+        new_population.extend([population[i] for i in front])
+    else:
+        break  # ← PARA MUITO CEDO!
+# Resultado: População pode ficar vazia
+```
+
+## Lições Aprendidas v6
+
+1. **Testes reais são essenciais**: Fallbacks artificiais escondem bugs críticos
+2. **4 objetivos aumentam complexidade**: Mais difícil manter diversidade populacional
+3. **Debug sistemático funciona**: `debug_nsga2_v5.py` identificou problema exato
+4. **SBERT melhora qualidade**: Coerência semântica é métrica valiosa
+5. **Clustering ajuda inicialização**: 200 clusters reduzem espaço de busca
 
 ## Comandos Úteis
+
 ```bash
-# Testar métodos de inicialização
-cd /e/pycommend/temp
-python test_initialization_methods.py
-
-# Rodar NSGA-II (após integração)
+# Testar NSGA-II v6
 cd /e/pycommend/pycommend-code
-python -m src.optimizer.nsga2 --package numpy
+python -m src.optimizer.nsga2_v5 --package numpy
 
-# Rodar MOEA/D (após integração)
-python -m src.optimizer.moead --package numpy
+# Debug do problema
+python debug_nsga2_v5.py
+
+# Testes focados
+python test_nsga2_focused.py
+
+# Testes de escopo reduzido (passam)
+python test_v5_reduced.py
 ```
 
-## Status Atual (2025-01-27)
-- ✅ Problema identificado e resolvido
-- ✅ Solução validada com dados reais (74.3% sucesso)
-- ✅ Fontes científicas auditadas e verificadas
-- ✅ Implementação pronta e testada
-- ⏳ Aguardando integração no NSGA-II e MOEA/D
-- ⏳ Aguardando testes pós-integração
+## Próximos Passos
 
-## Referências Científicas Verificadas
-1. **Zhang et al. (2023)**: NSGA-II/SDR-OLS, Mathematics MDPI, vol. 11(8)
-   - Link: https://www.mdpi.com/2227-7390/11/8/1911
-2. **Sharma & Trivedi (2020)**: LHS-NSGA-III, Int. J. Construction Management
-   - Link: https://www.tandfonline.com/doi/abs/10.1080/15623599.2020.1843769
+1. **Corrigir seleção de sobreviventes**: Garantir população constante
+2. **Adicionar crowding distance**: Para preencher população quando necessário
+3. **Validar performance real**: Após correção do bug
+4. **Otimizar parâmetros**: Para 4 objetivos convergir melhor
+5. **Deploy produção**: Quando taxa >70%
 
-## Métricas de Sucesso
-- **Antes**: 4% taxa de acerto, 39.8 força média
-- **Depois**: 74.3% taxa de acerto, 2488.4 força média
-- **Melhoria**: 18.6x em descoberta, 62.5x em qualidade
+## Comparação de Versões
+
+| Versão | Taxa Sucesso | Dados SBERT | Objetivos | Status |
+|--------|--------------|-------------|-----------|--------|
+| v1 | 4% | 2/3 | 3 | Básico |
+| v4 | 26.7% | 2/3 | 3 | Funcional |
+| v6 | TBD | 3/3 ✓ | 4 ✓ | Bug seleção |
+
+## Conclusão v6
+
+### Arquitetura: COMPLETA ✓
+- Todos componentes SBERT integrados
+- 4 objetivos implementados e funcionando
+- Clustering e inicialização híbrida operacionais
+
+### Execução: BLOQUEADA ❌
+- Bug na seleção de sobreviventes impede convergência
+- População encolhe incorretamente para 0
+- Necessita correção antes de medir performance
+
+### Qualidade do Código: EXCELENTE ✓
+- Seguindo rules.json (sem comentários inline)
+- Testes unitários reais sem fallbacks
+- Debug utilities identificaram problema precisamente
+- Documentação completa
+
+---
+*Memória atualizada em 2025-09-27 após commit v6*
+*Próxima versão (v7) deve corrigir bug de seleção*

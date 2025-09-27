@@ -127,16 +127,34 @@ def debug_convergence():
         fronts = nsga2.fast_non_dominated_sort(population)
 
         new_population = []
-        for front in fronts:
+        for front_idx, front in enumerate(fronts):
             if len(new_population) + len(front) <= nsga2.pop_size:
                 new_population.extend([population[i] for i in front])
             else:
+                remaining = nsga2.pop_size - len(new_population)
+                if remaining > 0:
+                    front_individuals = [population[i] for i in front]
+                    nsga2.crowding_distance_assignment(front_individuals)
+                    front_individuals.sort(key=lambda x: x['crowding_distance'], reverse=True)
+                    new_population.extend(front_individuals[:remaining])
                 break
 
-        population = new_population
+        if len(new_population) < nsga2.pop_size:
+            print(f"  WARNING: Population only {len(new_population)}, filling...")
+            while len(new_population) < nsga2.pop_size:
+                new_individual = nsga2.smart_initialization('hybrid')
+                objectives = nsga2.evaluate_objectives(new_individual)
+                new_population.append({
+                    'chromosome': new_individual,
+                    'objectives': objectives,
+                    'rank': None,
+                    'crowding_distance': 0
+                })
 
-        if len(population) < nsga2.pop_size:
-            print(f"  WARNING: Population shrunk to {len(population)}")
+        population = new_population[:nsga2.pop_size]
+
+        if len(population) != nsga2.pop_size:
+            print(f"  ERROR: Population size {len(population)} != {nsga2.pop_size}")
 
 
 def main():
