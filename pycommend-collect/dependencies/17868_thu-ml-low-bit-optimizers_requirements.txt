@@ -1,6 +1,0 @@
-ninja
-pyyaml
-pynvml
-yacs
-numpy
-torch >= 1.13

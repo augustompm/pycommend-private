@@ -1,6 +1,0 @@
-PyYAML
-requests
-folium
-google
-rich
-protobuf == 3.19.5

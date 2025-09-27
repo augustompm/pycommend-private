@@ -1,5 +1,0 @@
-setuptools
-six
-requests
-lxml
-cachecontrol

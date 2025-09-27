@@ -1,5 +1,0 @@
-matplotlib<3.7
-numpy
-pysam>=0.15
-wget
-Jinja2

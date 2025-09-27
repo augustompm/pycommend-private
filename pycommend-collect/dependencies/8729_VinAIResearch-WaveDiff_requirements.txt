@@ -1,9 +1,0 @@
-pillow
-matplotlib
-tensorboard
-tensorboardX
-lmdb
-scipy
-ninja
-einops
-PyWavelets

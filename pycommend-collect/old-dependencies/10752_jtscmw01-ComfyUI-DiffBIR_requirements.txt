@@ -1,4 +1,0 @@
-omegaconf
-ftfy
-timm
-pytorch_lightning

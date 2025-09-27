@@ -1,7 +1,0 @@
-construct
-bitstruct
-tableprint
-urwid
-pkgconfig
-crcmod
-git+https://git@github.com/usb-tools/python-usb-protocol.git

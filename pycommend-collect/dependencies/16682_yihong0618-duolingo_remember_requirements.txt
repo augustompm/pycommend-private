@@ -1,5 +1,0 @@
-requests
-openai==0.27.2
-edge-tts
-rich
-EdgeGPT==0.3.1

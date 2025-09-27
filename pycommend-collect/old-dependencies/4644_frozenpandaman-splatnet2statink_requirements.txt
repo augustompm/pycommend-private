@@ -1,6 +1,0 @@
-bs4
-requests
-msgpack-python
-future
-pillow
-packaging

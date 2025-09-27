@@ -1,4 +1,0 @@
-mmcv>=0.4.4
-numpy
-torch>=1.1
-torchvision

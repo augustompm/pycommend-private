@@ -1,3 +1,0 @@
-[tool.black]
-# File filtering is taken care of in pre-commit.
-target-version = ['py38']

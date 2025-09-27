@@ -1,5 +1,0 @@
-pygame
-i3ipc
-pillow
-xdg
-pyxdg

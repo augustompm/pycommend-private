@@ -1,6 +1,0 @@
-accelerate
-datasets
-safetensors
-transformers
-trl
-hf_transfer

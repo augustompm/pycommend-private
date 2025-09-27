@@ -1,1 +1,0 @@
-packages/pretendard/README.md

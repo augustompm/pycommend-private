@@ -1,8 +1,0 @@
-langchain
-torch
-torchvision
-imageio
-numpy
-openai
-opencv-python
-scikit-image

@@ -1,9 +1,0 @@
-av
-librosa
-numpy
-pyyaml
-tqdm
-resampy
-scikit_learn
-soundfile
-termcolor

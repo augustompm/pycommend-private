@@ -1,4 +1,0 @@
-datasets 
-transformers @ git+https://github.com/huggingface/transformers.git
-accelerate
-diffusers

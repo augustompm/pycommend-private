@@ -1,8 +1,0 @@
-torch
-transformers
-accelerate
-colorama
-cpm_kernels
-sentencepiece
-streamlit
-transformers_stream_generator

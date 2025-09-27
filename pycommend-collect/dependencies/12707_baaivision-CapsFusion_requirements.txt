@@ -1,6 +1,0 @@
-torch
-transformers==4.28.1
-xformers==0.0.18
-numpy
-tqdm
-omegaconf

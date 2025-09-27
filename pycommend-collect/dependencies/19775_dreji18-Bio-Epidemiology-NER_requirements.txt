@@ -1,4 +1,0 @@
-transformers
-pandas
-nltk
-PyMuPDF==1.20.1

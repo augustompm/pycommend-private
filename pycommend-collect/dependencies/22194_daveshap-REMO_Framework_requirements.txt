@@ -1,8 +1,0 @@
-fastapi
-uvicorn
-openai
-numpy
-scikit-learn
-tensorflow
-tensorflow-hub
-PyYAML

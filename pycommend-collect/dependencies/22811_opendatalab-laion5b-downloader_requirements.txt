@@ -1,9 +1,0 @@
-redis
-httpx
-httpx[http2]
-httpx[socks]
-pandas
-loguru
-fastparquet
-retrying
-pyarrow

@@ -1,8 +1,0 @@
-[build-system]
-requires = ["flit_core >=3.2,<4","myst-parser >=0.18.1"]
-build-backend = "flit_core.buildapi"
-
-[project]
-name = "EasyPoi "
-authors = [{name = "夜雨微寒", email = "951683309@qq.com"}]
-dynamic = ["version", "description"]

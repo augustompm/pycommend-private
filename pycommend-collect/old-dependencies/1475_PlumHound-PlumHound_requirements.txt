@@ -1,5 +1,0 @@
-neo4j
-py2neo
-tabulate
-argcomplete
-alive-progress

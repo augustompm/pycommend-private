@@ -1,4 +1,0 @@
-Fabric
-Sphinx
-sphinx-intl
--r doc-requirements.txt

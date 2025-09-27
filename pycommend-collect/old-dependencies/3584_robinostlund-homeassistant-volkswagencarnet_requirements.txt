@@ -1,2 +1,0 @@
-pytz
-volkswagencarnet==5.0.2

@@ -1,9 +1,0 @@
-mcstatus
-discord-py-interactions
-pymongo
-requests
-python-masscan
-interactions-files
-twisted
-quarry
-javascript

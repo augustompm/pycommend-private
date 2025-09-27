@@ -1,5 +1,0 @@
-tensorflow-gpu
-gym[all]
-scikit-image
-scipy
-numpy

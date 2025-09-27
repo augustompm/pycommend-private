@@ -1,4 +1,0 @@
-Pymem==1.8.5
-pysqlcipher3==1.0.4
-pysqlcipher3_binary==1.0.4.0
-pywin32==227

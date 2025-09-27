@@ -1,6 +1,0 @@
-opencv-python
-elevenlabs
-captacity
-openai
-pydub
-numpy

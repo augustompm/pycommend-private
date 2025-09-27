@@ -1,9 +1,0 @@
-streamlit
-python-dotenv
-Pillow
-transformers
-streamlit-extras
-langchain
-torch
-openai
-tokenizers

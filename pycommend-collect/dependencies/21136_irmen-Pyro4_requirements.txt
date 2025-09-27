@@ -1,3 +1,0 @@
-serpent >=1.27,<1.30 ; python_version < "3.2"
-serpent >=1.27 ; python_version >= "3.2"
-selectors34 ; python_version < "3.4"

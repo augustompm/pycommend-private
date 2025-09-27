@@ -1,9 +1,0 @@
-easydict
-timm
-tqdm
-kornia
-numpy
-opencv-python
-pyyaml
-pandas
-scipy

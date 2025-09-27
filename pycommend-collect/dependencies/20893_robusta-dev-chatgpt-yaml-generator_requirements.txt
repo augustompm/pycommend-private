@@ -1,5 +1,0 @@
-quart
-quart-cors
-jsonschema
-requests
-pyyaml

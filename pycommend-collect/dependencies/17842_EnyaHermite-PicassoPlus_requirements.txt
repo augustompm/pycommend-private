@@ -1,5 +1,0 @@
-h5py
-torch-scatter
-open3d
-tensorboard
-gdown

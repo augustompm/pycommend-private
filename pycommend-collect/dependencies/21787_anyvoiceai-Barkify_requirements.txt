@@ -1,8 +1,0 @@
-funcy
-numpy
-scipy
-tqdm
-torch==1.13.0
-pytorch_lightning==1.9.0
-encodec
-transformers

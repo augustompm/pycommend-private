@@ -1,9 +1,0 @@
-# required:
-requests>=2.2.0
-# optional:
-argcomplete
-# for testing:
-#pytest
-#pyftpdlib
-# for building on osx:
-#py2app

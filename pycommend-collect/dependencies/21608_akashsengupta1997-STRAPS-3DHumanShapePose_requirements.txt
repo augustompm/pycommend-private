@@ -1,7 +1,0 @@
-opencv-python
-matplotlib
-pyrender
-tqdm
-trimesh
-smplx
-scikit-image==0.16.2

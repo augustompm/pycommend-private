@@ -1,8 +1,0 @@
-Twisted
-service_identity
-pyzmq>=13
-pyflakes
-pycodestyle
-Sphinx
-coverage
-coveralls

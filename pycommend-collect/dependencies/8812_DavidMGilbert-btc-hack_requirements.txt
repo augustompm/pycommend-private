@@ -1,5 +1,0 @@
-base58
-ecdsa
-requests
-multiprocessing
-PySimpleGUI

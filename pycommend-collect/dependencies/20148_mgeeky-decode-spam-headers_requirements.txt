@@ -1,6 +1,0 @@
-python-dateutil
-tldextract
-packaging
-dnspython
-requests
-colorama

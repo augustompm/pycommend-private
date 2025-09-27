@@ -1,4 +1,0 @@
-requests
-func_timeout
-rich
-dnslib

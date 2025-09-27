@@ -1,7 +1,0 @@
-requests
-geojson
-shapely
-adafruit-circuitpython-ht16k33
-pillow
-
-# note that display_letters requires python-smbus and python-imaging as well

@@ -1,4 +1,0 @@
-ldap3
-pysmb
-python_masscan
-textract

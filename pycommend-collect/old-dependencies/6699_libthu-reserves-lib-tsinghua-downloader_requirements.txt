@@ -1,7 +1,0 @@
-aiohttp
-img2pdf
-pillow
-requests
-tqdm
-beautifulsoup4
-selenium

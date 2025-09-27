@@ -1,8 +1,0 @@
-beautifulsoup4
-bs4
-certifi
-chardet
-idna
-requests
-soupsieve
-urllib3

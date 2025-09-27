@@ -1,2 +1,0 @@
-python3-venv
-counterfit[dev] @ git+https://github.com/Azure/counterfit.git@main

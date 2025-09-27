@@ -1,2 +1,0 @@
-OctoPrint
-python-periphery

@@ -1,7 +1,0 @@
-docker
-numpy
-Pillow
-openai
-markdown
-pygments
-selenium

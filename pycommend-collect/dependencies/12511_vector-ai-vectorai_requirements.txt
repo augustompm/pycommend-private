@@ -1,6 +1,0 @@
-requests
-numpy
-pandas
-appdirs>=1.4.4
-plotly>=4.0.0
-tqdm>=4.27.0

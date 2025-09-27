@@ -1,3 +1,0 @@
-ansible
-hpICsp
-hpeOneView==6.1.0

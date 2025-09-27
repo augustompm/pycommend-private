@@ -1,9 +1,0 @@
-beautifulsoup4
-requests
-html5lib
-numpy
-matplotlib
-selenium
-jieba
-wordcloud
-Pillow

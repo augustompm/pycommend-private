@@ -1,9 +1,0 @@
-argparse
-phonenumbers
-tqdm
-bs4
-requests
-trio
-httpx
-ignorant
-colorama

@@ -1,4 +1,0 @@
-websockets
-urwid
-pytest
-asyncio

@@ -1,4 +1,0 @@
-python-twitter
-Mastodon.py
-beautifulsoup4
-tweepy

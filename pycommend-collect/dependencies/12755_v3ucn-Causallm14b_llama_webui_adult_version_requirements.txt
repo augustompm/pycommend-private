@@ -1,4 +1,0 @@
-gradio==3.50.2
-llama-cpp-python
-llama-cpp-python[server]
-requests

@@ -1,6 +1,0 @@
-Keras
-numpy
-scikit-learn
-tensorflow
-SimpleITK
-matplotlib

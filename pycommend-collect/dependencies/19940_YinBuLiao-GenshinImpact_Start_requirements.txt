@@ -1,5 +1,0 @@
-opencv-python
-pyautogui
-numpy
-subprocess
-pywin32

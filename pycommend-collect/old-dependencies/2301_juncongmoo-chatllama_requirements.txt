@@ -1,6 +1,0 @@
-pyllama
-fairscale
-langchain
-beartype
-einops
-plotly

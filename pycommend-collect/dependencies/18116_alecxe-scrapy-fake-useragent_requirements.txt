@@ -1,2 +1,0 @@
-fake-useragent
-faker>=4.1.1

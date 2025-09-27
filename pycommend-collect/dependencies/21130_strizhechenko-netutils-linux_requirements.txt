@@ -1,7 +1,0 @@
-prettytable
-pyyaml
-setuptools
-ipaddress
-six
-colorama
-argparse

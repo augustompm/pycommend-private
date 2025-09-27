@@ -1,8 +1,0 @@
-IPython
-Numpy
-pillow
-bump2version
-pytest
-pytest-cov
-shortuuid
-pandas

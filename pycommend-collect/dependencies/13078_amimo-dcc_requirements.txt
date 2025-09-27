@@ -1,7 +1,0 @@
-networkx
-pydot
-future
-pyasn1
-cryptography
-lxml
-asn1crypto

@@ -1,9 +1,0 @@
-rich
-lxml
-m3u8
-aiohttp
-mutagen
-requests
-protobuf
-pycryptodomex
-beautifulsoup4

@@ -1,8 +1,0 @@
-numpy<2.0.0
-tensorflow>=2.1.0
-scikit-learn
-scikit-image
-matplotlib
-scipy
-opencv-python
-deprecated

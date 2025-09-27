@@ -1,6 +1,0 @@
-pycocotools
-tqdm
-scipy
-timm
-fvcore
-tensorboard

@@ -1,6 +1,0 @@
-Django
-Jinja2
-python-dateutil
-PyYAML
-regex
-requests

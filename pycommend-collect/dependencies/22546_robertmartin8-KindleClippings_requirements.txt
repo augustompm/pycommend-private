@@ -1,2 +1,0 @@
-FPDF
-python-docx

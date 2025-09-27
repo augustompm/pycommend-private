@@ -1,3 +1,0 @@
-pyevmasm
-interval3
-evm-cfg-builder>=0.2.0

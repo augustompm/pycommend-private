@@ -1,7 +1,0 @@
-gradio>=3.28.1
-Pydantic
-opencv-python
-scipy>=1.7.3
-ninja==1.11.1
-lpips
-

@@ -1,4 +1,0 @@
-easydev
-numpy
-scipy
-matplotlib

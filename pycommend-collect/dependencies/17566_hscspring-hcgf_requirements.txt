@@ -1,4 +1,0 @@
-cpm_kernels
-transformers
-pnlp
-gradio

@@ -1,9 +1,0 @@
-fsspec
-librosa
-omegaconf
-tensorboard
-matplotlib
-tensorboard
-torchcrepe
-transformers>=4.19.0
-praat-parselmouth

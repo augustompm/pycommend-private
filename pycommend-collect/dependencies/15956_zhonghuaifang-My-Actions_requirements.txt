@@ -1,5 +1,0 @@
-requests
-rsa
-pytz
-python-dateutil
-chardet

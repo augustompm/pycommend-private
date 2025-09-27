@@ -1,5 +1,0 @@
-requests
-json
-openpyxl
-argparse
-telegram

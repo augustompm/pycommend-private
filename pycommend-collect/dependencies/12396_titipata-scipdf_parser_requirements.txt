@@ -1,7 +1,0 @@
-lxml
-spacy
-pandas
-textstat
-beautifulsoup4
-requests
-PyMuPDF

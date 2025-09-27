@@ -1,3 +1,0 @@
-einops
-lmdb
-six

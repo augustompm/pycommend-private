@@ -1,8 +1,0 @@
-h5py
-numpy
-packaging
-py4j
-pyspark
-scipy
-setuptools
-tensorflow

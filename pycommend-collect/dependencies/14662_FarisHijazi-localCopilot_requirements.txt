@@ -1,5 +1,0 @@
-curlify
-fastapi
-httpx
-uvicorn
-requests

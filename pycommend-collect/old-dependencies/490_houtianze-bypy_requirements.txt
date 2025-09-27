@@ -1,4 +1,0 @@
-#requests[security]
-requests
-requests-toolbelt
-multiprocess

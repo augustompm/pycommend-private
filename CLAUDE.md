@@ -1,21 +1,21 @@
-# PyCommend - Memória do Projeto (Atualizada 2025-01-27)
+# PyCommend - Memória do Projeto (v4 - 2025-01-27)
+
+## Repositório GitHub
+**URL**: https://github.com/augustompm/pycommend-private
 
 ## Contexto do Projeto
-Sistema de recomendação de pacotes Python usando algoritmos multi-objetivo (NSGA-II e MOEA/D) com **inicialização inteligente** baseada em pesquisa 2023-2024.
-
-## Estrutura Principal
-- **pycommend-code/**: Código dos algoritmos de otimização
-- **pycommend-collect/**: Scripts de coleta de dados do GitHub
-- **article/**: Documentação técnica e bibliografia verificada
-- **temp/**: Scripts de análise, debug e conteúdo antigo
+Sistema de recomendação de pacotes Python usando algoritmos multi-objetivo (NSGA-II e MOEA/D) com inicialização inteligente baseada em pesquisa 2023-2024.
 
 ## Regras do Projeto (rules.json)
-- Sem comentários inline no código (apenas docstrings)
-- Seguir padrões Python estabelecidos
-- Documentação técnica na pasta article/
-- Sem emojis no código
+- Sem comentários inline no código (apenas headers)
+- Sem emojis na comunicação
+- Usar linguagem simples como estudante de Ciência da Computação
+- Usar kebab-case quando necessário
+- Nunca mencionar marcadores de LLM no código
+- Usar article/ para artigos verificados
+- Usar temp/ para testes
 
-## 🎯 SOLUÇÃO IMPLEMENTADA: Weighted Probability Initialization
+## SOLUÇÃO IMPLEMENTADA: Weighted Probability Initialization
 
 ### Problema Resolvido
 - **Inicialização aleatória em 10k pacotes**: Taxa de sucesso < 4%

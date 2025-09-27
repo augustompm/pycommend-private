@@ -1,4 +1,0 @@
-# generated from manifests external_dependencies
-boto3
-botocore
-pretty_bad_protocol

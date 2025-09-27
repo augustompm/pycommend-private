@@ -1,6 +1,0 @@
-Pyrogram==1.1.9
-requests
-tgcrypto
-pymongo[srv]
-python-dotenv
-bs4

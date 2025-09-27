@@ -1,4 +1,0 @@
-datetime
-html2text
-requests
-termcolor

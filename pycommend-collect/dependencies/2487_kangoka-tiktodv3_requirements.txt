@@ -1,5 +1,0 @@
-customtkinter
-selenium
-Pillow
-pytesseract
-chromedriver-autoinstaller

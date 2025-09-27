@@ -1,3 +1,0 @@
-env_canada (and its listed requirements)
-pygame
-feedparser

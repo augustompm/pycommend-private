@@ -1,8 +1,0 @@
-csrgraph
-gensim
-networkx==2.5.1
-numba
-numpy
-pandas
-scipy
-scikit-learn

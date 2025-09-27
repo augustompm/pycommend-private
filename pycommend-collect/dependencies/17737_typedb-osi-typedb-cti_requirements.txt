@@ -1,4 +1,0 @@
-typedb-client==2.9.0
-networkx[default]
-tabulate
-pandas

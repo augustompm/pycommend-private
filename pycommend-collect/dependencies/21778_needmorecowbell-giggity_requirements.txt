@@ -1,2 +1,0 @@
-requests==2.20.0
-nested_lookup==0.2.12

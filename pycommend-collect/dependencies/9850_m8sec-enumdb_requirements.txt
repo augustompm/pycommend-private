@@ -1,4 +1,0 @@
-openpyxl
-pymssql
-ipparser
-mysqlclient

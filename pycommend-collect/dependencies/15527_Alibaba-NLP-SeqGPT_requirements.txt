@@ -1,5 +1,0 @@
-transformers==4.28.1
-torch
-peft
-cpm_kernels
-gradio

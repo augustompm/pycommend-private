@@ -1,6 +1,0 @@
-pyuv==0.10.0
-six
-psutil
-tornado==2.4.1
-colorama
-setproctitle

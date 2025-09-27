@@ -1,5 +1,0 @@
-mock
-pyflakes
-pycodestyle
-tox
-cryptography==39.0.2

@@ -1,7 +1,0 @@
-colossalai>=0.2.4
-datasets
-hiq-python
-loralib
-torch
-tqdm
-transformers>=4.20.1

@@ -1,9 +1,0 @@
-langchain
-langchain-wenxin
-tiktoken
-streamlit
-requests
-openai
-pandas
-wudao
-supabase

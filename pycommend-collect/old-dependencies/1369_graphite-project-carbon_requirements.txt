@@ -1,5 +1,0 @@
-Twisted>=13.2.0
-git+https://github.com/graphite-project/whisper.git#egg=whisper
-txAMQP
-cachetools
-urllib3

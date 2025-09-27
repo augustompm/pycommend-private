@@ -1,5 +1,0 @@
-imageio_ffmpeg
-av
-moviepy
-numexpr
-mutagen

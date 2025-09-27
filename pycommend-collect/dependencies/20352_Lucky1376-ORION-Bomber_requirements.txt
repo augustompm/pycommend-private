@@ -1,5 +1,0 @@
-requests
-termcolor
-progress
-beautifulsoup4
-datetime

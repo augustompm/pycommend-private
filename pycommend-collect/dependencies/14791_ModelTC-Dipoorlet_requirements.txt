@@ -1,6 +1,0 @@
-torch
-onnx>=1.10.0
-onnxsim
-onnxruntime-gpu
-numpy
-tqdm

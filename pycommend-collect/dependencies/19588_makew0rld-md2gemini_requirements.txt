@@ -1,7 +1,0 @@
-mistune>=2.0.0,<3
-cjkwrap
-wcwidth
-
-# Includes testing/dev deps too:
-pytest>=6.2.0,<7
-black

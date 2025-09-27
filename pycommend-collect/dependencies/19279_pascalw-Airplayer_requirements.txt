@@ -1,3 +1,0 @@
-pybonjour==1.1.1
-tornado==1.2.1
-simplejson==2.1.3

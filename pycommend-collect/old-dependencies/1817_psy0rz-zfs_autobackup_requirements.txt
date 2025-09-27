@@ -1,6 +1,0 @@
-colorama
-argparse
-coverage
-python-coveralls
-unittest2
-mock

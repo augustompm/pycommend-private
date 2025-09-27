@@ -1,7 +1,0 @@
-pyglet
-SpeechRecognition
-natural
-pyvona
-num2words
-Pillow
-numpy

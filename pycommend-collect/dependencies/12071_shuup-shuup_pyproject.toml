@@ -1,3 +1,0 @@
-[tool.black]
-exclude = "migrations/.*|.eggs|.git|.tox|.venv|_build|buck-out|build|dist"
-line_length = 120

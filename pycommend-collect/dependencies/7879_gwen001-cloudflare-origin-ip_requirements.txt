@@ -1,6 +1,0 @@
-argparse
-requests
-tldextract
-termcolor
-netaddr
-partial

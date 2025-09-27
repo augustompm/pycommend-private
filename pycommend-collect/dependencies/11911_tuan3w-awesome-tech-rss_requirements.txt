@@ -1,3 +1,0 @@
-tqdm>=4.28.1
-listparser>=0.18
-feedparser>=6.0.8

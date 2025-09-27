@@ -1,7 +1,0 @@
-aiohttp[speedups]~=3.8.4
-aiostream~=0.4.5
-pymongo~=4.6.0
-python-dotenv~=1.0.0
-matplotlib~=3.8.1
-numpy~=1.26.1
-websockets~=11.0.3

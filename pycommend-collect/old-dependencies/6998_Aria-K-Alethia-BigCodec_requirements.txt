@@ -1,8 +1,0 @@
-numpy
-soundfile
-librosa
-einops
-torch
-pytorch_lightning
-hydra-core
-torchaudio

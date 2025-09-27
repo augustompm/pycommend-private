@@ -1,8 +1,0 @@
-Pillow>=7
-numpy
-torch>=1.10
-torchvision>=1.0
-gevent
-Flask>=2
-requests>=2
-psutil

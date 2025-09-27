@@ -1,5 +1,0 @@
-tensorflow>=1.13.1,<2.16
-numpy
-tqdm
-annoy>=1.15.2
-dill

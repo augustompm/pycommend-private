@@ -1,7 +1,0 @@
-beautifulsoup4
-dnspython
-ipwhois
-requests
-selenium
-netifaces
-

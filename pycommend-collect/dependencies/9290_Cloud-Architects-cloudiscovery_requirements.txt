@@ -1,7 +1,0 @@
-boto3
-ipaddress
-jinja2<3.0
-diagrams>=0.14
-cachetools
-diskcache
-pytz

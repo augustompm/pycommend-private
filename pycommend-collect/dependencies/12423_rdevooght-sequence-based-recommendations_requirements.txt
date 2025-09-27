@@ -1,3 +1,0 @@
-Theano>=0.8.2
-Gensim==0.13.1
-pandas==0.19.2

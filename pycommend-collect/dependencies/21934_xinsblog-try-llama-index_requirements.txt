@@ -1,3 +1,0 @@
-openai
-llama-index==0.4.25
-tiktoken

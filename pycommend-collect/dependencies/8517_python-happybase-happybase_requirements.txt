@@ -1,3 +1,0 @@
-six
-thriftpy2>=0.4
-importlib-resources

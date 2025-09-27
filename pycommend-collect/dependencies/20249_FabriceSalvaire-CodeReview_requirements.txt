@@ -1,8 +1,0 @@
-cffi
-pycparser
-pygit2
-Pygments
-PyQt5
-PyQt5-Qt5
-PyQt5-sip
-PyYAML

@@ -1,4 +1,0 @@
-beautifulsoup4
-folium
-progressbar2
-ijson

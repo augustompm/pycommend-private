@@ -1,3 +1,0 @@
-lxml==3.6.0
-gevent
-requests==2.11.1

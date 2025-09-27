@@ -1,7 +1,0 @@
-﻿autopep8==1.5.2
-coloredlogs==14.0
-humanfriendly==8.2
-pycodestyle==2.6.0
-PyJWT==2.4.0
-pyreadline==2.1
-tqdm==4.46.0

@@ -1,8 +1,0 @@
-colorama
-openai 
-anthropic
-json5
-regex
-networkx
-matplotlib
-scikit-learn

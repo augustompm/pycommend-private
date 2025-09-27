@@ -1,4 +1,0 @@
-openai
-pickle
-jieba
-flashtext

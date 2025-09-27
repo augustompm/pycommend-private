@@ -1,5 +1,0 @@
-gitpython==3.0.6
-gitdb2
-lxml
-beautifulsoup4==4.8.2
-requests

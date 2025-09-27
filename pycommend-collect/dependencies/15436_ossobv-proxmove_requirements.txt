@@ -1,2 +1,0 @@
-# mkvirtualenv proxmove --system-site-packages --python=`which python3`
-proxmoxer>=0.2.4

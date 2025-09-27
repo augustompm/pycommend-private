@@ -1,3 +1,0 @@
-ECPy
-pyjwt
-dataclasses-json

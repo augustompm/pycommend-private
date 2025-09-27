@@ -1,2 +1,0 @@
-PyYAML>=3.10
-semver>=2.0

@@ -1,5 +1,0 @@
-netifaces
-pycryptodomex
-pyperclip
-Requests
-gnureadline

@@ -1,3 +1,0 @@
-wxpython==4.2.0
-dnspython==2.3.0
-httpx==0.23.3

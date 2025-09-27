@@ -1,4 +1,0 @@
-qtaf
-pillow
-six
-future

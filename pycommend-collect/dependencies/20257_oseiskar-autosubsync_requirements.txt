@@ -1,6 +1,0 @@
-# development requirements
-pysoundfile
-pandas
-numpy
-scikit-learn
-nose

@@ -1,5 +1,0 @@
-# Python packages needed
-# use your favorite package manager or run 
-# $pip install X
-requests
-pyopenssl

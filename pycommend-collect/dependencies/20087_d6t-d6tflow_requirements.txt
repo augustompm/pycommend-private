@@ -1,6 +1,0 @@
-pandas
-luigi
-toolz
-dask[dataframe]
-d6tcollect
-pyarrow

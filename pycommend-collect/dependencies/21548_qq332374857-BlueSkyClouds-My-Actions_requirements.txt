@@ -1,4 +1,0 @@
-requests
-rsa
-pytz
-python-dateutil

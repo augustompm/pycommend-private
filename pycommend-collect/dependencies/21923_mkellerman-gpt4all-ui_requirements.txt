@@ -1,5 +1,0 @@
-llama-cpp-python
-uvicorn
-fastapi
-sse_starlette
-typing_extensions

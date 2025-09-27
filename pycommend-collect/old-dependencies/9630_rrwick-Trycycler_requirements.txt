@@ -1,5 +1,0 @@
-edlib
-numpy
-pillow
-pytest
-scipy

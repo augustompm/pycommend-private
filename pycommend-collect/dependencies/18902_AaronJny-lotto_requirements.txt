@@ -1,5 +1,0 @@
-keras==2.2.4
-requests==2.22.0
-numpy
-matplotlib
-tensorflow

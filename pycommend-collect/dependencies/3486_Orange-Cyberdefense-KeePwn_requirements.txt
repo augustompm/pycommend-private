@@ -1,8 +1,0 @@
-impacket
-chardet
-lxml
-termcolor
-pefile
-python-magic
-pykeepass
-packaging

@@ -1,2 +1,0 @@
-pytest-quickcheck>=0.8.1
-prospector>=0.9.7

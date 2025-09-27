@@ -1,4 +1,0 @@
-chardet
-pandas
-requests
-tqdm

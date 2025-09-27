@@ -1,3 +1,0 @@
-requests
-Pillow
-futures;python_version<"3.2"

@@ -1,5 +1,0 @@
-[tool.ruff.format]
-quote-style = "single"
-skip-magic-trailing-comma = true
-
-# vim:se sw=2:

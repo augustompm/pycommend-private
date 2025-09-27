@@ -1,9 +1,0 @@
-accelerate
-torch
-torchvision
-git+https://github.com/huggingface/diffusers.git
-Pillow
-transformers
-opencv-python
-openai
-gradio

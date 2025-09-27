@@ -1,7 +1,0 @@
-icalevents
-numpy
-vobject
-lxml
-schedule
-Pillow
-requests

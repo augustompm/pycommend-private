@@ -1,6 +1,0 @@
-beautifulsoup4
-aiohttp
-urllib3
-requests
-lxml
-tqdm

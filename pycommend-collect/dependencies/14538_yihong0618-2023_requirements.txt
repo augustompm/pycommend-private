@@ -1,8 +1,0 @@
-PyGithub
-requests
-pendulum
-rich
-openai
-BingImageCreator-fork
-pyTelegramBotAPI
-

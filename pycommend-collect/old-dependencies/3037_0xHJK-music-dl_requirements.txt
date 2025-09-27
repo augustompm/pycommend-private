@@ -1,4 +1,0 @@
-click
-requests
-pycryptodome
-prettytable

@@ -1,5 +1,0 @@
-jinja2==2.11.3
-markupsafe==2.0.1
-venvctrl>=0.6.0,<2.0.0
-confpy>=0.11.0,<2.0.0
-semver>=2.9.1,<3.0.0

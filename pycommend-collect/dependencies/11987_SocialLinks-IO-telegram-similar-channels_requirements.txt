@@ -1,4 +1,0 @@
-requests
-maltego_trx
-Telethon>=1.33.0
-bs4

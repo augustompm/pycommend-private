@@ -1,2 +1,0 @@
-python-dateutil>=2.1 #dateutil
-lxml>=4.7.1

@@ -1,4 +1,0 @@
-configparser
-logging
-readline
-pexpect

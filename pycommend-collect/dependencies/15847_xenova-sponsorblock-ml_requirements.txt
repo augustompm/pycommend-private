@@ -1,7 +1,0 @@
-transformers
-datasets
-youtube_transcript_api
-torch
-pandas
-numpy
-sentencepiece

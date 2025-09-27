@@ -1,2 +1,0 @@
-python-coveralls
-beautifulsoup4

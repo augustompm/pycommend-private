@@ -1,4 +1,0 @@
-futures
-argparse
-dnspython
-requests

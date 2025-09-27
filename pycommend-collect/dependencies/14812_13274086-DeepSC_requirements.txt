@@ -1,6 +1,0 @@
-torch
-nltk
-w3lib
-tqdm
-sklearn
-bert4keras==0.4.2

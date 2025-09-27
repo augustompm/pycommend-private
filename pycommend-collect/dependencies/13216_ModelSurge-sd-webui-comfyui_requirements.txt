@@ -1,2 +1,0 @@
-portalocker>=2.7.0
-psutil

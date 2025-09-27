@@ -1,4 +1,0 @@
-torch
-pyqt6
-opencc
-requests

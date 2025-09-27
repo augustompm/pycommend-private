@@ -1,6 +1,0 @@
-bokeh
-numpy
-pandas
-requests
-datetime
-matplotlib

@@ -1,8 +1,0 @@
-# These requirements are only needed when using the command line
-# version, not when running filteres from within glyphs
-glyphsLib
-ufostroker
-pyobjc
-tqdm
-noise
-matplotlib

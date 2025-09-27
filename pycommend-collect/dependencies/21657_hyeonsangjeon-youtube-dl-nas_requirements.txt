@@ -1,7 +1,0 @@
-gevent
-gevent-websocket
-bottle
-yt-dlp
-youtube-dl
-apscheduler
-nlptutti

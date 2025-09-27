@@ -1,6 +1,0 @@
-tf-keras
-huggingface-hub
-transformers
-scikit-learn
-pandas
-py-cpuinfo

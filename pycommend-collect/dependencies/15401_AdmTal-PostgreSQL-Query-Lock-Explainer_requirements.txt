@@ -1,2 +1,0 @@
-prettytable==0.7.2
-psycopg2==2.8.4

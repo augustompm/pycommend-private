@@ -1,4 +1,0 @@
-tqdm
-pygame
-numpy
-image

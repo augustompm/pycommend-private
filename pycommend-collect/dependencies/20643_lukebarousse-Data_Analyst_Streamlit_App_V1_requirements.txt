@@ -1,5 +1,0 @@
-streamlit==1.18.1
-pandas
-numpy
-altair
-htbuilder

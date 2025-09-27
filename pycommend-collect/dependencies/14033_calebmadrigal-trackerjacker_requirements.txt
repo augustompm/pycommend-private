@@ -1,4 +1,0 @@
-scapy==2.5.0
-pyaml>=17.12.1
-ruamel.yaml>=0.15.35
-

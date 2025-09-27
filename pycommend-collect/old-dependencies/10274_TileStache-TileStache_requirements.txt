@@ -1,8 +1,0 @@
-ModestMaps==1.4.7
-simplejson
-shapely
-pillow
-psycopg2
-python-memcached
-mapbox-vector-tile==1.2.0
-Werkzeug==0.11.13

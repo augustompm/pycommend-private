@@ -1,2 +1,0 @@
-# Note: the use of environment marker requires pip >= 7.1.0
-configparser; python_version < '3.0'

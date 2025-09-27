@@ -1,6 +1,0 @@
-backtrader
-matplotlib
-pandas
-jinja2
-bokeh>=3.1.0
-selenium>=4.4.3

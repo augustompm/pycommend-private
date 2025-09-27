@@ -1,3 +1,0 @@
-scapy @ git+https://github.com/secdev/scapy@master
-cryptography
-pyroute2

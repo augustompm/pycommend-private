@@ -1,3 +1,0 @@
-pip>=21.0,<23.4
-colorlog
-homeassistant>=2023.7.0

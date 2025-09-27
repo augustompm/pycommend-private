@@ -1,8 +1,0 @@
-beautifulsoup4
-earthengine-api
-ee_extra
-geopy
-numpy
-pandas
-python-box
-requests

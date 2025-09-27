@@ -1,8 +1,0 @@
-numpy
-keras
-scikit-learn
-joblib
-sqlparse
-networkx
-click
-tensorflow

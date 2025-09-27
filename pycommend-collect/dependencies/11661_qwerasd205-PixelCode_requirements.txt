@@ -1,5 +1,0 @@
-fontmake
-fonttools
-ufolib2
-pillow
-watchdog

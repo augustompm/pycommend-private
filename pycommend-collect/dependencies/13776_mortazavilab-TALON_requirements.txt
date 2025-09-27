@@ -1,3 +1,0 @@
-pandas
-pyfaidx
-pysam==0.15.4

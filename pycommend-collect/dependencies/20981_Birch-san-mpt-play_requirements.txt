@@ -1,6 +1,0 @@
-torch
-transformers>=4.30.2
-accelerate>=0.20.3
-einops
-bitsandbytes>=0.39.0
-scipy

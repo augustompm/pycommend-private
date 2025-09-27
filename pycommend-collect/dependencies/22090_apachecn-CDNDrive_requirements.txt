@@ -1,4 +1,0 @@
-requests
-rsa
-pillow
-numpy

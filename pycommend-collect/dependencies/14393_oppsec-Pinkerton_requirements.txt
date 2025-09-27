@@ -1,3 +1,0 @@
-rich>=12.5.1
-requests>=2.28.1
-jsbeautifier>=1.14.4

@@ -1,6 +1,0 @@
-awscli
-argparse
-boto
-boto3
-prettytable
-blessings==1.6

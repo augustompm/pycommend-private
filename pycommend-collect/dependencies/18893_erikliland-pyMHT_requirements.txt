@@ -1,9 +1,0 @@
-scipy >= 0.14
-numpy >= 1.12
-matplotlib
-psutil
-pytest
-coveralls
-coverage
-pykalman
-git+git://github.com/jfrelinger/cython-munkres-wrapper@master

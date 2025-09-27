@@ -1,7 +1,0 @@
-llama-cpp-python
-duckduckgo_search
-colorama
-requests
-beautifulsoup4
-trafilatura
-readchar

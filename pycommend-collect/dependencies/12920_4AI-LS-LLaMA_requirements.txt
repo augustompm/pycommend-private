@@ -1,5 +1,0 @@
-datasets
-evaluate
-numpy
-peft
-transformers==4.32.1

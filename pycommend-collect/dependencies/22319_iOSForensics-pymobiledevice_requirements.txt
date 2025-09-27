@@ -1,7 +1,0 @@
-M2Crypto==0.38.0 ; sys_platform == 'darwin'
-construct>=2.9.29
-future
-pyasn1
-six
-biplist
-hexdump

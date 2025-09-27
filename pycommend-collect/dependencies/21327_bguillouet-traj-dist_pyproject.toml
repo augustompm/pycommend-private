@@ -1,4 +1,0 @@
-[build-system]
-requires = [
-    "Cython>=0.27.3",  # Note: sync with setup.py
-]

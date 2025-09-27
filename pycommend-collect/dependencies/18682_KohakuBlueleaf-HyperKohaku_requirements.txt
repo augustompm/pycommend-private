@@ -1,7 +1,0 @@
-torch
-torchvision
-einops
-accelerate
-timm
-transformers
-git+https://github.com/huggingface/diffusers.git

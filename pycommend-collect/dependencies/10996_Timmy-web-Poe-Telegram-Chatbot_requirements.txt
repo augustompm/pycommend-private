@@ -1,3 +1,0 @@
-asyncio
-fastapi-poe
-python-telegram-bot

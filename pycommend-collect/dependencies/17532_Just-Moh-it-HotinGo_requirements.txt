@@ -1,4 +1,0 @@
-mysql-connector-python
-numpy
-matplotlib==3.2.0
-python_dotenv

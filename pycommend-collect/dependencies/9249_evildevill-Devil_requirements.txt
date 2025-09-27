@@ -1,4 +1,0 @@
-mechanize
-requests
-lolcat
-phonenumbers

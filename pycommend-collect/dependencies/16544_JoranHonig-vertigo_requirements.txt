@@ -1,8 +1,0 @@
-jsonpath-rw
-pytest
-click
-tqdm
-jinja2
-loguru
-pyyaml
-

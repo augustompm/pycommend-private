@@ -1,6 +1,0 @@
-lpips==0.1.4
-opencv-python
-diffusers==0.25.0
-transformers
-pytest
-accelerate

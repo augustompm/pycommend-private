@@ -1,7 +1,0 @@
-anthropic
-python-dotenv
-pyyaml
-graphviz
-groq
-pyperclip
-pytest

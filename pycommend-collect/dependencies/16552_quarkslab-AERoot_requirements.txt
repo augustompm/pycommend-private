@@ -1,4 +1,0 @@
-pure-python-adb
-pygdbmi>=0.9.0.3
-colorama
-pyyaml

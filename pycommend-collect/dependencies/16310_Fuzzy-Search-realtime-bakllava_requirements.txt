@@ -1,3 +1,0 @@
-requests
-imageio[ffmpeg]
-imageio-ffmpeg

@@ -1,3 +1,0 @@
--r cls/requirements.txt
--r det/requirements.txt
--r seg/requirements.txt

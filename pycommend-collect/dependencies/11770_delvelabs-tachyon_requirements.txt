@@ -1,3 +1,0 @@
-hammertime-http[simhash-py]>=0.8,<0.9
-easyinject==0.3
-click==7.1.2

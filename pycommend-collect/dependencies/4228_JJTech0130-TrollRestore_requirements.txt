@@ -1,5 +1,0 @@
-pymobiledevice3
-bpylist2
-rich
-requests
-click

@@ -1,5 +1,0 @@
-nuscenes-devkit
-efficientnet_pytorch
-numpyencoder
-tensorboard
-# pytorch-lightning

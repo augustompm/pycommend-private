@@ -1,5 +1,0 @@
-beautifulsoup4
-colorama
-datefinder
-easygui
-requests

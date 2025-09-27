@@ -1,5 +1,0 @@
-requests
-colorama
-pyngrok
-stem
-fake_useragent

@@ -1,7 +1,0 @@
-asyncio
-httpx
-bs4
-argparse
-selenium
-webdriver_manager
-phonenumbers

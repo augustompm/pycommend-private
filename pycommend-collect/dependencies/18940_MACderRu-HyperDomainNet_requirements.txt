@@ -1,9 +1,0 @@
-omegaconf
-wandb
-ftfy
-regex
-tqdm
-git+https://github.com/openai/CLIP.git
-scikit-image
-dlib
-click

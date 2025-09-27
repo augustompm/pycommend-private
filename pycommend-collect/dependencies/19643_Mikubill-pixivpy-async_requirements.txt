@@ -1,5 +1,0 @@
-aiohttp[speedups]
-aiofiles
-aiohttp-socks
-pysocks
-deprecated

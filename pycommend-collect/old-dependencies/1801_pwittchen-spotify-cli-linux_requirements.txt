@@ -1,7 +1,0 @@
-autopep8
-jeepney
-lyricwikia
-pycodestyle
-pylint
-setuptools
-twine

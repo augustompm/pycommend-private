@@ -1,4 +1,0 @@
-# Requirement for profiling the program.
-pprofile
-# Requirement for heatmap.
-matplotlib

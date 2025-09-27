@@ -1,4 +1,0 @@
-selenium
-pyyaml
-pyperclip
-requests

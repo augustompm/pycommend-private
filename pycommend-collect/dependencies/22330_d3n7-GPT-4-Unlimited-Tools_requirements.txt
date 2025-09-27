@@ -1,9 +1,0 @@
-pandas
-numpy
-openai
-streamlit==1.20.0
-streamlit-chat
-beautifulsoup4
-googlesearch-python
-regex
-replicate

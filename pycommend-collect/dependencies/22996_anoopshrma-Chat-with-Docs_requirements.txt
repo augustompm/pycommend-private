@@ -1,5 +1,0 @@
-llama-index
-streamlit
-pandasai
-pypdf
-docx2txt
