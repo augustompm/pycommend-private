@@ -34,7 +34,9 @@
       "Bash(cat:*)",
       "WebFetch(domain:ideas.repec.org)",
       "WebFetch(domain:www.nature.com)",
-      "WebFetch(domain:www.mdpi.com)"
+      "WebFetch(domain:www.mdpi.com)",
+      "Bash(timeout 120 python:*)",
+      "Bash(timeout:*)"
     ],
     "deny": [],
     "ask": []

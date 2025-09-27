@@ -1,7 +1,8 @@
-# PyCommend - Memória do Projeto (v4 - 2025-01-27)
+# PyCommend - Memória do Projeto v6 (2025-09-27)
 
 ## Repositório GitHub
 **URL**: https://github.com/augustompm/pycommend-private
+**Status**: v6 - NSGA-II com 4 objetivos e SBERT completo (bug identificado)
 
 ## Contexto do Projeto
 Sistema de recomendação de pacotes Python usando algoritmos multi-objetivo (NSGA-II e MOEA/D) com inicialização inteligente baseada em pesquisa 2023-2024.
