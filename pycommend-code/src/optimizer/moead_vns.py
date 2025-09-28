@@ -238,21 +238,24 @@ class MOEAD_VNS:
             raise ValueError(f"Unknown decomposition method: {self.decomposition}")
 
     def smart_initialization(self, strategy='hybrid'):
-        """Initialize solutions using domain knowledge"""
+        """Initialize solutions using domain knowledge - more aggressive"""
         chromosome = np.zeros(self.n_packages, dtype=np.int8)
 
         if strategy == 'small':
-            size = random.randint(2, 4)
+            size = random.randint(3, 5)
         elif strategy == 'medium':
-            size = random.randint(5, 7)
+            size = random.randint(6, 9)
         elif strategy == 'large':
-            size = random.randint(8, 12)
+            size = random.randint(10, 15)
         else:
-            size = random.randint(3, 10)
+            size = random.randint(5, 12)
 
         if strategy == 'cooccur' and len(self.cooccur_candidates) > 0:
+            # Use top candidates with higher probability
             weights = self.rel_matrix[self.main_package_idx, self.cooccur_candidates].toarray().flatten()
             if weights.sum() > 0:
+                # Boost weights for better candidates
+                weights = np.power(weights, 0.5)  # Square root to boost selection
                 weights = weights / weights.sum()
                 selected = np.random.choice(self.cooccur_candidates,
                                           min(size, len(self.cooccur_candidates)),
@@ -273,12 +276,13 @@ class MOEAD_VNS:
         else:
             candidates = []
 
+            # More aggressive: use more top candidates
             if len(self.cooccur_candidates) > 0:
-                candidates.extend(self.cooccur_candidates[:size//2])
+                candidates.extend(self.cooccur_candidates[:min(size*2//3, len(self.cooccur_candidates))])
             if len(self.semantic_candidates) > 0:
-                candidates.extend(self.semantic_candidates[:size//3])
+                candidates.extend(self.semantic_candidates[:min(size//2, len(self.semantic_candidates))])
             if len(self.cluster_candidates) > 0:
-                sample_size = min(size//4, len(self.cluster_candidates))
+                sample_size = min(size//3, len(self.cluster_candidates))
                 candidates.extend(np.random.choice(self.cluster_candidates, sample_size, replace=False))
 
             if len(candidates) > 0:
@@ -293,22 +297,33 @@ class MOEAD_VNS:
         return chromosome
 
     def differential_evolution(self, target, indices):
-        """Differential Evolution operator for binary representation"""
-        r1, r2, r3 = np.random.choice(indices, 3, replace=False)
+        """Enhanced Differential Evolution operator for binary representation"""
+        # Select best individual from neighbors for guidance
+        best_idx = min(indices, key=lambda x: self.decompose(self.population[x]['objectives'], self.weights[x]))
+        r1, r2 = np.random.choice([idx for idx in indices if idx != best_idx], 2, replace=False)
 
+        x_best = self.population[best_idx]['chromosome']
         x_r1 = self.population[r1]['chromosome']
         x_r2 = self.population[r2]['chromosome']
-        x_r3 = self.population[r3]['chromosome']
 
         mutant = target.copy()
 
-        cr = 0.9
+        # Higher crossover rate for better exploration
+        cr = 0.95
+        # Scaling factor for difference vector
+        f = 0.8
+
         for i in range(self.n_packages):
             if random.random() < cr:
-                if x_r1[i] == x_r2[i]:
-                    mutant[i] = x_r1[i]
-                else:
-                    mutant[i] = x_r3[i]
+                # Use best individual with higher probability
+                if random.random() < 0.7 and x_best[i] == 1:
+                    mutant[i] = 1
+                elif x_r1[i] != x_r2[i]:
+                    # Apply difference vector with scaling
+                    if random.random() < f:
+                        mutant[i] = x_r1[i]
+                    else:
+                        mutant[i] = target[i]
 
         return mutant
 
@@ -408,9 +423,10 @@ class MOEAD_VNS:
         print("="*60)
 
         self.population = []
-        strategies = ['small', 'medium', 'large', 'cooccur', 'semantic', 'hybrid']
+        # More cooccur-focused strategies for better performance
+        strategies = ['cooccur', 'cooccur', 'hybrid', 'cooccur', 'medium', 'large']
 
-        print("Initializing population...")
+        print("Initializing population with enhanced strategies...")
         for i in range(self.pop_size):
             strategy = strategies[i % len(strategies)]
             chromosome = self.smart_initialization(strategy)
@@ -499,7 +515,8 @@ class MOEAD_VNS:
                     print(f"Hypervolume Improvement: {improvement:.1f}%")
             print("="*60)
 
-        return pareto_front
+        # Return in same format as MOVNS
+        return self.get_recommendations(pareto_front)
 
     def get_pareto_front(self):
         """Extract non-dominated solutions"""
@@ -534,7 +551,11 @@ class MOEAD_VNS:
                 'size': len(packages),
                 'linked_usage': lu_score,
                 'semantic_similarity': ss_score,
-                'objectives': sol['objectives']
+                'objectives': {
+                    'linked_usage': lu_score,
+                    'semantic_similarity': ss_score,
+                    'set_size': rss_score
+                }
             })
 
         recommendations = sorted(recommendations, key=lambda x: (x['size'], -x['linked_usage']))
