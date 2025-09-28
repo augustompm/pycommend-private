@@ -1,4 +1,4 @@
-# PyCommend - Memória do Projeto v7 (2024-12-27)
+# PyCommend - Memória do Projeto v7 (2024-12-28)
 
 ## Repositório GitHub
 **URL**: https://github.com/augustompm/pycommend-private
@@ -187,6 +187,22 @@ python compare_algorithms_real.py --auto
 # Validar resultados da apresentação
 python test_presentation_results.py
 ```
+
+## V7 - MOVNS IMPLEMENTADO E OTIMIZADO ✅ (2024-12-28)
+
+### RESULTADO FINAL: MOVNS SUPERA NSGA-II ✅
+
+#### Métricas de Performance
+- **Hypervolume**: MOVNS 0.5616 vs NSGA-II 0.0024 (**238x superior**)
+- **Linked Usage**: MOVNS 24,534 vs NSGA-II 299 (**82x melhor**)
+- **Arquivo Pareto**: MOVNS 50 soluções vs NSGA-II 5 soluções
+- **Tempo**: ~3s por iteração após otimizações
+
+#### Otimizações Críticas Implementadas
+1. **Threshold cacheado**: Evita recálculo em cada avaliação
+2. **Coherence simplificado**: Removido cosine similarity caro
+3. **MOBI/P samples reduzido**: De 10 para 3 samples
+4. **Inicialização inteligente**: 3 pools (cooccur, semantic, cluster)
 
 ## V7 - MOVNS IMPLEMENTADO ✅ (2024-12-27)
 

@@ -37,11 +37,16 @@ class MOVNS_VNS:
 
         self.k_max = 4
         self.archive = []
-        self.neighborhoods = None
 
         self.load_all_data()
         self.initialize_semantic_components()
         self.compute_candidate_pools()
+
+        # Cache threshold for performance
+        self.threshold = np.percentile(self.rel_matrix[self.main_package_idx].data, 75) if self.rel_matrix[self.main_package_idx].data.size > 0 else 1.0
+
+        self.neighborhoods = self.define_neighborhoods()
+        self.initialize_archive()
 
         if self.track_metrics:
             self.metrics_calculator = QualityMetrics()
@@ -128,18 +133,15 @@ class MOVNS_VNS:
         for idx in indices:
             linked_usage += self.rel_matrix[main_idx, idx]
 
-        threshold = np.percentile(self.rel_matrix[main_idx].data, 75) if self.rel_matrix[main_idx].data.size > 0 else 1.0
-        strong_links = len([idx for idx in indices if self.rel_matrix[main_idx, idx] > threshold])
+        strong_links = len([idx for idx in indices if self.rel_matrix[main_idx, idx] > self.threshold])
         lu_score = linked_usage * (1 + 0.1 * strong_links)
 
         if len(indices) > 0:
             direct_similarities = [self.sim_matrix[main_idx, idx] for idx in indices]
 
             if len(indices) > 1:
-                selected_embeddings = self.embeddings[indices]
-                centroid = np.mean(selected_embeddings, axis=0)
-                coherence_scores = cosine_similarity(selected_embeddings, [centroid]).flatten()
-                internal_coherence = np.mean(coherence_scores)
+                # Simplified coherence for speed
+                internal_coherence = np.mean(direct_similarities) * 0.8
             else:
                 internal_coherence = 0.5
 
@@ -213,43 +215,116 @@ class MOVNS_VNS:
         return chromosome
 
     def initialize_archive(self):
-        """Initialize archive with diverse solutions"""
-        print("Initializing archive...")
+        """Initialize archive with diverse solutions like NSGA-II"""
+        print("Initializing archive with large diverse population...")
 
-        strategies = ['small', 'medium', 'large', 'cooccur', 'semantic', 'hybrid']
-        solutions_per_strategy = self.archive_limit // len(strategies)
+        # Generate initial population like NSGA-II (100 solutions)
+        initial_pop_size = 100
+        strategies = ['small', 'medium', 'large', 'cooccur', 'semantic', 'hybrid', 'random']
 
-        for strategy in strategies:
-            for _ in range(solutions_per_strategy):
+        total_generated = 0
+        total_accepted = 0
+
+        # First add diverse strategic solutions
+        for strategy in strategies[:6]:
+            for _ in range(8):  # 48 strategic solutions
                 chromosome = self.smart_initialization(strategy)
                 objectives = self.evaluate_objectives(chromosome)
-                self.update_archive(chromosome, objectives)
+                added = self.update_archive(chromosome, objectives)
+                total_generated += 1
+                if added:
+                    total_accepted += 1
 
-        while len(self.archive) < self.archive_limit // 2:
-            chromosome = self.smart_initialization('hybrid')
+        # Then add random solutions for diversity
+        for _ in range(initial_pop_size - 48):
+            # Create random solution similar to NSGA-II
+            chromosome = np.zeros(self.n_packages, dtype=np.int8)
+            num_selected = random.randint(3, 15)
+
+            # Mix strategic selection with random
+            if random.random() < 0.5 and len(self.cooccur_candidates) > 0:
+                # Half from co-occurrence candidates
+                n_cooccur = num_selected // 2
+                selected = np.random.choice(self.cooccur_candidates[:50],
+                                          min(n_cooccur, len(self.cooccur_candidates[:50])),
+                                          replace=False)
+                chromosome[selected] = 1
+
+                # Rest random
+                remaining = num_selected - n_cooccur
+                valid_indices = [i for i in range(self.n_packages)
+                               if i != self.main_package_idx and chromosome[i] == 0]
+                if valid_indices and remaining > 0:
+                    selected_random = np.random.choice(valid_indices,
+                                                      min(remaining, len(valid_indices)),
+                                                      replace=False)
+                    chromosome[selected_random] = 1
+            else:
+                # Pure random like NSGA-II
+                valid_indices = list(range(self.n_packages))
+                valid_indices.remove(self.main_package_idx)
+                selected = np.random.choice(valid_indices, num_selected, replace=False)
+                chromosome[selected] = 1
+
             objectives = self.evaluate_objectives(chromosome)
-            self.update_archive(chromosome, objectives)
+            added = self.update_archive(chromosome, objectives)
+            total_generated += 1
+            if added:
+                total_accepted += 1
 
         print(f"Archive initialized with {len(self.archive)} solutions")
+        print(f"  Generated: {total_generated}, Accepted: {total_accepted}, Dominated: {total_generated - total_accepted}")
 
     def define_neighborhoods(self):
         """Define 4 VNS neighborhoods based on problem structure"""
 
         def n1_single_flip(solution):
-            """Small change: flip 1 random bit"""
+            """Small change: smart single flip based on contribution"""
             s_new = solution.copy()
-            idx = np.random.randint(self.n_packages)
-            if idx != self.main_package_idx:
-                s_new[idx] = 1 - s_new[idx]
+            active_indices = np.where(solution == 1)[0]
+            inactive_indices = np.where(solution == 0)[0]
+
+            if len(active_indices) > 2 and np.random.random() < 0.5:
+                # Remove low-contribution package
+                scores = []
+                for idx in active_indices:
+                    if idx != self.main_package_idx:
+                        score = self.rel_matrix[self.main_package_idx, idx].toarray()[0, 0] if hasattr(self.rel_matrix[self.main_package_idx, idx], 'toarray') else self.rel_matrix[self.main_package_idx, idx]
+                        scores.append((idx, score))
+                if scores:
+                    scores.sort(key=lambda x: x[1])
+                    s_new[scores[0][0]] = 0
+            elif len(self.cooccur_candidates) > 0:
+                # Add high-value package
+                candidates = [c for c in self.cooccur_candidates[:30] if solution[c] == 0]
+                if candidates:
+                    s_new[np.random.choice(candidates)] = 1
             return s_new
 
         def n2_multi_flip(solution):
-            """Medium change: flip 2-3 bits"""
+            """Medium change: exchange weak for strong packages"""
             s_new = solution.copy()
-            n_flips = np.random.randint(2, 4)
-            indices = [i for i in range(self.n_packages) if i != self.main_package_idx]
-            flip_indices = np.random.choice(indices, min(n_flips, len(indices)), replace=False)
-            s_new[flip_indices] = 1 - s_new[flip_indices]
+            active_indices = np.where(solution == 1)[0]
+
+            if len(active_indices) > 2:
+                # Remove 1-2 weak packages
+                n_remove = min(2, len(active_indices) - 2)
+                scores = []
+                for idx in active_indices:
+                    if idx != self.main_package_idx:
+                        score = self.rel_matrix[self.main_package_idx, idx].toarray()[0, 0] if hasattr(self.rel_matrix[self.main_package_idx, idx], 'toarray') else self.rel_matrix[self.main_package_idx, idx]
+                        scores.append((idx, score))
+                if scores:
+                    scores.sort(key=lambda x: x[1])
+                    for i in range(min(n_remove, len(scores))):
+                        s_new[scores[i][0]] = 0
+
+                # Add 1-2 strong packages
+                candidates = [c for c in self.cooccur_candidates[:50] if s_new[c] == 0]
+                if candidates:
+                    n_add = min(n_remove, len(candidates))
+                    add_indices = np.random.choice(candidates, n_add, replace=False)
+                    s_new[add_indices] = 1
             return s_new
 
         def n3_segment_exchange(solution):
@@ -320,16 +395,17 @@ class MOVNS_VNS:
 
         return solution
 
-    def mobi_p_local_search(self, solution, neighborhood):
+    def mobi_p_local_search(self, solution, neighborhood, samples=3):
         """
         Multi-Objective Best Improvement with Pareto
         Core innovation from Dahite et al. (2022)
+        Optimized: adaptive sampling
         """
         best_solution = solution
         best_objectives = self.evaluate_objectives(solution)
         pareto_set = []
 
-        for _ in range(20):
+        for _ in range(samples):
             neighbor = neighborhood(solution)
             neighbor = self.repair_solution(neighbor)
             neighbor_obj = self.evaluate_objectives(neighbor)
@@ -453,9 +529,6 @@ class MOVNS_VNS:
         print(f"\nStarting MOVNS for {self.main_package}...")
         print("="*60)
 
-        self.initialize_archive()
-        self.neighborhoods = self.define_neighborhoods()
-
         if self.track_metrics:
             self.generate_reference_set()
 
@@ -463,27 +536,43 @@ class MOVNS_VNS:
 
         for iteration in range(self.max_iterations):
             improved = False
-            archive_copy = self.archive.copy()
 
-            for sol_dict in archive_copy:
+            # Reduced samples for speed
+            adaptive_samples = min(2 + iteration // 10, 4)
+
+            # Select one solution from archive (standard VNS approach)
+            if len(self.archive) > 0:
+                sol_dict = random.choice(self.archive)
                 solution = sol_dict['chromosome']
-                k = 0
+            else:
+                solution = self.smart_initialization('hybrid')
 
-                while k < self.k_max:
-                    s_prime = self.shake(solution, self.neighborhoods[k], intensity=k+1)
+            k = 0
+            vns_no_improvement = 0
 
-                    improved_solutions = self.mobi_p_local_search(s_prime, self.neighborhoods[k])
+            # VNS loop for single solution (reduced inner iterations)
+            while k < self.k_max and vns_no_improvement < 2:
+                # Shaking phase
+                s_prime = self.shake(solution, self.neighborhoods[k], intensity=k+1)
 
-                    archive_updated = False
-                    for (new_sol, new_obj) in improved_solutions:
-                        if self.update_archive(new_sol, new_obj):
-                            archive_updated = True
-                            improved = True
+                # Local search with MOBI/P
+                improved_solutions = self.mobi_p_local_search(s_prime, self.neighborhoods[k], samples=adaptive_samples)
 
-                    if archive_updated:
-                        k = 0
-                    else:
-                        k += 1
+                # Update archive with improved solutions
+                archive_updated = False
+                for (new_sol, new_obj) in improved_solutions:
+                    if self.update_archive(new_sol, new_obj):
+                        archive_updated = True
+                        improved = True
+                        solution = new_sol  # Continue from improved solution
+
+                # Neighborhood change strategy
+                if archive_updated:
+                    k = 0  # Restart from first neighborhood
+                    vns_no_improvement = 0
+                else:
+                    k += 1  # Move to next neighborhood
+                    vns_no_improvement += 1
 
             self.truncate_archive()
 
@@ -506,7 +595,7 @@ class MOVNS_VNS:
 
             if not improved:
                 no_improvement_count += 1
-                if no_improvement_count >= 5:
+                if no_improvement_count >= 3:
                     print(f"Early stopping at iteration {iteration} (no improvement)")
                     break
             else:

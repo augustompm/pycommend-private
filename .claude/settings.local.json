@@ -48,7 +48,9 @@
       "Bash(wget:*)",
       "Bash(curl -L -o movns_mogvns_2021.pdf \"https://pdfs.semanticscholar.org/6655/b7e782793f1febab695af6bf0a5b8870ca2e.pdf\")",
       "Bash(curl:*)",
-      "WebFetch(domain:link.springer.com)"
+      "WebFetch(domain:link.springer.com)",
+      "Bash(pkill:*)",
+      "Bash(time python:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,21 @@
+{
+  "conformance": {},
+  "performance": {},
+  "integration": [
+    {
+      "package": "numpy",
+      "success": false,
+      "error": "[Errno 2] No such file or directory: 'data/package_relationships_10k.pkl'"
+    },
+    {
+      "package": "pandas",
+      "success": false,
+      "error": "[Errno 2] No such file or directory: 'data/package_relationships_10k.pkl'"
+    },
+    {
+      "package": "flask",
+      "success": false,
+      "error": "[Errno 2] No such file or directory: 'data/package_relationships_10k.pkl'"
+    }
+  ]
+}
