@@ -9,7 +9,12 @@ import random
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.cluster import KMeans
 import sys
+import os
 import time
+
+# Add path for quality metrics
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from evaluation.quality_metrics import QualityMetrics
 
 
 class NSGA2_VNS:
@@ -20,20 +25,34 @@ class NSGA2_VNS:
     3. RSS (Recommended Set Size): Minimize set size
     """
 
-    def __init__(self, main_package, pop_size=100, max_gen=50):
+    def __init__(self, main_package, pop_size=100, max_gen=50, track_metrics=False):
         self.main_package = main_package
         self.pop_size = pop_size
         self.max_gen = max_gen
         self.min_size = 2
         self.max_size = 15
         self.ideal_size = 5  # Ideal recommendation size
+        self.track_metrics = track_metrics
 
         self.load_all_data()
         self.initialize_semantic_components()
         self.compute_candidate_pools()
 
+        # Initialize quality metrics if tracking is enabled
+        if self.track_metrics:
+            self.metrics_calculator = QualityMetrics()
+            self.reference_set = None
+            self.metrics_history = {
+                'hypervolume': [],
+                'igd_plus': [],
+                'spacing': [],
+                'diversity': []
+            }
+
         print(f"PyCommend VNS initialized for '{main_package}'")
         print(f"Using 3 objectives: LU (Linked Usage), SS (Semantic Similarity), RSS (Set Size)")
+        if self.track_metrics:
+            print("Quality metrics tracking: ENABLED (Hypervolume, IGD+, Spacing, Diversity)")
 
     def load_all_data(self):
         """Load all required data matrices"""
@@ -369,6 +388,143 @@ class NSGA2_VNS:
 
         return child
 
+    def generate_reference_set(self, n_points=100):
+        """
+        Generate a reference set for IGD+ calculation
+        Creates a well-distributed set of achievable but challenging points
+        """
+        # Use initial population to understand the objective space
+        temp_pop = []
+        for _ in range(50):
+            chromosome = self.smart_initialization('hybrid')
+            objectives = self.evaluate_objectives(chromosome)
+            temp_pop.append(objectives)
+
+        temp_pop = np.array(temp_pop)
+
+        # Calculate bounds based on actual achievable objectives
+        # LU and SS are negative (maximize), RSS is positive (minimize)
+        lu_best = np.min(temp_pop[:, 0]) * 1.2  # 20% better than best found
+        lu_worst = np.max(temp_pop[:, 0]) * 0.8
+        ss_best = np.min(temp_pop[:, 1]) * 1.2  # 20% better
+        ss_worst = np.max(temp_pop[:, 1]) * 0.8
+        rss_best = np.min(temp_pop[:, 2]) * 0.8  # 20% better (smaller)
+        rss_worst = np.max(temp_pop[:, 2]) * 1.2
+
+        # Generate reference points using a grid
+        n_per_dim = int(np.cbrt(n_points)) + 1
+        lu_range = np.linspace(lu_best, lu_worst, n_per_dim)
+        ss_range = np.linspace(ss_best, ss_worst, n_per_dim)
+        rss_range = np.linspace(rss_best, rss_worst, n_per_dim)
+
+        ref_points = []
+        for lu in lu_range:
+            for ss in ss_range:
+                for rss in rss_range:
+                    ref_points.append([lu, ss, rss])
+
+        ref_points = np.array(ref_points)
+
+        # Add some extreme points representing ideal solutions
+        ideal_points = [
+            [lu_best, ss_best, rss_best],  # Best in all objectives
+            [lu_best, ss_worst, rss_best],  # Trade-off points
+            [lu_worst, ss_best, rss_best],
+            [lu_best, ss_best, rss_worst],
+        ]
+
+        ref_points = np.vstack([ref_points, ideal_points])
+
+        # Keep only non-dominated points
+        non_dominated_mask = []
+        for i in range(len(ref_points)):
+            is_dominated = False
+            for j in range(len(ref_points)):
+                if i != j and self.dominates(ref_points[j], ref_points[i]):
+                    is_dominated = True
+                    break
+            non_dominated_mask.append(not is_dominated)
+
+        ref_points = ref_points[non_dominated_mask]
+
+        # Limit size
+        if len(ref_points) > n_points:
+            # Keep diverse subset
+            indices = np.random.choice(len(ref_points), n_points, replace=False)
+            ref_points = ref_points[indices]
+
+        self.reference_set = ref_points
+
+    def update_reference_set(self, population):
+        """
+        Update reference set with better solutions found
+        """
+        if self.reference_set is None:
+            # Initialize with uniform reference set
+            self.generate_reference_set()
+            return
+
+        # Get current Pareto front
+        fronts = self.fast_non_dominated_sort(population)
+        if fronts and fronts[0]:
+            current_pareto = [population[i] for i in fronts[0]]
+            current_objectives = np.array([ind['objectives'] for ind in current_pareto])
+
+            # Update reference set with better solutions
+            combined = np.vstack([self.reference_set, current_objectives])
+
+            # Keep only non-dominated solutions
+            non_dominated_mask = []
+            for i in range(len(combined)):
+                is_dominated = False
+                for j in range(len(combined)):
+                    if i != j and self.dominates(combined[j], combined[i]):
+                        is_dominated = True
+                        break
+                non_dominated_mask.append(not is_dominated)
+
+            # Update reference set only if we found better solutions
+            new_ref = combined[non_dominated_mask]
+            if len(new_ref) > 0:
+                self.reference_set = new_ref
+
+                # Limit size to control computation
+                if len(self.reference_set) > 200:
+                    # Keep diverse subset using crowding distance
+                    indices = np.random.choice(len(self.reference_set), 200, replace=False)
+                    self.reference_set = self.reference_set[indices]
+
+    def calculate_metrics(self, population):
+        """
+        Calculate quality metrics for current population
+        """
+        fronts = self.fast_non_dominated_sort(population)
+        if not fronts or not fronts[0]:
+            return None
+
+        # Get Pareto front
+        pareto_indices = fronts[0]
+        pareto_objectives = np.array([population[i]['objectives'] for i in pareto_indices])
+
+        metrics = {}
+
+        # Calculate Hypervolume
+        metrics['hypervolume'] = self.metrics_calculator.hypervolume(pareto_objectives)
+
+        # Calculate IGD+ if reference set exists
+        if self.reference_set is not None and len(self.reference_set) > 0:
+            metrics['igd_plus'] = self.metrics_calculator.igd_plus(pareto_objectives, self.reference_set)
+        else:
+            metrics['igd_plus'] = None
+
+        # Calculate Spacing
+        metrics['spacing'] = self.metrics_calculator.spacing(pareto_objectives)
+
+        # Calculate Diversity
+        metrics['diversity'] = self.metrics_calculator.diversity(pareto_objectives)
+
+        return metrics
+
     def mutation(self, chromosome):
         """Bit-flip mutation with domain knowledge"""
         mutated = chromosome.copy()
@@ -407,6 +563,10 @@ class NSGA2_VNS:
 
         population = self.initialize_population()
         best_objectives_history = []
+
+        # Initialize reference set if tracking metrics
+        if self.track_metrics:
+            self.update_reference_set(population)
 
         for generation in range(self.max_gen):
             # Create offspring
@@ -459,6 +619,18 @@ class NSGA2_VNS:
 
             population = new_population[:self.pop_size]
 
+            # Calculate metrics if tracking is enabled
+            if self.track_metrics:
+                metrics = self.calculate_metrics(population)
+                if metrics:
+                    for key in self.metrics_history:
+                        if key in metrics and metrics[key] is not None:
+                            self.metrics_history[key].append(metrics[key])
+
+                    # Update reference set periodically
+                    if generation % 5 == 0:
+                        self.update_reference_set(population)
+
             # Print progress
             if generation % 10 == 0 and population:
                 current_fronts = self.fast_non_dominated_sort(population)
@@ -469,6 +641,15 @@ class NSGA2_VNS:
                         print(f"Generation {generation}: Pareto size={len(pareto_front)}")
                         print(f"  Best: LU={-best['objectives'][0]:.2f}, "
                               f"SS={-best['objectives'][1]:.4f}, RSS={best['objectives'][2]:.1f}")
+
+                        # Print metrics if tracking
+                        if self.track_metrics and metrics:
+                            print(f"  Metrics: HV={metrics.get('hypervolume', 0):.4f}, ", end="")
+                            if metrics.get('igd_plus') is not None:
+                                print(f"IGD+={metrics['igd_plus']:.4f}, ", end="")
+                            print(f"Spacing={metrics.get('spacing', 0):.4f}, "
+                                  f"Diversity={metrics.get('diversity', 0):.4f}")
+
                         best_objectives_history.append(best['objectives'])
 
         # Get final Pareto front
@@ -478,7 +659,33 @@ class NSGA2_VNS:
         else:
             pareto_solutions = population[:min(10, len(population))]
 
+        # Print final metrics summary if tracking
+        if self.track_metrics and self.metrics_history['hypervolume']:
+            print("\n" + "="*60)
+            print("FINAL METRICS SUMMARY")
+            print("-"*60)
+            print(f"Final Hypervolume: {self.metrics_history['hypervolume'][-1]:.4f}")
+            if self.metrics_history['igd_plus'] and self.metrics_history['igd_plus'][-1] is not None:
+                print(f"Final IGD+: {self.metrics_history['igd_plus'][-1]:.4f}")
+                # Calculate improvement
+                if len(self.metrics_history['igd_plus']) > 1:
+                    initial = self.metrics_history['igd_plus'][0]
+                    final = self.metrics_history['igd_plus'][-1]
+                    if initial > 0:
+                        improvement = (initial - final) / initial * 100
+                        print(f"IGD+ Improvement: {improvement:.1f}%")
+            print(f"Final Spacing: {self.metrics_history['spacing'][-1]:.4f}")
+            print(f"Final Diversity: {self.metrics_history['diversity'][-1]:.4f}")
+            print("="*60)
+
         return pareto_solutions
+
+    def get_metrics_history(self):
+        """Return the metrics history if tracking was enabled"""
+        if self.track_metrics:
+            return self.metrics_history
+        else:
+            return None
 
     def get_recommendations(self, solutions):
         """Extract package recommendations from solutions"""
@@ -516,11 +723,14 @@ def main():
     else:
         package_name = 'fastapi'
 
+    # Check if metrics tracking is requested
+    track_metrics = '--metrics' in sys.argv or '--track-metrics' in sys.argv
+
     print(f"PyCommend VNS - Library Recommendation for '{package_name}'")
     print("="*60)
 
     # Run NSGA-II
-    nsga2 = NSGA2_VNS(package_name, pop_size=100, max_gen=50)
+    nsga2 = NSGA2_VNS(package_name, pop_size=100, max_gen=50, track_metrics=track_metrics)
     solutions = nsga2.run()
 
     print(f"\nFound {len(solutions)} Pareto-optimal solutions")

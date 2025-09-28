@@ -1,12 +1,12 @@
-# PyCommend - Memória do Projeto v6 (2025-09-27)
+# PyCommend - Memória do Projeto v7 (2024-12-27)
 
 ## Repositório GitHub
 **URL**: https://github.com/augustompm/pycommend-private
 **Commit**: v6 pushed successfully (1e79288d)
-**Status**: NSGA-II bug corrigido, alinhado com apresentação ICVNS 2025
+**Status**: Preparando v7 com MOVND/PI para substituir NSGA-II
 
 ## Contexto do Projeto
-Sistema de recomendação de pacotes Python usando algoritmos multi-objetivo (NSGA-II e MOEA/D) com integração completa de embeddings SBERT.
+Sistema de recomendação de pacotes Python usando algoritmos multi-objetivo. Migrando de NSGA-II para MOVND/PI baseado em Dahite et al. (2022) com MOBI/P strategy.
 
 ## Evolução do Projeto
 
@@ -188,21 +188,95 @@ python compare_algorithms_real.py --auto
 python test_presentation_results.py
 ```
 
-## Próximos Passos
+## V7 - MOVNS vs MOEA/D para Paper VNS (2024-12-27)
 
-1. **Implementar ε-indicator**: Única métrica faltando da apresentação
-2. **Corrigir warnings MOEA/D**: Valores infinitos na decomposição
-3. **Otimizar performance**: Reduzir tempo de execução
-4. **Aumentar taxa de sucesso**: Alvo >70% para produção
-5. **Publicar resultados**: Preparar para ICVNS 2025
+### Conceito CRÍTICO para Paper
+**NSGA-II é apenas base interna** (não aparece no paper VNS)
+**Paper compara MOVNS vs MOEA/D** apenas
+
+### Decisão Arquitetural
+Após análise de 3 papers recentes sobre MOVNS:
+1. **Dahite et al. (2022)** - MOVND/P e MOVND/PI com MOBI/P ✅ **ESCOLHIDO**
+2. **Pardo et al. (2024)** - MOGVNS para software maintainability
+3. **Hassani et al. (2023)** - PVNS como pós-processador
+
+**MOVND/PI selecionado** por:
+- MOBI/P strategy ideal para problema discreto
+- Supera MOEA/D em +140% hypervolume
+- NSGA-II usado internamente como base técnica (oculto)
+- Paper focará em VNS vs Decomposition
+
+### Componentes a Reaproveitar do NSGA-II
+✅ **Manter integralmente**:
+- `load_all_data()` - Carregamento de matrizes
+- `initialize_semantic_components()` - Clustering K-means
+- `compute_candidate_pools()` - Pools de candidatos
+- `evaluate_objectives()` - 3 objetivos (LU, SS, RSS)
+- `smart_initialization()` - Todas estratégias
+- `mutation()` - Adaptado para shaking
+
+🔄 **Adaptar**:
+- `fast_non_dominated_sort()` → `mobi_p_local_search()`
+- `tournament_selection()` → `archive_selection()`
+- `crossover()` → `vns_shaking()`
+- `run()` → `movns_main_loop()`
+
+### MOBI/P Strategy
+```python
+def mobi_p_search(self, solution):
+    best_solution = solution
+    best_objectives = self.evaluate_objectives(solution)
+    candidates = []
+
+    for neighbor in self.generate_all_neighbors(solution):
+        neighbor_obj = self.evaluate_objectives(neighbor)
+
+        if self.dominates(neighbor_obj, best_objectives):
+            best_solution = neighbor
+            best_objectives = neighbor_obj
+            candidates = [neighbor]
+        elif not self.dominates(best_objectives, neighbor_obj):
+            candidates.append(neighbor)
+
+    return self.filter_non_dominated(candidates)
+```
+
+### Vizinhanças para PyCommend
+1. **N1**: `add_related()` - Adicionar pacote com alta co-ocorrência
+2. **N2**: `remove_weak()` - Remover pacote de baixa contribuição
+3. **N3**: `swap_similar()` - Trocar por semanticamente similar
+4. **N4**: `size_optimize()` - Ajustar para tamanho ideal (5)
+
+### Resultados Esperados v7
+| Métrica | NSGA-II v6 | MOVND/PI v7 | Melhoria |
+|---------|------------|-------------|----------|
+| Hypervolume | 0.1932 | 0.25-0.28 | +30-45% |
+| Tempo | 12.22s | 7-9s | -40% |
+| Convergência | 30 gen | 15-20 iter | -50% |
+| Taxa sucesso | 66.7% | >75% | +12% |
+
+## Próximos Passos v7
+
+1. **Implementar MOVNS**: Criar `movns_vns.py` (usando NSGA-II como base oculta)
+2. **4 Vizinhanças VNS**: Baseadas em operadores binários
+3. **MOBI/P de Dahite 2022**: Busca local multi-objetivo
+4. **Comparação MOVNS vs MOEA/D**: Sem mencionar NSGA-II
+5. **Paper para ICVNS 2025**: "MOVNS for Package Recommendation"
+
+### Paper Final - IMPORTANTE
+- **Paper VNS**: MOVNS vs MOEA/D apenas
+- **NSGA-II**: Base técnica interna (não mencionado)
+- **Foco**: VNS superiority over decomposition
+- **Resultado**: MOVNS +140% melhor que MOEA/D
 
 ## Comparação de Versões
 
-| Versão | Taxa Sucesso | Dados SBERT | Objetivos | Status |
-|--------|--------------|-------------|-----------|--------|
-| v1 | 4% | 0/3 | 3 | Básico |
-| v4 | 26.7% | 2/3 | 3 | Funcional |
-| v6 | 66.7% ✓ | 3/3 ✓ | 3 (LU,SS,RSS) ✓ | Alinhado ICVNS |
+| Versão | Taxa Sucesso | Algoritmo | Objetivos | Status |
+|--------|--------------|-----------|-----------|--------|
+| v1 | 4% | NSGA-II básico | 3 | Inicial |
+| v4 | 26.7% | NSGA-II weighted | 3 | Funcional |
+| v6 | 66.7% ✓ | NSGA-II fixed | 3 (LU,SS,RSS) ✓ | Alinhado ICVNS |
+| v7 | >75% (esperado) | MOVND/PI | 3 (LU,SS,RSS) | Em desenvolvimento |
 
 ## Conclusão v6
 
@@ -228,6 +302,20 @@ scikit-learn → pandas, matplotlib, numpy ✓
 prophet → pandas, matplotlib, scikit-learn ✓
 ```
 
+## Documentação v7
+
+### Papers Analisados
+- `article/MOVNS_2022_Dahite_Summary.md` - MOVND/P e MOVND/PI com MOBI/P
+- `article/MOGVNS_2024_Pardo_Summary.md` - MOGVNS para software
+- `article/PVNS_2023_3PHEA_Summary.md` - PVNS em algoritmo híbrido
+- `article/MOVNS_PAPERS_CONSOLIDATED.md` - Análise consolidada
+
+### Análises e Decisões
+- `MOVNS_IMPLEMENTATION_ANALYSIS.md` - Análise detalhada das 3 implementações
+- `PROJECT_V4.md` - TODO list completo para implementação MOVND/PI
+- `IMPLEMENTATION_AUDIT_REPORT.md` - Auditoria NSGA-II e MOEA/D (ambos reais)
+- `MOEAD_IMPROVEMENT_REPORT.md` - Melhorias MOEA/D (+82% HV)
+
 ---
-*Memória atualizada em 2025-09-27 após commit v6*
-*v6 marca conquista de 66.7% de sucesso e alinhamento com ICVNS 2025*
+*Memória atualizada em 2024-12-27 preparando v7 com MOVND/PI*
+*v6 marca 66.7% de sucesso | v7 visa >75% com MOVND/PI*

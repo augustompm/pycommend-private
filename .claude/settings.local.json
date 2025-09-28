@@ -40,7 +40,15 @@
       "Bash(pip show:*)",
       "WebFetch(domain:pypi.org)",
       "Bash(git checkout:*)",
-      "Bash(git stash:*)"
+      "Bash(git stash:*)",
+      "Bash(git tag:*)",
+      "WebFetch(domain:www.sciencedirect.com)",
+      "WebFetch(domain:pmc.ncbi.nlm.nih.gov)",
+      "Bash(curl -o movns_2023_healthcare.pdf \"https://pmc.ncbi.nlm.nih.gov/articles/PMC10023043/pdf/11590_2023_Article_1993.pdf\")",
+      "Bash(wget:*)",
+      "Bash(curl -L -o movns_mogvns_2021.pdf \"https://pdfs.semanticscholar.org/6655/b7e782793f1febab695af6bf0a5b8870ca2e.pdf\")",
+      "Bash(curl:*)",
+      "WebFetch(domain:link.springer.com)"
     ],
     "deny": [],
     "ask": []

@@ -1,75 +1,51 @@
-# PyCommend v5 - Projeto de Integração Semântica Completa
+# PROJECT V5 - PyCommend-VNS: MOVNS Implementation for ICVNS 2025
 
-## Objetivo
-Criar sistema de recomendação de pacotes Python com **performance real de produção** (>70% de acerto) usando **toda infraestrutura SBERT disponível**.
+## 🎯 Objective
+Transform NSGA-II into **MOVNS (Multi-Objective Variable Neighborhood Search)** for PyCommend-VNS paper, comparing with existing NSGA-II and MOEA/D implementations.
 
-## Situação Atual vs Objetivo
+## 📚 Scientific Foundation
 
-### Temos Agora
-- ✅ 3 matrizes de dados (co-ocorrência, similaridade, embeddings)
-- ✅ Weighted Probability (26.7% sucesso)
-- ✅ NSGA-II e MOEA/D funcionando
-- ❌ Embeddings SBERT não usados
-- ❌ Performance insuficiente (26.7%)
-- ❌ Apenas 3 objetivos
+### Literature Base (Downloaded & Analyzed)
+1. **Dahite et al. (2022)** - MOVND/P and MOVND/PI with MOBI/P strategy (+85% HV improvement)
+2. **Pardo et al. (2024)** - MOGVNS for software maintainability
+3. **Hassani et al. (2023)** - PVNS in Three-Phase Hybrid EA
 
-### Precisamos Alcançar
-- ✅ Usar todos os dados disponíveis
-- ✅ 4 objetivos incluindo coerência semântica
-- ✅ Inicialização semântica inteligente
-- ✅ >70% de taxa de acerto
-- ✅ Pronto para produção
+### Current Status
+- ✅ NSGA-II-VNS implemented (nsga2_vns.py) - HV: 0.1932
+- ✅ MOEA/D-VNS implemented (moead_vns.py) - HV: 0.1041 (improved)
+- ✅ 3 objectives: LU, SS, RSS
+- ⏳ MOVNS to be implemented by adapting NSGA-II
 
-## Arquitetura Proposta v5
+## 🔬 Three-Algorithm Comparison for VNS Paper
 
-### 1. Dados (Já Temos Tudo!)
+### Algorithms
 
-```python
-# 1. Co-ocorrência GitHub (9997x9997 sparse)
-rel_matrix = load('package_relationships_10k.pkl')
+| Algorithm | Paradigm | Implementation | HV Result | Status |
+|-----------|----------|---------------|-----------|--------|
+| **NSGA-II-VNS** | Genetic/Evolutionary | nsga2_vns.py | 0.1932 | ✅ Done |
+| **MOEA/D-VNS** | Decomposition | moead_vns.py | 0.1041 | ✅ Done |
+| **MOVNS** | Variable Neighborhood | movns_vns.py | Expected: 0.25+ | ⏳ TODO |
 
-# 2. Similaridade SBERT pré-computada (9997x9997)
-sim_matrix = load('package_similarity_matrix_10k.pkl')
+## 📋 MOVNS Implementation Plan
 
-# 3. Embeddings SBERT raw (9997x384) - NÃO USADO ATUALMENTE!
-embeddings = load('package_embeddings_10k.pkl')
-```
-
-### 2. Objetivos Multi-objetivo (4 objetivos)
+### Phase 1: Core MOVNS Structure
 
 ```python
-def evaluate_objectives_v5(self, chromosome):
-    selected = np.where(chromosome == 1)[0]
+class MOVNS_VNS(NSGA2_VNS):
+    """
+    Multi-Objective Variable Neighborhood Search for PyCommend
+    Adapts NSGA-II structure with VNS neighborhoods and MOBI/P strategy
+    """
 
-    # F1: Força de co-ocorrência (MANTER)
-    colink = sum([rel_matrix[main_idx, idx] for idx in selected])
-    f1 = -colink  # Maximizar
+    def __init__(self, main_package, archive_size=100, k_max=4):
+        # Inherit all data loading and objectives from NSGA-II
+        super().__init__(main_package)
 
-    # F2: Similaridade ao pacote principal (MELHORAR)
-    # Atual: média simples
-    # Novo: média ponderada por distância
-    similarities = [sim_matrix[main_idx, idx] for idx in selected]
-    weights = 1.0 / (1.0 + np.arange(len(similarities)))  # Decay por distância
-    f2 = -np.average(similarities, weights=weights)
-
-    # F3: Coerência Semântica do Conjunto (NOVO!)
-    # Usa embeddings raw para calcular coesão interna
-    if len(selected) > 1:
-        selected_embeddings = embeddings[selected]
-        centroid = np.mean(selected_embeddings, axis=0)
-        coherence = np.mean([
-            cosine_similarity(emb.reshape(1,-1), centroid.reshape(1,-1))[0,0]
-            for emb in selected_embeddings
-        ])
-    else:
-        coherence = 0
-    f3 = -coherence  # Maximizar coerência
-
-    # F4: Tamanho balanceado (MANTER)
-    size_penalty = abs(len(selected) - 7) * 0.1
-    f4 = len(selected) + size_penalty
-
-    return [f1, f2, f3, f4]
+        # MOVNS specific components
+        self.archive = []  # Pareto archive
+        self.archive_limit = archive_size
+        self.k_max = k_max  # Number of neighborhoods
+        self.neighborhoods = self._define_neighborhoods()
 ```
 
 ### 3. Inicialização Semântica Inteligente

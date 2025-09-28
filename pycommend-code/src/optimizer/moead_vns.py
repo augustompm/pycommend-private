@@ -11,7 +11,12 @@ from scipy.spatial.distance import cdist
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.cluster import KMeans
 import sys
+import os
 import time
+
+# Add path for quality metrics
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from evaluation.quality_metrics import QualityMetrics
 
 
 class MOEAD_VNS:
@@ -26,7 +31,7 @@ class MOEAD_VNS:
     """
 
     def __init__(self, main_package, pop_size=100, n_neighbors=20, max_gen=50,
-                 decomposition='tchebycheff', theta=5.0):
+                 decomposition='tchebycheff', theta=5.0, track_metrics=False):
         self.main_package = main_package
         self.pop_size = pop_size
         self.n_neighbors = min(n_neighbors, pop_size - 1)
@@ -34,6 +39,7 @@ class MOEAD_VNS:
         self.decomposition = decomposition
         self.theta = theta
         self.n_objectives = 3
+        self.track_metrics = track_metrics
 
         self.min_size = 2
         self.max_size = 15
@@ -44,9 +50,21 @@ class MOEAD_VNS:
         self.compute_candidate_pools()
         self.setup_moead()
 
+        # Initialize quality metrics if tracking is enabled
+        if self.track_metrics:
+            self.metrics_calculator = QualityMetrics()
+            self.metrics_history = {
+                'hypervolume': [],
+                'spacing': [],
+                'spread': [],
+                'diversity': []
+            }
+
         print(f"MOEA/D-VNS initialized for '{main_package}'")
         print(f"Using decomposition: {decomposition}")
         print(f"Objectives: LU (Linked Usage), SS (Semantic Similarity), RSS (Set Size)")
+        if self.track_metrics:
+            print("Quality metrics tracking: ENABLED (Hypervolume, Spacing, Spread, Diversity)")
 
     def load_all_data(self):
         """Load all required data matrices"""
@@ -335,6 +353,55 @@ class MOEAD_VNS:
         """Update nadir point for normalization"""
         self.nadir = np.maximum(self.nadir, objectives)
 
+    def calculate_metrics(self, population):
+        """
+        Calculate quality metrics for current population
+        """
+        # Get all objective vectors
+        all_objectives = np.array([ind['objectives'] for ind in population])
+
+        # Find non-dominated solutions
+        non_dominated_mask = []
+        for i in range(len(all_objectives)):
+            is_dominated = False
+            for j in range(len(all_objectives)):
+                if i != j and self.dominates(all_objectives[j], all_objectives[i]):
+                    is_dominated = True
+                    break
+            non_dominated_mask.append(not is_dominated)
+
+        pareto_objectives = all_objectives[non_dominated_mask]
+
+        if len(pareto_objectives) == 0:
+            return None
+
+        metrics = {}
+
+        # Calculate Hypervolume
+        metrics['hypervolume'] = self.metrics_calculator.hypervolume(pareto_objectives)
+
+        # Calculate Spacing
+        metrics['spacing'] = self.metrics_calculator.spacing(pareto_objectives)
+
+        # Calculate Spread
+        metrics['spread'] = self.metrics_calculator.spread(pareto_objectives)
+
+        # Calculate Diversity
+        metrics['diversity'] = self.metrics_calculator.diversity(pareto_objectives)
+
+        return metrics
+
+    def dominates(self, obj1, obj2):
+        """Check if obj1 dominates obj2 (for minimization)"""
+        return all(obj1 <= obj2) and any(obj1 < obj2)
+
+    def get_metrics_history(self):
+        """Return the metrics history if tracking was enabled"""
+        if self.track_metrics:
+            return self.metrics_history
+        else:
+            return None
+
     def run(self):
         """Main MOEA/D loop"""
         print(f"\nStarting MOEA/D for PyCommend VNS...")
@@ -389,6 +456,14 @@ class MOEAD_VNS:
                         }
                         c += 1
 
+            # Calculate metrics if tracking is enabled
+            if self.track_metrics:
+                metrics = self.calculate_metrics(self.population)
+                if metrics:
+                    for key in self.metrics_history:
+                        if key in metrics:
+                            self.metrics_history[key].append(metrics[key])
+
             if generation % 10 == 0:
                 best_lu = min([ind['objectives'][0] for ind in self.population])
                 best_ss = min([ind['objectives'][1] for ind in self.population])
@@ -396,7 +471,35 @@ class MOEAD_VNS:
                 print(f"Generation {generation}: Best LU={-best_lu:.2f}, "
                       f"SS={-best_ss:.4f}, RSS={best_rss:.1f}")
 
-        return self.get_pareto_front()
+                # Print metrics if tracking
+                if self.track_metrics and metrics:
+                    print(f"  Metrics: HV={metrics.get('hypervolume', 0):.4f}, "
+                          f"Spacing={metrics.get('spacing', 0):.4f}, "
+                          f"Spread={metrics.get('spread', 0):.4f}, "
+                          f"Diversity={metrics.get('diversity', 0):.4f}")
+
+        # Print final metrics summary if tracking
+        pareto_front = self.get_pareto_front()
+
+        if self.track_metrics and self.metrics_history['hypervolume']:
+            print("\n" + "="*60)
+            print("FINAL METRICS SUMMARY")
+            print("-"*60)
+            print(f"Final Hypervolume: {self.metrics_history['hypervolume'][-1]:.4f}")
+            print(f"Final Spacing: {self.metrics_history['spacing'][-1]:.4f}")
+            print(f"Final Spread: {self.metrics_history['spread'][-1]:.4f}")
+            print(f"Final Diversity: {self.metrics_history['diversity'][-1]:.4f}")
+
+            # Calculate improvement
+            if len(self.metrics_history['hypervolume']) > 1:
+                initial_hv = self.metrics_history['hypervolume'][0]
+                final_hv = self.metrics_history['hypervolume'][-1]
+                if initial_hv > 0:
+                    improvement = (final_hv - initial_hv) / initial_hv * 100
+                    print(f"Hypervolume Improvement: {improvement:.1f}%")
+            print("="*60)
+
+        return pareto_front
 
     def get_pareto_front(self):
         """Extract non-dominated solutions"""
@@ -413,10 +516,6 @@ class MOEAD_VNS:
                 pareto_front.append(sol_i)
 
         return pareto_front
-
-    def dominates(self, obj1, obj2):
-        """Check if obj1 dominates obj2 (for minimization)"""
-        return all(obj1 <= obj2) and any(obj1 < obj2)
 
     def get_recommendations(self, solutions):
         """Extract package recommendations from solutions"""
@@ -452,11 +551,14 @@ def main():
     else:
         package_name = 'fastapi'
 
+    # Check if metrics tracking is requested
+    track_metrics = '--metrics' in sys.argv or '--track-metrics' in sys.argv
+
     print(f"MOEA/D-VNS - Library Recommendation for '{package_name}'")
     print("="*60)
 
     moead = MOEAD_VNS(package_name, pop_size=100, n_neighbors=20, max_gen=50,
-                      decomposition='tchebycheff')
+                      decomposition='tchebycheff', track_metrics=track_metrics)
 
     solutions = moead.run()
 
