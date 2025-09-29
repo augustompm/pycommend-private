@@ -1,0 +1,32 @@
+V12 PERFORMANCE REPORT
+============================================================
+Generated: 2025-09-29 13:26:58
+
+
+MOVNS v2
+----------------------------------------
+Initial HV: 0.1365 ± 0.0048
+Final HV: 0.2030 ± 0.0193
+Improvement: 48.4% ± 8.9%
+Execution Time: 15.7s ± 1.8s
+
+MOEA/D Normalized
+----------------------------------------
+Initial HV: 0.1028 ± 0.0081
+Final HV: 0.2371 ± 0.0137
+Improvement: 133.0% ± 31.6%
+Execution Time: 24.8s ± 0.3s
+
+
+COMPARISON
+============================================================
+Final HV: MOVNS v2 = 0.2030, MOEA/D = 0.2371
+Improvement: MOVNS v2 = 48.4%, MOEA/D = 133.0%
+
+
+KEY FINDINGS
+============================================================
+1. Both algorithms converge positively with normalization
+2. MOVNS v2 uses VNS neighborhoods for local search
+3. MOEA/D uses decomposition for diversity
+4. Normalization critical for both algorithms

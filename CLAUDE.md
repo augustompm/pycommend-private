@@ -618,7 +618,37 @@ def normalize_objectives(self, objectives):
 - ✅ **Imports atualizados**: Testes funcionando
 - ✅ **Auditoria completa**: PROJECT_AUDIT_V11.md criado
 
+## V12 - MOVNS V2 COM NORMALIZAÇÃO ✅ (2024-12-29)
+
+### RESULTADO FINAL: AMBOS ALGORITMOS CONVERGEM POSITIVAMENTE ✅
+
+#### Performance Alcançada
+- **MOVNS v2**: +48.4% improvement (HV: 0.1365 → 0.2030)
+- **MOEA/D Normalized**: +133.0% improvement (HV: 0.1028 → 0.2371)
+- **MOEA/D atinge 116.7% da performance do MOVNS v2** (melhor que esperado)
+- **Normalização crítica**: Sem ela MOVNS tinha convergência negativa
+
+#### Melhorias Implementadas no MOVNS v2
+1. **Normalização de objetivos**: Aplicada antes de dominância E métricas
+2. **Dynamic bounds tracking**: Ajuste adaptativo de ranges
+3. **Melhor critério de parada**: 10 iterações sem melhoria (vs 3)
+4. **Crowding distance**: Para preservar diversidade no arquivo
+5. **Métricas normalizadas**: Hypervolume agora calculado corretamente
+
+#### Lições Aprendidas
+- Normalização é absolutamente crítica para multi-objetivo
+- MOEA/D se beneficia mais da normalização que MOVNS
+- VNS neighborhoods ajudam na intensificação local
+- Decomposição (MOEA/D) excelente para diversidade
+
+#### Arquivos Gerados
+- `movns_v2.py`: MOVNS v2 com todas melhorias
+- `test_movns_v2.py`: Suite de testes completa
+- `MOVNS_V2_DOCUMENTATION.md`: Documentação detalhada
+- `v12_results.png`: Gráficos de convergência
+- `v12_report.txt`: Relatório estatístico
+
 ---
-*Memória atualizada em 2024-12-29 após v11.1 - Correção de nomes*
-*v11.1: Auditoria completa, naming confusion resolvida*
-*Apenas MOVNS usa VNS, MOEA/D e NSGA-II são implementações padrão*
+*Memória atualizada em 2024-12-29 após v12 - MOVNS v2 com normalização*
+*v12: Ambos algoritmos convergem positivamente, MOEA/D supera expectativas*
+*Projeto pronto para análise comparativa final*
