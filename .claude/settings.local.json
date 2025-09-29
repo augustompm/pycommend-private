@@ -50,7 +50,8 @@
       "Bash(curl:*)",
       "WebFetch(domain:link.springer.com)",
       "Bash(pkill:*)",
-      "Bash(time python:*)"
+      "Bash(time python:*)",
+      "Bash(git ls-tree:*)"
     ],
     "deny": [],
     "ask": []

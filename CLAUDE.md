@@ -618,15 +618,20 @@ def normalize_objectives(self, objectives):
 - ✅ **Imports atualizados**: Testes funcionando
 - ✅ **Auditoria completa**: PROJECT_AUDIT_V11.md criado
 
-## V12 - MOVNS V2 COM NORMALIZAÇÃO ✅ (2024-12-29)
+## V12 - ANÁLISE CRÍTICA NORMALIZAÇÃO ✅ (2024-12-29)
 
-### RESULTADO FINAL: AMBOS ALGORITMOS CONVERGEM POSITIVAMENTE ✅
+### DESCOBERTA CRÍTICA: HV 0.5616 ERA INCORRETO!
 
-#### Performance Alcançada
-- **MOVNS v2**: +48.4% improvement (HV: 0.1365 → 0.2030)
-- **MOEA/D Normalized**: +133.0% improvement (HV: 0.1028 → 0.2371)
-- **MOEA/D atinge 116.7% da performance do MOVNS v2** (melhor que esperado)
-- **Normalização crítica**: Sem ela MOVNS tinha convergência negativa
+#### A Verdade sobre os Valores
+- **HV 0.5616 do v7**: Calculado SEM normalização (INCORRETO)
+- **Escalas diferentes**: LU (10000x), SS (1x), RSS (13x)
+- **Sem normalização**: LU domina completamente, valores sem sentido
+
+#### Performance REAL com Normalização Correta
+Com todos objetivos normalizados [0,1]:
+- **MOVNS Original**: HV = 0.0044 (muito baixo)
+- **MOVNS v2**: HV = 0.0712 (16x melhor que original)
+- **MOEA/D Normalized**: HV = 0.1153 (MELHOR, 62% superior ao MOVNS v2)
 
 #### Melhorias Implementadas no MOVNS v2
 1. **Normalização de objetivos**: Aplicada antes de dominância E métricas
@@ -635,11 +640,11 @@ def normalize_objectives(self, objectives):
 4. **Crowding distance**: Para preservar diversidade no arquivo
 5. **Métricas normalizadas**: Hypervolume agora calculado corretamente
 
-#### Lições Aprendidas
-- Normalização é absolutamente crítica para multi-objetivo
-- MOEA/D se beneficia mais da normalização que MOVNS
-- VNS neighborhoods ajudam na intensificação local
-- Decomposição (MOEA/D) excelente para diversidade
+#### Conclusão: NÃO HOUVE REGRESSÃO!
+- **Valores v7 estavam errados** (sem normalização)
+- **MOEA/D é realmente o melhor** quando medido corretamente
+- **Normalização é obrigatória** para métricas válidas
+- **Decomposição > VNS** para este problema específico
 
 #### Arquivos Gerados
 - `movns_v2.py`: MOVNS v2 com todas melhorias
@@ -649,6 +654,6 @@ def normalize_objectives(self, objectives):
 - `v12_report.txt`: Relatório estatístico
 
 ---
-*Memória atualizada em 2024-12-29 após v12 - MOVNS v2 com normalização*
-*v12: Ambos algoritmos convergem positivamente, MOEA/D supera expectativas*
-*Projeto pronto para análise comparativa final*
+*Memória atualizada em 2024-12-29 após v12 - Análise Crítica de Normalização*
+*v12: HV 0.5616 era erro de medição, MOEA/D Normalized é o melhor (HV=0.1153)*
+*Normalização é obrigatória para métricas válidas em multi-objetivo*
