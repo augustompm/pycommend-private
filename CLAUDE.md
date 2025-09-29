@@ -628,10 +628,10 @@ def normalize_objectives(self, objectives):
 - **Sem normalização**: LU domina completamente, valores sem sentido
 
 #### Performance REAL com Normalização Correta
-Com todos objetivos normalizados [0,1]:
-- **MOVNS Original**: HV = 0.0044 (muito baixo)
-- **MOVNS v2**: HV = 0.0712 (16x melhor que original)
-- **MOEA/D Normalized**: HV = 0.1153 (MELHOR, 62% superior ao MOVNS v2)
+Com todos objetivos normalizados [0,1] usando QualityMetrics:
+- **MOVNS Original**: Sem normalização interna (precisa ser corrigido)
+- **MOVNS v2**: HV ~0.16-0.20 (convergência positiva)
+- **MOEA/D Normalized**: HV ~0.24-0.26 (MELHOR, ~50% superior ao MOVNS v2)
 
 #### Melhorias Implementadas no MOVNS v2
 1. **Normalização de objetivos**: Aplicada antes de dominância E métricas
@@ -654,6 +654,7 @@ Com todos objetivos normalizados [0,1]:
 - `v12_report.txt`: Relatório estatístico
 
 ---
-*Memória atualizada em 2024-12-29 após v12 - Análise Crítica de Normalização*
-*v12: HV 0.5616 era erro de medição, MOEA/D Normalized é o melhor (HV=0.1153)*
-*Normalização é obrigatória para métricas válidas em multi-objetivo*
+*Memória atualizada em 2024-12-29 após v12.2 - Correção Final*
+*v12.2: Valores corretos confirmados - MOEA/D (HV~0.25) > MOVNS v2 (HV~0.17)*
+*HV 0.5616 confirmado como erro de medição (sem normalização)*
+*Normalização é obrigatória, usar sempre QualityMetrics para consistência*
