@@ -18,14 +18,14 @@ def test_algorithm_convergence(algorithm='normalized', package='fastapi', genera
     Test convergence of different MOEA/D versions
     """
     if algorithm == 'normalized':
-        from optimizer.moead_vns_normalized import MOEAD_VNS_Normalized
-        moead = MOEAD_VNS_Normalized(package, pop_size=50, max_gen=generations,
-                                     n_neighbors=15, theta=5.0, track_metrics=True)
+        from optimizer.moead_normalized import MOEAD_Normalized
+        moead = MOEAD_Normalized(package, pop_size=50, max_gen=generations,
+                                n_neighbors=15, theta=5.0, track_metrics=True)
         algo_name = "MOEA/D Normalized"
     elif algorithm == 'original':
-        from optimizer.moead_vns_final import MOEAD_VNS_Final
-        moead = MOEAD_VNS_Final(package, pop_size=50, max_gen=generations,
-                               n_neighbors=15, track_metrics=True)
+        from optimizer.moead_final import MOEAD_Final
+        moead = MOEAD_Final(package, pop_size=50, max_gen=generations,
+                           n_neighbors=15, track_metrics=True)
         algo_name = "MOEA/D Original"
     else:
         from optimizer.movns_vns import MOVNS_VNS

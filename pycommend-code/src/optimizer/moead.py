@@ -1,7 +1,7 @@
 """
-MOEA/D for PyCommend VNS - Multi-Objective Library Recommendation
+MOEA/D for PyCommend - Multi-Objective Library Recommendation
 Based on Zhang & Li (2007) IEEE Transactions on Evolutionary Computation
-Aligned with ICVNS 2025 presentation
+Note: This is standard MOEA/D without VNS components (historical naming)
 """
 
 import numpy as np
@@ -19,7 +19,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from evaluation.quality_metrics import QualityMetrics
 
 
-class MOEAD_VNS:
+class MOEAD:
     """
     MOEA/D for library recommendation with 3 objectives:
     1. LU (Linked Usage): Maximize co-occurrence in real projects
@@ -60,7 +60,7 @@ class MOEAD_VNS:
                 'diversity': []
             }
 
-        print(f"MOEA/D-VNS initialized for '{main_package}'")
+        print(f"MOEA/D initialized for '{main_package}'")
         print(f"Using decomposition: {decomposition}")
         print(f"Objectives: LU (Linked Usage), SS (Semantic Similarity), RSS (Set Size)")
         if self.track_metrics:
@@ -419,7 +419,7 @@ class MOEAD_VNS:
 
     def run(self):
         """Main MOEA/D loop"""
-        print(f"\nStarting MOEA/D for PyCommend VNS...")
+        print(f"\nStarting MOEA/D for PyCommend...")
         print("="*60)
 
         self.population = []

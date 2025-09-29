@@ -17,16 +17,16 @@ def test_moead_convergence(version='normalized', iterations=30, verbose=True):
     Test MOEA/D convergence with different versions
     """
     if version == 'normalized':
-        from optimizer.moead_vns_normalized import MOEAD_VNS_Normalized
-        moead = MOEAD_VNS_Normalized('fastapi', pop_size=50, max_gen=iterations, track_metrics=True)
+        from optimizer.moead_normalized import MOEAD_Normalized
+        moead = MOEAD_Normalized('fastapi', pop_size=50, max_gen=iterations, track_metrics=True)
         version_name = "MOEA/D Normalized"
     elif version == 'final':
-        from optimizer.moead_vns_final import MOEAD_VNS_Final
-        moead = MOEAD_VNS_Final('fastapi', pop_size=50, max_gen=iterations, track_metrics=True)
+        from optimizer.moead_final import MOEAD_Final
+        moead = MOEAD_Final('fastapi', pop_size=50, max_gen=iterations, track_metrics=True)
         version_name = "MOEA/D Final (no norm)"
     else:
-        from optimizer.moead_vns import MOEAD_VNS
-        moead = MOEAD_VNS('fastapi', pop_size=50, max_gen=iterations, track_metrics=True)
+        from optimizer.moead import MOEAD
+        moead = MOEAD('fastapi', pop_size=50, max_gen=iterations, track_metrics=True)
         version_name = "MOEA/D Original"
 
     print(f"\nTesting {version_name}...")

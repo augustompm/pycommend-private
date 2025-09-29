@@ -10,7 +10,7 @@ from itertools import product
 import time
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'pycommend-code/src'))
-from optimizer.moead_vns_normalized import MOEAD_VNS_Normalized
+from optimizer.moead_normalized import MOEAD_Normalized
 
 
 def test_parameters(params_dict, test_package='fastapi', generations=20, verbose=False):
@@ -18,7 +18,7 @@ def test_parameters(params_dict, test_package='fastapi', generations=20, verbose
     Test a specific parameter configuration
     """
     try:
-        moead = MOEAD_VNS_Normalized(
+        moead = MOEAD_Normalized(
             test_package,
             pop_size=params_dict['pop_size'],
             n_neighbors=params_dict['n_neighbors'],

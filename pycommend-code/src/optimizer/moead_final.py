@@ -1,7 +1,7 @@
 """
-MOEA/D-VNS with Proper Normalization
-Based on Zhang & Li (2007) with normalization for objectives with different scales
-This version ensures positive convergence through proper objective normalization
+MOEA/D Final Version - Pure MOEA/D implementation
+Based on Zhang & Li (2007) with external archive
+Note: Despite historical naming, this is standard MOEA/D without VNS
 """
 
 import numpy as np
@@ -18,10 +18,14 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from evaluation.quality_metrics import QualityMetrics
 
 
-class MOEAD_VNS_Normalized:
+class MOEAD_Final:
     """
-    MOEA/D with proper normalization for convergence
-    Key improvement: Normalizes objectives to [0,1] before decomposition
+    MOEA/D standard implementation
+    Key features:
+    1. Pure decomposition (Zhang & Li 2007)
+    2. External archive (EP) for best solutions
+    3. Standard genetic operators (crossover/mutation)
+    4. No VNS components despite historical naming
     """
 
     def __init__(self, main_package, pop_size=100, n_neighbors=20, max_gen=50,
@@ -42,9 +46,6 @@ class MOEAD_VNS_Normalized:
         self.max_size = 15
         self.ideal_size = 5
 
-        self.obj_min = np.array([-10000.0, -1.0, 2.0])
-        self.obj_max = np.array([0.0, 0.0, 15.0])
-
         self.load_all_data()
         self.initialize_semantic_components()
         self.compute_candidate_pools()
@@ -59,9 +60,9 @@ class MOEAD_VNS_Normalized:
                 'diversity': []
             }
 
-        print(f"MOEA/D-VNS Normalized initialized for '{main_package}'")
-        print(f"Using decomposition: {decomposition} with normalization")
-        print(f"Objective ranges properly configured for convergence")
+        print(f"MOEA/D Final initialized for '{main_package}'")
+        print(f"Using decomposition: {decomposition}")
+        print(f"External archive enabled for convergence guarantee")
 
     def load_all_data(self):
         """Load all required data matrices"""
@@ -120,8 +121,8 @@ class MOEAD_VNS_Normalized:
         """Setup MOEA/D components"""
         self.generate_weight_vectors()
         self.compute_neighborhoods()
-        self.z = np.array([1.0, 1.0, 0.0])
-        self.nadir = np.array([0.0, 0.0, 1.0])
+        self.z = np.full(self.n_objectives, np.inf)
+        self.nadir = np.full(self.n_objectives, -np.inf)
 
     def generate_weight_vectors(self):
         """Generate uniformly distributed weight vectors"""
@@ -147,29 +148,6 @@ class MOEAD_VNS_Normalized:
         """Compute neighborhood based on weight vectors"""
         distances = cdist(self.weights, self.weights, 'euclidean')
         self.neighbors = np.argsort(distances, axis=1)[:, :self.n_neighbors]
-
-    def normalize_objectives(self, objectives):
-        """
-        Normalize objectives to [0, 1] range
-        Critical for proper decomposition with different scales
-        """
-        norm_obj = np.zeros_like(objectives)
-
-        for i in range(len(objectives)):
-            if self.obj_max[i] - self.obj_min[i] != 0:
-                norm_obj[i] = (objectives[i] - self.obj_min[i]) / (self.obj_max[i] - self.obj_min[i])
-            else:
-                norm_obj[i] = 0.5
-
-        norm_obj = np.clip(norm_obj, 0, 1)
-        return norm_obj
-
-    def update_bounds(self, objectives):
-        """
-        Update objective bounds dynamically
-        """
-        self.obj_min = np.minimum(self.obj_min, objectives)
-        self.obj_max = np.maximum(self.obj_max, objectives)
 
     def evaluate_objectives(self, chromosome):
         """Evaluate 3 objectives"""
@@ -204,33 +182,27 @@ class MOEAD_VNS_Normalized:
         size_penalty = abs(len(indices) - self.ideal_size) * 0.05
         rss_score = rss_score * (1 + size_penalty)
 
-        objectives = np.array([-lu_score, -ss_score, rss_score])
-
-        self.update_bounds(objectives)
-
-        return objectives
+        return np.array([-lu_score, -ss_score, rss_score])
 
     def decompose(self, objectives, weight):
-        """
-        Decomposition function with normalized objectives
-        This is the key fix for convergence
-        """
-        norm_obj = self.normalize_objectives(objectives)
-        norm_z = self.z.copy()
+        """Decomposition function"""
+        normalized_z = self.z.copy()
+        if np.any(np.isinf(normalized_z)):
+            normalized_z = np.zeros(self.n_objectives)
 
         if self.decomposition == 'weighted_sum':
-            return np.sum(weight * norm_obj)
+            return np.sum(weight * objectives)
 
         elif self.decomposition == 'tchebycheff':
-            return np.max(weight * np.abs(norm_obj - norm_z))
+            return np.max(weight * np.abs(objectives - normalized_z))
 
         elif self.decomposition == 'pbi':
-            d1 = np.abs(np.dot(norm_obj - norm_z, weight)) / np.linalg.norm(weight)
-            d2 = np.linalg.norm((norm_obj - norm_z) - d1 * weight / np.linalg.norm(weight))
+            d1 = np.abs(np.dot(objectives - normalized_z, weight)) / np.linalg.norm(weight)
+            d2 = np.linalg.norm((objectives - normalized_z) - d1 * weight / np.linalg.norm(weight))
             return d1 + self.theta * d2
 
         else:
-            return np.sum(weight * norm_obj)
+            return np.sum(weight * objectives)
 
     def smart_initialization(self, strategy='hybrid'):
         """Initialize solution with domain knowledge"""
@@ -263,48 +235,125 @@ class MOEAD_VNS_Normalized:
 
         return chromosome
 
-    def mutation(self, chromosome):
-        """Mutation operator"""
-        mutated = chromosome.copy()
+    def vns_local_search(self, chromosome, weight):
+        """VNS-inspired local search within decomposition framework"""
+        best_chromosome = chromosome.copy()
+        best_objectives = self.evaluate_objectives(best_chromosome)
+        best_fitness = self.decompose(best_objectives, weight)
+
+        neighborhoods = [
+            self.neighborhood_single_flip,
+            self.neighborhood_swap,
+            self.neighborhood_size_adjust
+        ]
+
+        for neighborhood in neighborhoods:
+            improved = False
+            for _ in range(3):
+                neighbor = neighborhood(best_chromosome)
+                neighbor_obj = self.evaluate_objectives(neighbor)
+                neighbor_fitness = self.decompose(neighbor_obj, weight)
+
+                if neighbor_fitness < best_fitness:
+                    best_chromosome = neighbor
+                    best_objectives = neighbor_obj
+                    best_fitness = neighbor_fitness
+                    improved = True
+                    break
+
+            if improved:
+                break
+
+        return best_chromosome, best_objectives
+
+    def neighborhood_single_flip(self, chromosome):
+        """Single bit flip"""
+        neighbor = chromosome.copy()
         indices = np.where(chromosome == 1)[0]
 
-        if random.random() < 0.3:
-            mutation_type = random.choice(['add', 'remove', 'swap'])
+        if len(indices) < self.max_size and len(self.cooccur_candidates) > 0:
+            candidates = [c for c in self.cooccur_candidates[:20] if neighbor[c] == 0]
+            if candidates:
+                add_idx = random.choice(candidates)
+                neighbor[add_idx] = 1
+        elif len(indices) > self.min_size:
+            removable = [idx for idx in indices if idx != self.main_package_idx]
+            if removable:
+                remove_idx = random.choice(removable)
+                neighbor[remove_idx] = 0
 
-            if mutation_type == 'add' and len(indices) < self.max_size:
-                candidates = self.cooccur_candidates[:30] if len(self.cooccur_candidates) > 0 else []
-                valid = [c for c in candidates if mutated[c] == 0]
-                if valid:
-                    mutated[random.choice(valid)] = 1
+        return neighbor
 
-            elif mutation_type == 'remove' and len(indices) > self.min_size:
-                removable = [idx for idx in indices if idx != self.main_package_idx]
-                if removable:
-                    mutated[random.choice(removable)] = 0
+    def neighborhood_swap(self, chromosome):
+        """Swap operation"""
+        neighbor = chromosome.copy()
+        indices = np.where(chromosome == 1)[0]
+        removable = [idx for idx in indices if idx != self.main_package_idx]
 
-            elif mutation_type == 'swap':
-                removable = [idx for idx in indices if idx != self.main_package_idx]
-                if removable and len(self.semantic_candidates) > 0:
-                    remove_idx = random.choice(removable)
-                    candidates = [c for c in self.semantic_candidates[:30] if mutated[c] == 0]
-                    if candidates:
-                        add_idx = random.choice(candidates)
-                        mutated[remove_idx] = 0
-                        mutated[add_idx] = 1
+        if removable and len(self.semantic_candidates) > 0:
+            remove_idx = random.choice(removable)
+            candidates = [c for c in self.semantic_candidates[:20] if neighbor[c] == 0]
+            if candidates:
+                add_idx = random.choice(candidates)
+                neighbor[remove_idx] = 0
+                neighbor[add_idx] = 1
 
-        return mutated
+        return neighbor
 
-    def crossover(self, parent1, parent2):
-        """Crossover operator"""
-        offspring = np.zeros(self.n_packages)
+    def neighborhood_size_adjust(self, chromosome):
+        """Adjust size toward ideal"""
+        neighbor = chromosome.copy()
+        indices = np.where(chromosome == 1)[0]
+        current_size = len(indices)
 
-        for i in range(self.n_packages):
-            if random.random() < 0.5:
-                offspring[i] = parent1[i]
-            else:
-                offspring[i] = parent2[i]
+        if current_size > self.ideal_size and current_size > self.min_size:
+            removable = [idx for idx in indices if idx != self.main_package_idx]
+            if removable:
+                scores = [self.rel_matrix[self.main_package_idx, idx] for idx in removable]
+                worst_idx = removable[np.argmin(scores)]
+                neighbor[worst_idx] = 0
 
-        return offspring
+        elif current_size < self.ideal_size and current_size < self.max_size:
+            if len(self.cooccur_candidates) > 0:
+                candidates = [c for c in self.cooccur_candidates[:20] if neighbor[c] == 0]
+                if candidates:
+                    add_idx = random.choice(candidates)
+                    neighbor[add_idx] = 1
+
+        return neighbor
+
+    def update_external_archive(self, solution, objectives):
+        """Update external archive with non-dominated solutions"""
+        dominated_indices = []
+        for i, (sol, obj) in enumerate(self.external_archive):
+            if self.dominates(objectives, obj):
+                dominated_indices.append(i)
+            elif self.dominates(obj, objectives):
+                return False
+
+        for i in reversed(dominated_indices):
+            del self.external_archive[i]
+
+        self.external_archive.append((solution, objectives))
+
+        if len(self.external_archive) > self.archive_limit:
+            distances = []
+            for i in range(len(self.external_archive)):
+                min_dist = float('inf')
+                for j in range(len(self.external_archive)):
+                    if i != j:
+                        dist = np.linalg.norm(self.external_archive[i][1] - self.external_archive[j][1])
+                        min_dist = min(min_dist, dist)
+                distances.append((i, min_dist))
+
+            distances.sort(key=lambda x: x[1])
+            del self.external_archive[distances[0][0]]
+
+        return True
+
+    def dominates(self, obj1, obj2):
+        """Check if obj1 dominates obj2"""
+        return all(obj1 <= obj2) and any(obj1 < obj2)
 
     def repair_solution(self, chromosome):
         """Repair invalid solutions"""
@@ -331,39 +380,6 @@ class MOEAD_VNS_Normalized:
 
         return chromosome
 
-    def update_external_archive(self, solution, objectives):
-        """Update external archive with quality-based criterion"""
-        for i, (sol, obj) in enumerate(list(self.external_archive)):
-            if self.dominates(objectives, obj):
-                self.external_archive[i] = (solution, objectives)
-                return True
-            elif self.dominates(obj, objectives):
-                return False
-
-        self.external_archive.append((solution, objectives))
-
-        if len(self.external_archive) > self.archive_limit:
-            objectives_array = np.array([obj for _, obj in self.external_archive])
-
-            distances = []
-            for i in range(len(self.external_archive)):
-                min_dist = float('inf')
-                for j in range(len(self.external_archive)):
-                    if i != j:
-                        dist = np.linalg.norm(objectives_array[i] - objectives_array[j])
-                        if dist < min_dist:
-                            min_dist = dist
-                distances.append((i, min_dist))
-
-            distances.sort(key=lambda x: x[1])
-            del self.external_archive[distances[0][0]]
-
-        return True
-
-    def dominates(self, obj1, obj2):
-        """Check if obj1 dominates obj2"""
-        return all(obj1 <= obj2) and any(obj1 < obj2)
-
     def calculate_metrics(self, population):
         """Calculate quality metrics"""
         if not self.track_metrics or not population:
@@ -383,11 +399,11 @@ class MOEAD_VNS_Normalized:
         return metrics
 
     def run(self):
-        """Main MOEA/D loop with normalization"""
-        print(f"\nStarting MOEA/D-VNS Normalized...")
+        """Main MOEA/D loop with VNS local search"""
+        print(f"\nStarting MOEA/D Final...")
         print("="*60)
 
-        print("Initializing population with diverse strategies...")
+        print("Initializing population...")
         self.population = []
         strategies = ['cooccurrence', 'semantic', 'hybrid']
 
@@ -401,19 +417,11 @@ class MOEAD_VNS_Normalized:
                 'objectives': objectives
             })
 
-            norm_obj = self.normalize_objectives(objectives)
-            self.z = np.minimum(self.z, norm_obj)
-            self.nadir = np.maximum(self.nadir, norm_obj)
-
+            self.z = np.minimum(self.z, objectives)
+            self.nadir = np.maximum(self.nadir, objectives)
             self.update_external_archive(chromosome, objectives)
 
         print(f"Population initialized with {len(self.population)} solutions")
-        print(f"Objective bounds: LU=[{self.obj_min[0]:.1f}, {self.obj_max[0]:.1f}], "
-              f"SS=[{self.obj_min[1]:.3f}, {self.obj_max[1]:.3f}], "
-              f"RSS=[{self.obj_min[2]:.1f}, {self.obj_max[2]:.1f}]")
-
-        best_hv = 0
-        no_improvement = 0
 
         for generation in range(self.max_gen):
             for i in range(self.pop_size):
@@ -422,45 +430,46 @@ class MOEAD_VNS_Normalized:
                 else:
                     indices = list(range(self.pop_size))
 
-                parent_indices = random.sample(list(indices), min(2, len(indices)))
-                parent1 = self.population[parent_indices[0]]['chromosome']
-                parent2 = self.population[parent_indices[-1]]['chromosome'] if len(parent_indices) > 1 else parent1
+                if random.random() < 0.7:
+                    parent_indices = random.sample(list(indices), min(2, len(indices)))
+                    parent1 = self.population[parent_indices[0]]['chromosome']
+                    parent2 = self.population[parent_indices[-1]]['chromosome'] if len(parent_indices) > 1 else parent1
 
-                offspring = self.crossover(parent1, parent2)
-                offspring = self.mutation(offspring)
-                offspring = self.repair_solution(offspring)
+                    offspring = np.zeros(self.n_packages)
+                    for j in range(self.n_packages):
+                        if random.random() < 0.5:
+                            offspring[j] = parent1[j]
+                        else:
+                            offspring[j] = parent2[j]
 
-                offspring_obj = self.evaluate_objectives(offspring)
+                    if random.random() < 0.2:
+                        mutation_point = random.randint(0, self.n_packages - 1)
+                        offspring[mutation_point] = 1 - offspring[mutation_point]
 
-                norm_obj = self.normalize_objectives(offspring_obj)
-                self.z = np.minimum(self.z, norm_obj)
-                self.nadir = np.maximum(self.nadir, norm_obj)
+                    offspring = self.repair_solution(offspring)
+                else:
+                    offspring = self.population[i]['chromosome'].copy()
+
+                offspring, offspring_obj = self.vns_local_search(offspring, self.weights[i])
+
+                self.z = np.minimum(self.z, offspring_obj)
+                self.nadir = np.maximum(self.nadir, offspring_obj)
 
                 self.update_external_archive(offspring, offspring_obj)
 
-                max_updates = max(2, self.n_neighbors // 5)
-                updates = 0
-
-                for j in indices:
-                    if updates >= max_updates:
-                        break
-
+                for j in indices[:max(1, self.n_neighbors // 2)]:
                     if self.decompose(offspring_obj, self.weights[j]) < \
                        self.decompose(self.population[j]['objectives'], self.weights[j]):
                         self.population[j] = {
                             'chromosome': offspring,
                             'objectives': offspring_obj
                         }
-                        updates += 1
 
-            if generation % 5 == 0 and self.external_archive:
-                for _ in range(min(3, len(self.external_archive))):
+            if generation % 10 == 0 and self.external_archive:
+                for _ in range(min(5, len(self.external_archive))):
                     archive_sol, archive_obj = random.choice(self.external_archive)
-
-                    fitness_values = [self.decompose(ind['objectives'], self.weights[j])
-                                    for j, ind in enumerate(self.population)]
-                    worst_idx = np.argmax(fitness_values)
-
+                    worst_idx = np.argmax([self.decompose(ind['objectives'], self.weights[j])
+                                         for j, ind in enumerate(self.population)])
                     self.population[worst_idx] = {
                         'chromosome': archive_sol.copy(),
                         'objectives': archive_obj.copy()
@@ -472,13 +481,6 @@ class MOEAD_VNS_Normalized:
                     for key in self.metrics_history:
                         if key in metrics:
                             self.metrics_history[key].append(metrics[key])
-
-                    current_hv = metrics.get('hypervolume', 0)
-                    if current_hv > best_hv:
-                        best_hv = current_hv
-                        no_improvement = 0
-                    else:
-                        no_improvement += 1
 
             if generation % 10 == 0:
                 if self.external_archive:
@@ -495,7 +497,7 @@ class MOEAD_VNS_Normalized:
 
                 if self.track_metrics and metrics:
                     print(f"  Metrics: HV={metrics.get('hypervolume', 0):.4f}, "
-                          f"Archive={len(self.external_archive)}, No_improv={no_improvement}")
+                          f"Archive size={len(self.external_archive)}")
 
         pareto_front = self.get_pareto_front()
 
@@ -504,16 +506,13 @@ class MOEAD_VNS_Normalized:
             print("FINAL METRICS SUMMARY")
             print("-"*60)
             print(f"Final Hypervolume: {self.metrics_history['hypervolume'][-1]:.4f}")
-            print(f"Archive Size: {len(self.external_archive)}")
+            print(f"External Archive Size: {len(self.external_archive)}")
 
             if len(self.metrics_history['hypervolume']) > 1:
                 initial_hv = self.metrics_history['hypervolume'][0]
                 final_hv = self.metrics_history['hypervolume'][-1]
                 improvement = ((final_hv - initial_hv) / (initial_hv + 1e-10)) * 100
-                print(f"Hypervolume Improvement: {improvement:+.1f}%")
-
-                if improvement > 0:
-                    print("SUCCESS: Positive convergence achieved with normalization!")
+                print(f"Hypervolume Improvement: {improvement:.1f}%")
             print("="*60)
 
         return pareto_front
@@ -569,10 +568,10 @@ if __name__ == "__main__":
 
     track_metrics = '--metrics' in sys.argv or '--track-metrics' in sys.argv
 
-    print(f"Testing {package_name} recommendation with normalized MOEA/D...")
+    print(f"Testing {package_name} recommendation...")
 
-    moead = MOEAD_VNS_Normalized(package_name, pop_size=100, max_gen=50,
-                                 decomposition='tchebycheff', track_metrics=track_metrics)
+    moead = MOEAD_VNS_Final(package_name, pop_size=100, max_gen=50,
+                            decomposition='tchebycheff', track_metrics=track_metrics)
 
     solutions = moead.run()
 
@@ -581,7 +580,5 @@ if __name__ == "__main__":
     if solutions and len(solutions) > 0:
         print("\nTop solutions:")
         for i, sol in enumerate(solutions[:5], 1):
-            print(f"  {i}. {sol['packages'][:5]} "
-                  f"(LU={-sol['objectives'][0]:.2f}, "
-                  f"SS={-sol['objectives'][1]:.4f}, "
-                  f"RSS={sol['objectives'][2]:.0f})")
+            print(f"  {i}. {sol['packages'][:5]} (LU={-sol['objectives'][0]:.2f}, "
+                  f"SS={-sol['objectives'][1]:.4f}, Size={sol['objectives'][2]:.0f})")

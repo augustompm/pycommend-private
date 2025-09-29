@@ -1,6 +1,6 @@
 """
-NSGA-II for PyCommend VNS - Multi-Objective Library Recommendation
-Aligned with ICVNS 2025 presentation
+NSGA-II for PyCommend - Multi-Objective Library Recommendation
+Note: This is standard NSGA-II without VNS components (historical naming)
 """
 
 import numpy as np
@@ -17,7 +17,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from evaluation.quality_metrics import QualityMetrics
 
 
-class NSGA2_VNS:
+class NSGA2:
     """
     NSGA-II for library recommendation with 3 objectives:
     1. LU (Linked Usage): Maximize co-occurrence in real projects
@@ -558,7 +558,7 @@ class NSGA2_VNS:
 
     def run(self):
         """Main NSGA-II loop"""
-        print(f"\nStarting NSGA-II for PyCommend VNS...")
+        print(f"\nStarting NSGA-II for PyCommend...")
         print("="*60)
 
         population = self.initialize_population()

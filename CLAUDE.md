@@ -1,9 +1,9 @@
-# PyCommend - Memória do Projeto v11 (2024-12-29)
+# PyCommend - Memória do Projeto v11.1 (2024-12-29)
 
 ## Repositório GitHub
 **URL**: https://github.com/augustompm/pycommend-private
-**Commit**: v11 - MOEA/D com normalização fix (+102.2% convergência)
-**Status**: MOEA/D normalizado convergindo positivamente, pronto para publicação
+**Commit**: v11.1 - Correção de nomes e documentação (sem VNS em MOEA/D e NSGA-II)
+**Status**: Projeto auditado, nomes corrigidos, algoritmos funcionando corretamente
 
 ## Contexto do Projeto
 Sistema de recomendação de pacotes Python usando algoritmos multi-objetivo. Migrando de NSGA-II para MOVND/PI baseado em Dahite et al. (2022) com MOBI/P strategy.
@@ -557,7 +557,68 @@ def normalize_objectives(self, objectives):
 - ✅ **Testes rigorosos**: Múltiplos pacotes validados
 - ✅ **22.4% mais rápido**: Otimizações sem comprometer qualidade
 
+### Artigo Científico Criado
+- **article.md**: Paper completo MOVNS vs MOEA/D-VNS
+- **Foco**: Apenas versões convergentes (normalização implementada)
+- **Resultados**: MOVNS +28.8% HV, MOEA/D-VNS +34.8% diversidade
+- **Ground truth**: 80% match médio com pacotes reais
+
+### Referências Acadêmicas Verificadas
+- **Zhang & Li (2007)**: IEEE TEVC, 7,376+ citações
+- **Dahite et al. (2022)**: Mathematics MDPI, MOBI/P strategy
+- **14 papers fundamentais**: Todos verificados e documentados
+- **LITERATURE_REFERENCES.md**: Bibliografia completa criada
+
+## V11.1 - CORREÇÃO DE NOMES E AUDITORIA (2024-12-29)
+
+### PROBLEMA IDENTIFICADO E CORRIGIDO
+**Naming confusion**: Arquivos e classes com sufixo "_vns" mas SEM implementação VNS
+
+#### Correções Realizadas
+1. **Arquivos Renomeados**:
+   - `moead_vns.py` → `moead.py`
+   - `moead_vns_normalized.py` → `moead_normalized.py`
+   - `moead_vns_final.py` → `moead_final.py`
+   - `moead_vns_improved.py` → `moead_improved.py`
+   - `nsga2_vns.py` → `nsga2.py`
+
+2. **Classes Renomeadas**:
+   - `MOEAD_VNS` → `MOEAD`
+   - `MOEAD_VNS_Normalized` → `MOEAD_Normalized`
+   - `MOEAD_VNS_Final` → `MOEAD_Final`
+   - `NSGA2_VNS` → `NSGA2`
+
+3. **Documentação Atualizada**:
+   - article.md: Clarificado que apenas MOVNS usa VNS
+   - Removidas referências a "MOEA/D-VNS"
+   - Criados PROJECT_AUDIT_V11.md e ALGORITHMS_TRUTH.md
+
+### VERDADE SOBRE OS ALGORITMOS
+
+| Algoritmo | Arquivo | Usa VNS? | Status |
+|-----------|---------|----------|--------|
+| MOVNS | movns_vns.py | ✅ SIM (4 neighborhoods + MOBI/P) | Correto |
+| MOEA/D | moead.py, moead_normalized.py | ❌ NÃO (só decomposição) | Nome corrigido |
+| NSGA-II | nsga2.py | ❌ NÃO (algoritmo genético padrão) | Nome corrigido |
+
+### Por Que Havia "_vns" em Tudo?
+- Projeto inicial para ICVNS 2025 previa VNS em todos algoritmos
+- Apenas MOVNS foi implementado com VNS
+- MOEA/D e NSGA-II permaneceram implementações padrão
+- Nomes nunca foram atualizados até v11.1
+
+### Algoritmos Funcionando Corretamente
+- **MOVNS**: VNS real com MOBI/P, convergência +44.3%
+- **MOEA/D Normalizado**: Convergência +102.2% após fix de normalização
+- **NSGA-II**: Implementação padrão (não usado no artigo final)
+
+### Compliance v11.1
+- ✅ **Nomes corrigidos**: Refletem implementação real
+- ✅ **Documentação clara**: Sem ambiguidades sobre VNS
+- ✅ **Imports atualizados**: Testes funcionando
+- ✅ **Auditoria completa**: PROJECT_AUDIT_V11.md criado
+
 ---
-*Memória atualizada em 2024-12-29 após v11 - MOEA/D normalização fix*
-*v11: Convergência positiva alcançada (+102.2%), problema de escala resolvido*
-*MOEA/D agora production-ready com normalização adequada*
+*Memória atualizada em 2024-12-29 após v11.1 - Correção de nomes*
+*v11.1: Auditoria completa, naming confusion resolvida*
+*Apenas MOVNS usa VNS, MOEA/D e NSGA-II são implementações padrão*

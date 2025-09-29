@@ -15,7 +15,7 @@ from scipy import stats
 
 sys.path.append('pycommend-code/src')
 from optimizer.movns_vns import MOVNS_VNS
-from optimizer.moead_vns import MOEAD_VNS
+from optimizer.moead import MOEAD
 
 plt.style.use('seaborn-v0_8-paper')
 sns.set_palette("husl")
@@ -56,7 +56,7 @@ class ConvergencePlotter:
 
             # MOEA/D
             print("Running MOEA/D...")
-            moead = MOEAD_VNS(package, pop_size=100, max_gen=generations, track_metrics=True)
+            moead = MOEAD(package, pop_size=100, max_gen=generations, track_metrics=True)
             moead_solutions = moead.run()
             moead_metrics = moead.get_metrics_history()
             if moead_metrics:
@@ -65,10 +65,10 @@ class ConvergencePlotter:
                     if key in moead_metrics and moead_metrics[key]:
                         results['MOEA/D'][key].append(moead_metrics[key])
 
-            # NSGA-II (import from nsga2_vns)
+            # NSGA-II (import from nsga2)
             print("Running NSGA-II...")
-            from optimizer.nsga2_vns import NSGA2_VNS
-            nsga2 = NSGA2_VNS(package, pop_size=100, max_gen=generations, track_metrics=True)
+            from optimizer.nsga2 import NSGA2
+            nsga2 = NSGA2(package, pop_size=100, max_gen=generations, track_metrics=True)
             nsga2_solutions = nsga2.run()
             nsga2_metrics = nsga2.get_metrics_history()
             if nsga2_metrics:
@@ -132,7 +132,7 @@ class ConvergencePlotter:
 
         pos = 0
         for gen in generations_to_plot:
-            for i, algo in enumerate(['MOVNS', 'MOEA/D', 'NSGA-II']):
+            for i, algo in enumerate(['MOVNS', 'MOEA/D']):
                 if algo in results and results[algo]['hypervolume']:
                     gen_idx = min(gen - 1, len(results[algo]['hypervolume'][0]) - 1)
                     values = [run[gen_idx] if gen_idx < len(run) else run[-1]
@@ -230,7 +230,7 @@ class ConvergencePlotter:
                     labels.extend([algo] * len(values))
 
                 positions = []
-                for i, algo in enumerate(['MOVNS', 'MOEA/D', 'NSGA-II']):
+                for i, algo in enumerate(['MOVNS', 'MOEA/D']):
                     if algo in final_values:
                         positions.append(i)
 
