@@ -796,7 +796,47 @@ cd pycommend-code
 python -m src.optimizer.movns_v16 fastapi
 ```
 
+## V17 - EPSILON-INDICATOR IMPLEMENTADO E TESTADO ✅ (2024-12-30)
+
+### NOVA MÉTRICA: ε-INDICATOR CONFIRMADO
+
+#### Descoberta da Apresentação
+- **main.tex linha 415**: ε-indicator mencionado como métrica de convergência
+- **Resultados apresentados**: MOVNS=0.062 vs NSGA-II=0.087 (MOVNS vence)
+- **Definição**: Mede convergência entre iterações (menor é melhor)
+
+#### Implementação Encontrada
+```python
+# quality_metrics.py linha 391
+def epsilon_indicator(self, objectives, reference_set=None):
+    """Calculate epsilon indicator (additive version)
+    Weakly Pareto compliant metric"""
+```
+
+#### Teste Realizado v17
+- **test_epsilon_indicator.py** criado e validado
+- **MOVNS v16**: ε=1.2833 (23 soluções)
+- **MOEA/D**: ε=0.0407 (100 soluções)
+- **Resultado**: MOEA/D vence devido a maior cobertura
+
+#### Análise das Métricas
+| Métrica | MOVNS v16 | MOEA/D | Vencedor | Natureza |
+|---------|-----------|---------|----------|----------|
+| HV | 0.3387 | 0.2163 | MOVNS | Convergência + Diversidade |
+| Spacing | 0.0459 | 0.0392 | MOEA/D | Distribuição |
+| ε-indicator | 1.2833 | 0.0407 | MOEA/D | Convergência pura |
+
+#### Trade-offs Identificados
+1. **MOVNS**: Otimiza HV (volume), sacrifica ε (convergência)
+2. **MOEA/D**: Melhor convergência e distribuição, menor HV
+3. **Tamanho do arquivo importa**: Mais soluções = melhor ε
+
+#### Documentação Criada
+- **EPSILON_INDICATOR_SUMMARY.md**: Explicação completa da métrica
+- **test_epsilon_indicator.py**: Teste funcional comparativo
+- **V16_SUCCESS_REPORT.md**: Relatório da v16
+
 ---
-*Memória atualizada em 2024-12-30 após v16 - MOVNS vence HV*
-*v16: MOVNS Final V2 definitivo com HV=0.34 superando MOEA/D*
-*CRITICAL: Use MOVNS v16 (Advanced/Final V2) para resultados consistentes*
+*Memória atualizada em 2024-12-30 após v17 - epsilon-indicator testado*
+*v17: Três métricas implementadas (HV, Spacing, ε-indicator)*
+*CRITICAL: Trade-off entre HV e ε-indicator identificado*
