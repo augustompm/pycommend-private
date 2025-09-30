@@ -52,7 +52,14 @@
       "Bash(pkill:*)",
       "Bash(time python:*)",
       "Bash(git ls-tree:*)",
-      "WebFetch(domain:www.igi-global.com)"
+      "WebFetch(domain:www.igi-global.com)",
+      "Bash(for:*)",
+      "Bash(do base=\"$f%.pdf\")",
+      "Bash(if [ ! -f \"$base.md\" ])",
+      "Bash(then echo \"$f\")",
+      "Bash(fi)",
+      "WebFetch(domain:mdpi-res.com)",
+      "WebFetch(domain:www.ncbi.nlm.nih.gov)"
     ],
     "deny": [],
     "ask": []

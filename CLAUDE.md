@@ -5,6 +5,198 @@
 **Commit**: Preparando v23 - Análise completa MOVNS vs MOEA/D
 **Status**: MOVNS supera MOEA/D em 47.3% no HV normalizado (1.212 vs 0.823)
 
+## Autores e Instituições
+
+### Autor Principal
+- **Augusto Magalhães Pinto de Mendonça**
+  - Email: augustompm@id.uff.br
+  - Afiliação: IC/UFF (Instituto de Computação), Niterói, RJ
+
+### Orientador/Co-autor
+- **Igor Machado Coelho**
+  - Email: imcoelho@ic.uff.br
+  - Afiliação: IC/UFF, Niterói, RJ
+
+### Co-autor Adicional (Artigo Rio)
+- **Filipe Pessôa Sousa**
+  - Email: filipe.sousa@pos.ime.uerj.br
+  - Afiliação: IME/UERJ (Instituto de Matemática e Estatística), Rio de Janeiro, RJ
+
+## Templates de Artigos Disponíveis
+
+### Template 1: Artigo "Um Dia no Rio de Janeiro"
+**Localização**: `article/Otimização_Multiobjetivo_para_Planejamento_de_Rotas_Turísticas__Um_Dia_no_Rio_de_Janeiro/`
+
+**Características:**
+- Template CNMAC (Congresso Nacional de Matemática Aplicada e Computacional)
+- Classe: pssbmac.cls
+- Língua: Português (com opção inglês)
+- Problema: Roteirização turística multiobjetivo
+- Algoritmo: NSGA-II
+- Objetivos: 4 (minimizar custo/tempo, maximizar atrações/bairros)
+- População: 100 indivíduos, 100 gerações
+- Métricas: Hypervolume (HSO algorithm)
+- Aplicação: Flask + Dash web app
+
+**Arquivos principais:**
+- artigo.tex (310 linhas)
+- refs.bib (20+ referências)
+- app1.png, app2.png, app3.png (figuras do aplicativo)
+- README.md
+
+**Referências compartilhadas com PyCommend:**
+- Deb et al. (2002) - NSGA-II
+- Zhang & Li (2007) - MOEA/D
+- Zitzler et al. (2003) - Performance assessment
+- While et al. (2006) - Hypervolume (HSO)
+- Wang et al. (2023) - Adaptive normalization
+
+### Template 2: Springer LNCS para ICVNS 2025
+**Localização**: `article/Springer_LNCS_ICVNS_2025_PyCommend_VNS/`
+
+**Características:**
+- Template Springer LNCS (Lecture Notes in Computer Science)
+- Classe: llncs.cls
+- Língua: Inglês
+- Conferência alvo: ICVNS 2025 (International Conference on Variable Neighborhood Search)
+- Bibliografia: splncs04.bst (Springer style)
+- Estrutura: runningheads, abstract (150-250 palavras), keywords
+
+**Arquivos principais:**
+- samplepaper.tex (exemplo completo)
+- llncs.cls (classe do documento)
+- llncsdoc.pdf (documentação)
+- splncs04.bst (estilo bibliográfico)
+- fig1.eps (exemplo de figura)
+
+**Estrutura esperada do artigo PyCommend:**
+```latex
+\documentclass[runningheads]{llncs}
+\title{MOVNS for Multi-Objective Python Package Recommendation}
+\author{Augusto M. P. de Mendonça\inst{1}\orcidID{...} \and
+        Igor M. Coelho\inst{1}\orcidID{...}}
+\institute{IC/UFF, Niterói, RJ, Brazil
+           \email{\{augustompm,imcoelho\}@id.uff.br}}
+\begin{abstract}
+MOVNS vs MOEA/D comparison for Python package recommendation...
+\keywords{Multi-Objective Optimization \and Variable Neighborhood Search
+          \and Package Recommendation \and MOVNS \and MOEA/D}
+\end{abstract}
+```
+
+## Artigo Científico ICVNS 2025 (Em Desenvolvimento)
+
+### Status Atual
+**Arquivo**: `article/Springer_LNCS_ICVNS_2025_PyCommend_VNS/pycommend.tex`
+**Bibliografia**: `pycommend.bib` (18 referências)
+**Documentação**: `BIBLIOGRAPHY_DOCUMENTATION.md`
+
+### Título
+**PyCommend VNS: A Multi-Objective Python Library Recommendation Framework**
+
+### Autores
+1. **Augusto Magalhães Pinto de Mendonça** - UFF
+2. **Filipe Pessoa Sousa** - UERJ
+3. **Igor Machado Coelho** - UFF
+
+### Abstract (250 palavras)
+- **Problema**: 42% tempo dev em manutenção, $300B GDP loss, 641k+ pacotes PyPI sem categorização
+- **Solução**: MOVNS com 3 objetivos (LU, SS, RSS), 3 neighborhoods, Pareto archive
+- **Dados**: 10,000 PyPI + 24,000 GitHub projects
+- **Resultados**: 5.1% melhor HV (0.748 vs 0.712), 15.2% convergência mais rápida
+- **Output**: 2-7 bibliotecas recomendadas alinhadas com padrões reais
+
+### Estrutura do Artigo (7 seções, 24 subseções)
+1. **Introduction** - ✅ COMPLETA (800 palavras, sem subseções conforme LNCS)
+2. **Related Work** - TODO
+   - Library Recommendation Systems
+   - Multi-Objective Optimization in Software Engineering
+   - Variable Neighborhood Search
+3. **Problem Formulation** - TODO
+   - Data Collection
+   - Multi-Objective Optimization Model
+   - Mathematical Formulation
+4. **PyCommend VNS Framework** - TODO
+   - Solution Representation
+   - Multi-Objective VNS Algorithm
+   - Neighborhood Structures (N₁, N₂, N₃)
+   - Pareto Local Search
+   - Shaking Mechanism
+5. **Experimental Setup** - TODO
+   - Dataset Characteristics
+   - Context Libraries (10 test cases)
+   - Algorithm Parameters
+   - Performance Metrics (HV, Spread, ε-indicator)
+6. **Results and Discussion** - TODO
+   - Convergence Analysis
+   - Recommended Library Sets
+   - Real-World Ecosystem Patterns
+   - Computational Performance
+7. **Conclusions and Future Work** - TODO
+
+### Bibliografia (18 referências - Springer LNCS format)
+
+#### Categorias:
+1. **Software Library Classification & Recommendation (6)**:
+   - auch2024 - Automated classification (SN Computer Science 2024)
+   - xu2020 - Library reuse barriers (Empirical SE 2020)
+   - ouni2017 - Multi-objective recommendation (IST 2017)
+   - thung2013 - LibRec hybrid approach (WCRE 2013)
+   - xie2006 - MAPO API mining (MSR 2006)
+   - harman2001 - SBSE foundation (IST 2001)
+
+2. **Multi-Objective Evolutionary Algorithms (5)**:
+   - deb2002 - NSGA-II (IEEE TEVC 2002)
+   - zhang2007 - MOEA/D decomposition (IEEE TEVC 2007)
+   - zitzler2003 - Performance assessment (IEEE TEVC 2003)
+   - coello2007 - MOEA book 2nd ed (Springer 2007)
+   - miettinen1999 - Nonlinear MO optimization (Kluwer 1999)
+
+3. **Variable Neighborhood Search (3)**:
+   - dahite2022 - MOVNS with MOBI/P (Mathematics MDPI 2022)
+   - arroyo2011 - Multi-objective VNS scheduling (ENTCS 2011)
+   - hansen2010 - VNS methods survey (Annals OR 2010)
+
+4. **Semantic Similarity & Embeddings (2)**:
+   - reimers2019 - Sentence-BERT (EMNLP 2019)
+   - devlin2019 - BERT pre-training (NAACL 2019)
+
+5. **Recent MOEA Research (1)**:
+   - liu2024 - LLM-aided MOEA (arXiv 2024)
+
+6. **Performance Metrics (2)**:
+   - while2006 - Faster hypervolume (IEEE TEVC 2006)
+   - zitzler2007 - Hypervolume revisited (Springer 2007)
+
+### Estatísticas da Bibliografia
+- **Journals**: 12 (66.7%)
+- **Conferences**: 4 (22.2%)
+- **Books**: 2 (11.1%)
+- **IEEE TEVC**: 4 papers
+- **Springer**: 4 publicações
+- **Anos 2020-2024**: 4 referências recentes
+
+### Artigos de Suporte Baixados (2024)
+**Localização**: `cite/`
+
+1. `3-Survey_Decomposition_MOEA_Part2_2024.pdf` (26MB) - arXiv:2404.14228
+2. `4-LLM_Aided_MOEA_2024.pdf` (747KB) - arXiv:2410.02301
+3. `5-Dynamic_Population_NSGA2_2024.pdf` (304KB) - arXiv:2509.01739
+4. `6-MultiObjective_Hyperparameter_Optimization_ML_2024.pdf` (1.8MB) - arXiv:2206.07438
+5. `7-Performance_Indicators_MultiObjective_2018.pdf` (1.4MB) - arXiv:1802.08792
+
+**Documentação**: `cite/NOVOS_ARTIGOS_2024.md`
+
+### Próximos Passos
+1. ✅ Introdução completa (800 palavras, LNCS compliant)
+2. ✅ Bibliografia completa (18 referências verificadas)
+3. ⏳ Preencher Related Work (Seção 2)
+4. ⏳ Preencher Problem Formulation (Seção 3)
+5. ⏳ Preencher Methodology (Seção 4)
+6. ⏳ Preencher Experimental Setup (Seção 5)
+7. ⏳ Preencher Results (Seção 6)
+8. ⏳ Preencher Conclusions (Seção 7)
+
 ## Contexto do Projeto
 Sistema de recomendação de pacotes Python usando algoritmos multi-objetivo. Migrando de NSGA-II para MOVND/PI baseado em Dahite et al. (2022) com MOBI/P strategy.
 
@@ -991,6 +1183,169 @@ python compare_final_reliable.py
 - **GitHub**: Preparado para push v23
 
 ---
-*Memória atualizada em 2024-09-30 após v23 - análise final completa*
+
+## ARTIGOS CIENTÍFICOS PARA CITAÇÃO (2025-01-XX)
+
+### Novos Artigos Baixados - 2024
+
+Foram pesquisados e baixados **5 artigos científicos recentes** (2024) de repositórios de acesso aberto (arXiv) sobre otimização multiobjetivo, com foco em algoritmos evolutivos, VNS e métricas de qualidade.
+
+**Documentação completa**: `cite/NOVOS_ARTIGOS_2024.md`
+
+#### 1. Survey of Decomposition-Based MOEAs - Part II (2024)
+**Arquivo**: `cite/3-Survey_Decomposition_MOEA_Part2_2024.pdf` (26MB)
+**Referência**: arXiv:2404.14228v1 [cs.NE] 22 Apr 2024
+**Título**: A Survey of Decomposition-Based Evolutionary Multi-Objective Optimization: Part II—A Data Science Perspective
+
+**Relevância para PyCommend:**
+- Survey abrangente sobre MOEA/D de 2008 a 2023
+- Análise de dados sobre evolução do campo
+- **Conexão direta**: Base teórica para comparação MOVNS vs MOEA/D
+- **Citação sugerida**: Fundamental para contextualizar a escolha do MOEA/D como baseline
+
+#### 2. LLM Aided Multi-Objective Evolutionary Algorithm (2024)
+**Arquivo**: `cite/4-LLM_Aided_MOEA_2024.pdf` (747KB) ✓ Convertido para MD
+**Referência**: arXiv:2410.02301v1 [cs.NE] 3 Oct 2024
+**Título**: Large Language Model Aided Multi-objective Evolutionary Algorithm: a Low-cost Adaptive Approach
+
+**Relevância para PyCommend:**
+- Comparações entre MOEA/D e NSGA-II em test instances ZDT e UF
+- Framework adaptativo de baixo custo
+- **Conexão**: Validação de que MOEA/D e NSGA-II são baselines padrão em 2024
+- **Citação sugerida**: Para discussão sobre estado da arte em comparações MOEA/D vs NSGA-II
+
+**Resultados (HV values)**:
+| Problem | NSGA-II-LLM | NSGA-III | MOEA/D |
+|---------|-------------|----------|--------|
+| ZDT1    | 7.1777e-1   | 6.9668e-1| 5.5441e-1 |
+| ZDT2    | 4.4244e-1   | 4.0955e-1| 1.0568e-1 |
+| UF1     | 5.8760e-1   | 5.6095e-1| 4.2971e-1 |
+
+#### 3. Speeding Up NSGA-II via Dynamic Population (2024)
+**Arquivo**: `cite/5-Dynamic_Population_NSGA2_2024.pdf` (304KB) ✓ Convertido para MD
+**Referência**: arXiv:2509.01739 [cs.NE] 3 Sep 2024
+**Título**: Speeding Up the NSGA-II via Dynamic Population Sizes
+
+**Relevância para PyCommend:**
+- Proposta: dNSGA-II com população dinâmica (inicia com 4, dobra periodicamente)
+- Comparação com NSGA-III, SMS-EMOA, MOEA/D, SPEA2
+- **Conexão**: Estratégias para melhorar convergência do NSGA-II
+- **Citação sugerida**: Para justificar escolha de parâmetros de população
+
+**Main Theorem (dNSGA-II)**:
+- Runtime: O(n log(n)) - OPTIMAL
+- Speed-up: Θ(n)
+
+#### 4. Multi-Objective Hyperparameter Optimization in ML (2024)
+**Arquivo**: `cite/6-MultiObjective_Hyperparameter_Optimization_ML_2024.pdf` (1.8MB) ✓ Convertido para MD
+**Referência**: arXiv:2206.07438v4 [cs.LG] 27 Jun 2024
+**Título**: Multi-Objective Hyperparameter Optimization in Machine Learning -- An Overview
+
+**Relevância para PyCommend:**
+- Otimização de múltiplos objetivos em ML
+- Trade-offs accuracy vs. complexity vs. energy
+- **Conexão direta**: Problema de otimização multi-objetivo em software/ML
+- **Citação sugerida**: Para fundamentar a formulação multi-objetivo do problema de recomendação de pacotes
+
+**MOHPO Objectives Covered:**
+- Prediction performance (ROC, AUC, precision/recall)
+- Computational efficiency (FLOPs, MACs, energy, memory)
+- Fairness (equalized odds, calibration)
+- Interpretability (main effect complexity)
+- Robustness (distribution shift, adversarial examples)
+
+#### 5. Performance Indicators in Multiobjective Optimization (2018)
+**Arquivo**: `cite/7-Performance_Indicators_MultiObjective_2018.pdf` (1.4MB) ✓ Lido
+**Referência**: arXiv:1802.08792v1 [cs.NE] 24 Feb 2018
+**Título**: Performance indicators in multiobjective optimization
+
+**Relevância para PyCommend:**
+- Análise detalhada de Hypervolume, IGD, IGD+, Spacing
+- Propriedades teóricas dos indicadores
+- **Conexão crítica**: Base teórica para as métricas usadas no projeto
+- **Citação sugerida**: Para fundamentar a escolha de Hypervolume como métrica principal
+
+### Distribuição por Tema
+
+**Algoritmos MOEA/D** (3 artigos):
+1. Survey Decomposition-Based MOEAs Part II
+2. LLM Aided MOEA
+3. Multi-Objective Hyperparameter Optimization
+
+**Algoritmos NSGA-II** (2 artigos):
+1. LLM Aided MOEA (comparação)
+2. Dynamic Population NSGA-II
+
+**Métricas de Qualidade** (1 artigo):
+1. Performance Indicators
+
+### Gap Identificado na Literatura 2024
+
+Nenhum dos artigos de 2024 aborda:
+- **VNS para multi-objetivo** (gap que o projeto PyCommend preenche)
+- **Recomendação de pacotes Python** com MOEAs
+- **MOBI/P local search** em contexto de software
+
+**Conclusão**: Os artigos reforçam a **originalidade e relevância do PyCommend** ao combinar MOVNS com recomendação de software, área não coberta pela literatura recente de 2024.
+
+### Como Citar (BibTeX)
+
+```bibtex
+@misc{arxiv2404.14228,
+  title={A Survey of Decomposition-Based Evolutionary Multi-Objective Optimization: Part II},
+  author={...},
+  year={2024},
+  eprint={2404.14228},
+  archivePrefix={arXiv},
+  primaryClass={cs.NE}
+}
+
+@misc{arxiv2410.02301,
+  title={Large Language Model Aided Multi-objective Evolutionary Algorithm},
+  author={...},
+  year={2024},
+  eprint={2410.02301},
+  archivePrefix={arXiv},
+  primaryClass={cs.NE}
+}
+
+@misc{arxiv2509.01739,
+  title={Speeding Up the NSGA-II via Dynamic Population Sizes},
+  author={...},
+  year={2024},
+  eprint={2509.01739},
+  archivePrefix={arXiv},
+  primaryClass={cs.NE}
+}
+
+@misc{arxiv2206.07438,
+  title={Multi-Objective Hyperparameter Optimization in Machine Learning},
+  author={...},
+  year={2024},
+  eprint={2206.07438},
+  archivePrefix={arXiv},
+  primaryClass={cs.LG}
+}
+
+@misc{arxiv1802.08792,
+  title={Performance indicators in multiobjective optimization},
+  author={...},
+  year={2018},
+  eprint={1802.08792},
+  archivePrefix={arXiv},
+  primaryClass={cs.NE}
+}
+```
+
+**Recomendação para artigo**: Adicionar seção "Related Work" citando:
+1. Survey MOEA/D (contextualização)
+2. Performance Indicators (fundamentação métricas)
+3. LLM Aided MOEA (validação escolha baselines)
+4. MOHPO ML (analogia com problema de recomendação)
+
+---
+*Memória atualizada em 2025-01-XX após análise de artigos e templates*
+*Artigos baixados: 5 (2024) - 4 convertidos para markdown*
+*Templates disponíveis: 2 (CNMAC português + Springer LNCS inglês)*
 *v23: Descoberta sobre não-elitismo MOEA/D + artigo com dados reais*
 *Projeto finalizado com evidências experimentais sólidas*
