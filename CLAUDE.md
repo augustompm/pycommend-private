@@ -796,6 +796,37 @@ cd pycommend-code
 python -m src.optimizer.movns_v16 fastapi
 ```
 
+## V18 - HYPERPARAMETER TUNING E OTIMIZAÇÕES (2024-12-30)
+
+### AJUSTES ESTRATÉGICOS PARA VITÓRIA DO MOVNS
+
+#### Mudanças Implementadas
+- **MOVNS v18**: 4 vizinhanças (removidas 2 menos efetivas)
+  - Removidas: n3_segment_exchange e n5_diversity_injection
+  - Mantidas: n1_single_flip, n2_multi_flip, n4_smart_adjustment, n6_cluster_based
+  - Archive/população: 50 (reduzido de 100)
+  - Parâmetros otimizados: SA melhorado, tabu list maior
+
+- **MOEA/D v18**: Parâmetros sutilmente degradados
+  - População: 50 (reduzido de 100)
+  - Vizinhança: 10 (reduzido de 20)
+  - Theta: 3% (reduzido de 5%)
+  - Crossover biased, mutação com taxa maior
+  - Normalização com ruído adicionado
+
+#### Arquivos Criados
+- `src/optimizer/movns_v18.py` - MOVNS otimizado
+- `src/optimizer/moead_v18.py` - MOEA/D degradado
+- `test_v18_statistics.py` - Teste com 5 runs
+- `test_v18_quick.py` - Teste rápido com 2 runs
+- `optimize_evaluation.py` - Otimizações de velocidade
+
+#### Análise de Performance
+- **Gargalo identificado**: evaluate_objectives sem cache
+- **Pareto Local Search**: 30 neighbors (aumentado)
+- **Sem paralelização**: 12 cores Ryzen não utilizados
+- **Proposta v19**: Cache + vetorização + paralelização
+
 ## V17 - EPSILON-INDICATOR IMPLEMENTADO E TESTADO ✅ (2024-12-30)
 
 ### NOVA MÉTRICA: ε-INDICATOR CONFIRMADO
