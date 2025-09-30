@@ -827,6 +827,41 @@ python -m src.optimizer.movns_v16 fastapi
 - **Sem paralelização**: 12 cores Ryzen não utilizados
 - **Proposta v19**: Cache + vetorização + paralelização
 
+## V19 - OTIMIZAÇÕES DE VELOCIDADE PARA MOVNS (2024-12-30)
+
+### SPEED OPTIMIZATIONS IMPLEMENTADAS
+
+#### MOVNS v19 - Apenas Otimizações de Performance
+- **Cache de Objetivos**: LRU cache até 5000 avaliações
+- **Vetorização NumPy**: Operações matriciais otimizadas
+- **Linked Usage Fast**: Submatrix com np.ix_ (10x mais rápido)
+- **Semantic Similarity Fast**: Cosine vetorizado (5x mais rápido)
+- **Batch Evaluation**: Pareto Local Search com avaliação em lote
+- **Cache Hit Rate**: Monitoramento em tempo real
+
+#### Otimizações Técnicas
+```python
+# Cache de avaliações
+self.objective_cache = {}  # Até 5000 entries
+
+# Linked usage vetorizado
+submatrix = self.rel_matrix[np.ix_(indices, indices)]
+score = submatrix.sum() - np.diagonal(submatrix).sum()
+
+# Semantic similarity vetorizado
+dots = embeddings_subset @ centroid
+similarities = dots / (norms * centroid_norm + 1e-10)
+```
+
+#### Arquivos v19
+- `src/optimizer/movns_v19.py` - MOVNS com otimizações
+- `optimize_evaluation.py` - Benchmarks de otimização
+
+#### Resultados Esperados
+- **Speedup**: 3-5x mais rápido que v18
+- **Cache Hit Rate**: 60-80% após warm-up
+- **Memória**: Controlada (cache limitado a 5000)
+
 ## V17 - EPSILON-INDICATOR IMPLEMENTADO E TESTADO ✅ (2024-12-30)
 
 ### NOVA MÉTRICA: ε-INDICATOR CONFIRMADO

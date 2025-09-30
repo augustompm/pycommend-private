@@ -104,12 +104,24 @@ class MOEAD_V18:
         data_dir = 'data'
         print("Loading data matrices...")
 
+        # First load embeddings to get package names
         try:
-            with open(os.path.join(data_dir, 'package_names.pkl'), 'rb') as f:
-                self.package_names = pickle.load(f)
+            with open(os.path.join(data_dir, 'package_embeddings_10k.pkl'), 'rb') as f:
+                embeddings_data = pickle.load(f)
         except:
-            with open('package_names.pkl', 'rb') as f:
-                self.package_names = pickle.load(f)
+            with open('package_embeddings_10k.pkl', 'rb') as f:
+                embeddings_data = pickle.load(f)
+
+        if isinstance(embeddings_data, dict):
+            if 'embeddings' in embeddings_data and 'package_names' in embeddings_data:
+                self.embeddings = embeddings_data['embeddings']
+                self.package_names = embeddings_data['package_names']
+            else:
+                # Fallback: assume dict keys are package names
+                self.package_names = list(embeddings_data.keys())
+                self.embeddings = np.array(list(embeddings_data.values()))
+        else:
+            raise ValueError("Cannot extract package names from embeddings")
 
         self.main_package_idx = self.package_names.index(self.main_package)
 
@@ -127,12 +139,7 @@ class MOEAD_V18:
             with open('package_similarity_matrix_10k.pkl', 'rb') as f:
                 self.sim_matrix = pickle.load(f)
 
-        try:
-            with open(os.path.join(data_dir, 'package_embeddings_10k.pkl'), 'rb') as f:
-                self.embeddings = pickle.load(f)
-        except:
-            with open('package_embeddings_10k.pkl', 'rb') as f:
-                self.embeddings = pickle.load(f)
+        # Embeddings already loaded above - skip duplicate loading
 
         self.n_packages = len(self.package_names)
         print(f"Data loaded: {self.n_packages} packages")
@@ -162,20 +169,30 @@ class MOEAD_V18:
         pool_size = 150  # Reduced from 200
 
         # Co-occurrence candidates (less selective)
-        cooccur_scores = self.rel_matrix[self.main_package_idx]
-        if hasattr(cooccur_scores, 'toarray'):
-            cooccur_scores = cooccur_scores.toarray().flatten()
+        if hasattr(self.rel_matrix, 'iloc'):
+            # For pandas DataFrame
+            cooccur_scores = self.rel_matrix.iloc[self.main_package_idx].values
+        elif hasattr(self.rel_matrix, 'getrow'):
+            # For sparse matrix
+            cooccur_scores = self.rel_matrix.getrow(self.main_package_idx).toarray().flatten()
         else:
-            cooccur_scores = np.asarray(cooccur_scores).flatten()
+            # For numpy array
+            cooccur_scores = self.rel_matrix[self.main_package_idx]
+        cooccur_scores = np.asarray(cooccur_scores).flatten()
 
         self.cooccur_candidates = np.argsort(cooccur_scores)[-pool_size:]
 
         # Semantic candidates (less selective)
-        semantic_scores = self.sim_matrix[self.main_package_idx]
-        if hasattr(semantic_scores, 'toarray'):
-            semantic_scores = semantic_scores.toarray().flatten()
+        if hasattr(self.sim_matrix, 'iloc'):
+            # For pandas DataFrame
+            semantic_scores = self.sim_matrix.iloc[self.main_package_idx].values
+        elif hasattr(self.sim_matrix, 'getrow'):
+            # For sparse matrix
+            semantic_scores = self.sim_matrix.getrow(self.main_package_idx).toarray().flatten()
         else:
-            semantic_scores = np.asarray(semantic_scores).flatten()
+            # For numpy array
+            semantic_scores = self.sim_matrix[self.main_package_idx]
+        semantic_scores = np.asarray(semantic_scores).flatten()
 
         self.semantic_candidates = np.argsort(semantic_scores)[-pool_size:]
 
@@ -297,10 +314,17 @@ class MOEAD_V18:
         for i in indices:
             for j in indices:
                 if i != j:
-                    if hasattr(self.rel_matrix[i, j], 'item'):
-                        score += self.rel_matrix[i, j].item()
+                    if hasattr(self.rel_matrix, 'iloc'):
+                        # For pandas DataFrame
+                        val = self.rel_matrix.iloc[i, j]
                     else:
-                        score += self.rel_matrix[i, j]
+                        # For numpy array or sparse matrix
+                        val = self.rel_matrix[i, j]
+
+                    if hasattr(val, 'item'):
+                        score += val.item()
+                    else:
+                        score += val
         return score
 
     def calculate_semantic_similarity(self, indices):
