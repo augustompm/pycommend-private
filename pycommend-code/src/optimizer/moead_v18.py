@@ -127,17 +127,30 @@ class MOEAD_V18:
 
         try:
             with open(os.path.join(data_dir, 'package_relationships_10k.pkl'), 'rb') as f:
-                self.rel_matrix = pickle.load(f)
+                rel_data = pickle.load(f)
         except:
             with open('package_relationships_10k.pkl', 'rb') as f:
-                self.rel_matrix = pickle.load(f)
+                rel_data = pickle.load(f)
+
+        if isinstance(rel_data, dict) and 'matrix' in rel_data:
+            self.rel_matrix = rel_data['matrix']
+            if 'package_names' in rel_data and not hasattr(self, 'package_names'):
+                self.package_names = rel_data['package_names']
+                self.main_package_idx = self.package_names.index(self.main_package)
+        else:
+            self.rel_matrix = rel_data
 
         try:
             with open(os.path.join(data_dir, 'package_similarity_matrix_10k.pkl'), 'rb') as f:
-                self.sim_matrix = pickle.load(f)
+                sim_data = pickle.load(f)
         except:
             with open('package_similarity_matrix_10k.pkl', 'rb') as f:
-                self.sim_matrix = pickle.load(f)
+                sim_data = pickle.load(f)
+
+        if isinstance(sim_data, dict) and 'similarity_matrix' in sim_data:
+            self.sim_matrix = sim_data['similarity_matrix']
+        else:
+            self.sim_matrix = sim_data
 
         # Embeddings already loaded above - skip duplicate loading
 
