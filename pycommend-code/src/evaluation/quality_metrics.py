@@ -76,18 +76,20 @@ class QualityMetrics:
         if len(objectives) == 0:
             return 0.0
 
-        # Normalize objectives
-        norm_obj = self.normalize_objectives(objectives)
-
-        # Set reference point if not provided
-        if ref_point is None:
-            ref_point = np.ones(norm_obj.shape[1]) * 1.1
-
-        # Filter dominated solutions
-        pareto_front = self.filter_dominated(norm_obj)
+        # Work directly with objectives without normalization for HV
+        # Since we have negative values for LU and SS (to maximize), we need to handle them
+        pareto_front = self.filter_dominated(objectives)
 
         if len(pareto_front) == 0:
             return 0.0
+
+        # Set reference point if not provided
+        if ref_point is None:
+            # For each objective, use worst value * 1.1
+            ref_point = np.max(pareto_front, axis=0) * 1.1
+        else:
+            # Convert ref_point to numpy array if needed
+            ref_point = np.array(ref_point)
 
         # Use WFG algorithm for 2D and 3D, Monte Carlo for higher dimensions
         n_obj = pareto_front.shape[1]
@@ -95,7 +97,7 @@ class QualityMetrics:
         if n_obj == 2:
             return self._hv_2d(pareto_front, ref_point)
         elif n_obj == 3:
-            return self._hv_3d(pareto_front, ref_point)
+            return self._hv_3d_exact(pareto_front, ref_point)
         else:
             return self._hv_monte_carlo(pareto_front, ref_point)
 
@@ -145,6 +147,47 @@ class QualityMetrics:
         # This is an approximation - exact 3D HV is complex
         # For exact calculation, use external library
         return volume / len(points)  # Average to avoid overcounting
+
+    def _hv_3d_exact(self, points, ref_point):
+        """
+        Calculate exact 3D hypervolume using a proper algorithm
+        """
+        if len(points) == 0:
+            return 0.0
+
+        # Sort points by first objective
+        points = points[points[:, 0].argsort()]
+
+        total_volume = 0.0
+
+        # For 3 objectives (LU, SS, RSS), we need to calculate the volume
+        # Since LU and SS are negative (maximization), and RSS is positive (minimization)
+        # We need to be careful with the calculation
+
+        for i, point in enumerate(points):
+            if np.any(point > ref_point):
+                continue
+
+            # Calculate the volume contribution of this point
+            # considering non-dominated region
+            vol = 1.0
+            for j in range(3):
+                vol *= abs(ref_point[j] - point[j])
+
+            # Subtract overlaps with previously processed points
+            for j in range(i):
+                if np.all(points[j] <= point):
+                    # Calculate overlap volume
+                    overlap = 1.0
+                    for k in range(3):
+                        overlap *= max(0, min(abs(ref_point[k] - point[k]),
+                                              abs(ref_point[k] - points[j][k])))
+                    vol -= overlap
+
+            if vol > 0:
+                total_volume += vol
+
+        return total_volume
 
     def _hv_monte_carlo(self, points, ref_point, n_samples=10000):
         """
