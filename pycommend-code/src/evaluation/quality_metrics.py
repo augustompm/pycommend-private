@@ -266,6 +266,23 @@ class QualityMetrics:
         spacing = np.sqrt(np.sum((distances - mean_dist) ** 2) / (n - 1))
         return spacing
 
+    def get_non_dominated_set(self, objectives):
+        """Get the non-dominated set from a set of objectives"""
+        non_dominated = []
+        for i, obj_i in enumerate(objectives):
+            is_dominated = False
+            for j, obj_j in enumerate(objectives):
+                if i != j and self._dominates(obj_j, obj_i):
+                    is_dominated = True
+                    break
+            if not is_dominated:
+                non_dominated.append(obj_i)
+        return np.array(non_dominated) if non_dominated else np.array([])
+
+    def _dominates(self, a, b):
+        """Check if solution a dominates solution b"""
+        return all(a <= b) and any(a < b)
+
     def spread(self, objectives):
         """
         Calculate spread metric (distribution and extent)
@@ -329,6 +346,85 @@ class QualityMetrics:
             return 1.0
 
         return numerator / denominator
+
+    def r2_indicator(self, objectives, weight_vectors=None, ideal_point=None):
+        """
+        Calculate R2 indicator (utility-based metric)
+        Weakly Pareto compliant, correlated with HV
+
+        Args:
+            objectives: Set of objective vectors
+            weight_vectors: Weight vectors for scalarization
+            ideal_point: Ideal point for normalization
+
+        Returns:
+            R2 value (lower is better)
+        """
+        if len(objectives) == 0:
+            return float('inf')
+
+        norm_obj = self.normalize_objectives(objectives)
+
+        if weight_vectors is None:
+            n_weights = min(100, len(objectives) * 5)
+            weight_vectors = []
+            for _ in range(n_weights):
+                w = np.random.random(norm_obj.shape[1])
+                w = w / np.sum(w)
+                weight_vectors.append(w)
+            weight_vectors = np.array(weight_vectors)
+
+        if ideal_point is None:
+            ideal_point = np.zeros(norm_obj.shape[1])
+
+        utilities = []
+        for weight in weight_vectors:
+            min_utility = float('inf')
+            for obj in norm_obj:
+                utility = np.max(weight * (obj - ideal_point))
+                if utility < min_utility:
+                    min_utility = utility
+            utilities.append(min_utility)
+
+        return np.mean(utilities)
+
+    def epsilon_indicator(self, objectives, reference_set=None):
+        """
+        Calculate epsilon indicator (additive version)
+        Weakly Pareto compliant metric
+
+        Args:
+            objectives: Set of objective vectors from algorithm
+            reference_set: Reference Pareto front (or use objectives if None)
+
+        Returns:
+            Epsilon value (lower is better)
+        """
+        if len(objectives) == 0:
+            return float('inf')
+
+        if reference_set is None:
+            if self.reference_set is None:
+                return 0.0
+            reference_set = self.reference_set
+
+        norm_obj = self.normalize_objectives(objectives)
+        norm_ref = self.normalize_objectives(reference_set)
+
+        max_epsilon = -float('inf')
+
+        for ref_point in norm_ref:
+            min_epsilon = float('inf')
+
+            for obj_point in norm_obj:
+                epsilon = np.max(obj_point - ref_point)
+                if epsilon < min_epsilon:
+                    min_epsilon = epsilon
+
+            if min_epsilon > max_epsilon:
+                max_epsilon = min_epsilon
+
+        return max_epsilon
 
     def diversity(self, objectives):
         """
