@@ -1,0 +1,19 @@
+# LaTeX temporary files
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# Keep only the final PDF
+# pycommend.pdf is tracked
+
+# OS files
+.DS_Store
+Thumbs.db

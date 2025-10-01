@@ -197,6 +197,35 @@ MOVNS vs MOEA/D comparison for Python package recommendation...
 7. ⏳ Preencher Results (Seção 6)
 8. ⏳ Preencher Conclusions (Seção 7)
 
+### Compilação LaTeX
+
+**Compilador Instalado**: MiKTeX 24.1 (2025-09-30)
+- **Localização**: `C:\Users\Augusto\AppData\Local\Programs\MiKTeX\miktex\bin\x64\`
+- **Método de instalação**: winget (Windows Package Manager)
+- **Compatibilidade**: 100% compatível com Overleaf
+
+**Scripts de Compilação**:
+```bash
+# Compilação automática
+cd /e/pycommend/article/Springer_LNCS_ICVNS_2025_PyCommend_VNS
+./compile.sh
+
+# Verificação manual do PDF
+./verify.sh
+```
+
+**Arquivos Gerados**:
+- `pycommend.pdf` (154KB, 5 páginas) - Artigo compilado
+- `compile.sh` - Script automático de compilação (pdflatex → bibtex → pdflatex × 2)
+- `verify.sh` - Script de verificação com checklist manual
+- `README_COMPILE.md` - Instruções detalhadas de compilação
+
+**Status da Compilação**: ✅ PDF gerado com sucesso
+- Template: Springer LNCS v2.24
+- Bibliografia: 18 referências processadas (splncs04.bst)
+- Páginas: 5 (1 título/abstract, 2-3 introdução, 3-4 TODOs, 5 bibliografia)
+- Warnings: Apenas formatação (overfull/underfull boxes - esperado)
+
 ## Contexto do Projeto
 Sistema de recomendação de pacotes Python usando algoritmos multi-objetivo. Migrando de NSGA-II para MOVND/PI baseado em Dahite et al. (2022) com MOBI/P strategy.
 
